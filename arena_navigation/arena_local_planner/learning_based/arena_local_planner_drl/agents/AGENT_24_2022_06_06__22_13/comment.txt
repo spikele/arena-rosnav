@@ -1,0 +1,1 @@
+this is with 1 epoch of training (observations6.dictionary)

@@ -10,9 +10,12 @@ import rospkg
 import time
 import warnings
 
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, TD3
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.utils import set_random_seed
+from stable_baselines3.common.noise import NormalActionNoise, VectorizedActionNoise
+
+import numpy as np
 
 
 from rl_agent.envs.flatland_gym_env import (
@@ -250,6 +253,38 @@ def update_hyperparam_model(model: PPO, PATHS: dict, params: dict, n_envs: int =
         model.update_n_envs()
     if model.rollout_buffer.buffer_size != params["n_steps"]:
         model.rollout_buffer.buffer_size = params["n_steps"]
+    if model.tensorboard_log != PATHS["tb"]:
+        model.tensorboard_log = PATHS["tb"]
+
+
+def update_hyperparam_model_td3(model: TD3, PATHS: dict, params: dict, n_envs: int = 1) -> None:
+    """
+    Updates parameter of loaded TD3 agent when it was manually changed in the configs yaml.
+
+    :param model(object, TD3): loaded TD3 agent
+    :param PATHS: program relevant paths
+    :param params: dictionary containing loaded hyperparams
+    :param n_envs: number of parallel environments
+    """
+    action_noise = VectorizedActionNoise(NormalActionNoise(np.array([1.0, 0.0],dtype=np.float32), np.array([0.1, 0.4],dtype=np.float32)), n_envs)
+    if model.batch_size != params["batch_size"]:
+        model.batch_size = params["batch_size"]
+    if model.gamma != params["gamma"]:
+        model.gamma = params["gamma"]
+    #if model.train_freq != params["n_steps"]:
+    #    model.train_freq = params["n_steps"]
+    if model.learning_starts != params["m_batch_size"]:
+        model.learning_starts = params["m_batch_size"]
+    if model.learning_rate != params["learning_rate"]:
+        model.learning_rate = params["learning_rate"]
+    if model.action_noise != action_noise:
+        model.action_noise = action_noise
+    """
+    if model.clip_range != params['clip_range']:
+        model.clip_range = params['clip_range']
+    """
+    if model.n_envs != n_envs:
+        model.n_envs = n_envs
     if model.tensorboard_log != PATHS["tb"]:
         model.tensorboard_log = PATHS["tb"]
 

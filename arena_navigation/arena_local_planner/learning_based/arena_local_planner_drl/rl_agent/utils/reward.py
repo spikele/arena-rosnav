@@ -46,7 +46,7 @@ class RewardCalculator:
             "rule_03": RewardCalculator._cal_reward_rule_03,
             "rule_04": RewardCalculator._cal_reward_rule_04,
             "rule_05": RewardCalculator._cal_reward_rule_05,
-            "barn": RewardCalculator._cal_reward_rule_barn,
+            #"barn": RewardCalculator._cal_reward_rule_barn,
         }
         self.cal_func = self._cal_funcs[rule]
 

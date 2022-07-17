@@ -1,0 +1,1 @@
+epochs = 30, trained with observations100JACKAL

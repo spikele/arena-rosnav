@@ -25,7 +25,7 @@ def check_format(cls: Type[BaseAgent]):
         ), "Network architecture kwargs have to be of type 'list'!"
         for entry in cls.net_arch:
             assert (
-                type(entry) is dict or type(entry) is int
+                type(entry) is dict or type(entry) is int or type(entry) is list # type list added
             ), "Network architecture entries have to be of either type 'list' or 'dict'!"
             if type(entry) is dict:
                 assert "pi" in entry or "vf" in entry, (

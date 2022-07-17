@@ -4,11 +4,16 @@
   <!-- Arguments -->
   <arg name="train_mode" default="false"/>
   <arg name="model" default="burger"/>
-  <arg name="cmd_vel_topic" default="cmd_vel" />
+  <arg name="cmd_vel_topic" default="cmd_vel_pub" />
   <arg name="odom_topic" default="odom" />
   <!-- <arg name="speed" default="0.22"/> -->
 
-  <arg name="agent_name" default="rule_05"/>
+  <arg name="agent_name" default="jackal"/>
+
+  <group if="$(eval arg('train_mode') == false)">
+    <!-- run_agent -->
+    <node name="record_local_planner" pkg="arena_local_planner_drl" type="record_agent_node.py" args="$(arg agent_name) /kino_astar_path" output="log"/>
+  </group>
 
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">

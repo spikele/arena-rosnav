@@ -1,0 +1,2 @@
+trained with observationsFewEpisodes.dictionary for 5 epochs
+reward before: -17.21 after: -6.73

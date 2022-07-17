@@ -1,0 +1,2 @@
+trained with observationsFewEpisodes.dictionary for 5 epochs
+now with eval_env: reward before: -3.23 after: -10.73

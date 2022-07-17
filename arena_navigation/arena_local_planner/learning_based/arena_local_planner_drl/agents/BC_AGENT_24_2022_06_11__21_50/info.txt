@@ -1,0 +1,2 @@
+15 epochs, all episodes used (cutoff > 1)
+used observations6

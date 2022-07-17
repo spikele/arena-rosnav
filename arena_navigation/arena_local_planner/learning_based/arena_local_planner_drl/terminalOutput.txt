@@ -1,0 +1,2694 @@
+
+-------------------------------
+            ARGUMENTS          
+- n_envs : 2
+- no_gpu : False
+- debug : False
+- agent : AGENT_24
+- custom_mlp : False
+- load : None
+- config : jackalcopymoresteps
+- n : None
+- eval_log : True
+- tb : True
+--------------------------------
+
+________ STARTING TRAINING WITH:  AGENT_24_2022_05_19__01_31 ________
+
+
+--------------------------------
+         HYPERPARAMETERS         
+
+agent_name:                   AGENT_24_2022_05_19__01_31
+robot:                        jackal    
+actions_in_observationspace:  True      
+reward_fnc:                   rule_05   
+discrete_action_space:        False     
+normalize:                    False     
+task_mode:                    staged    
+train_max_steps_per_episode:  500       
+eval_max_steps_per_episode:   650       
+goal_radius:                  0.7       
+curr_stage:                   1         
+batch_size:                   19200     
+gamma:                        0.99      
+n_steps:                      9600      
+ent_coef:                     0.005     
+learning_rate:                0.0003    
+vf_coef:                      0.22      
+max_grad_norm:                0.5       
+gae_lambda:                   0.95      
+m_batch_size:                 15        
+n_epochs:                     3         
+clip_range:                   0.22      
+--------------------------------
+
+
+/root/python_env/rosnav/lib/python3.8/site-packages/torch/utils/tensorboard/__init__.py:4: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+  if not hasattr(tensorboard, '__version__') or LooseVersion(tensorboard.__version__) < LooseVersion('1.15'):
+Can't not determinate the number of the environment, training script may crash!
+(eval_sim) Stage 1: Spawning 0 static and 0 dynamic obstacles!
+Using cuda device
+Logging to /root/arena_ws/src/arena-rosnav/arena_navigation/arena_local_planner/learning_based/arena_local_planner_drl/training_logs/tensorboard/AGENT_24_2022_05_19__01_31/PPO_1
+------------------------------
+| time/              |       |
+|    fps             | 47    |
+|    iterations      | 1     |
+|    time_elapsed    | 406   |
+|    total_timesteps | 19200 |
+------------------------------
+Eval num_timesteps=30000, episode_reward=1.20 +/- 4.79
+Episode length: 620.76 +/- 122.38
+Success rate: 7.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 621         |
+|    mean_reward          | 1.2         |
+|    success_rate         | 0.07        |
+| time/                   |             |
+|    fps                  | 13          |
+|    iterations           | 2           |
+|    time_elapsed         | 2926        |
+|    total_timesteps      | 38400       |
+| train/                  |             |
+|    approx_kl            | 0.018857576 |
+|    clip_fraction        | 0.11        |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -2.72       |
+|    explained_variance   | 0.0156      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.516       |
+|    n_updates            | 3           |
+|    policy_gradient_loss | -0.013      |
+|    std                  | 0.922       |
+|    value_loss           | 4.85        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+----------------------------------------
+| time/                   |            |
+|    fps                  | 17         |
+|    iterations           | 3          |
+|    time_elapsed         | 3378       |
+|    total_timesteps      | 57600      |
+| train/                  |            |
+|    approx_kl            | 0.02516104 |
+|    clip_fraction        | 0.138      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -2.52      |
+|    explained_variance   | 0.117      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.332      |
+|    n_updates            | 6          |
+|    policy_gradient_loss | -0.0169    |
+|    std                  | 0.842      |
+|    value_loss           | 3.12       |
+----------------------------------------
+Eval num_timesteps=60000, episode_reward=0.52 +/- 4.86
+Episode length: 609.15 +/- 153.59
+Success rate: 5.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 609         |
+|    mean_reward          | 0.521       |
+|    success_rate         | 0.05        |
+| time/                   |             |
+|    fps                  | 13          |
+|    iterations           | 4           |
+|    time_elapsed         | 5865        |
+|    total_timesteps      | 76800       |
+| train/                  |             |
+|    approx_kl            | 0.020318821 |
+|    clip_fraction        | 0.117       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -2.34       |
+|    explained_variance   | 0.0155      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0772      |
+|    n_updates            | 9           |
+|    policy_gradient_loss | -0.0116     |
+|    std                  | 0.77        |
+|    value_loss           | 2.02        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=90000, episode_reward=1.33 +/- 5.52
+Episode length: 600.16 +/- 163.81
+Success rate: 8.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 600         |
+|    mean_reward          | 1.33        |
+|    success_rate         | 0.08        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 5           |
+|    time_elapsed         | 8324        |
+|    total_timesteps      | 96000       |
+| train/                  |             |
+|    approx_kl            | 0.018441577 |
+|    clip_fraction        | 0.11        |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -2.17       |
+|    explained_variance   | 0.0929      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0497      |
+|    n_updates            | 12          |
+|    policy_gradient_loss | -0.0111     |
+|    std                  | 0.707       |
+|    value_loss           | 1.37        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 13          |
+|    iterations           | 6           |
+|    time_elapsed         | 8775        |
+|    total_timesteps      | 115200      |
+| train/                  |             |
+|    approx_kl            | 0.020875426 |
+|    clip_fraction        | 0.121       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -2          |
+|    explained_variance   | 0.0208      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0907      |
+|    n_updates            | 15          |
+|    policy_gradient_loss | -0.0102     |
+|    std                  | 0.65        |
+|    value_loss           | 0.957       |
+-----------------------------------------
+Eval num_timesteps=120000, episode_reward=0.80 +/- 5.53
+Episode length: 612.99 +/- 134.39
+Success rate: 7.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 613        |
+|    mean_reward          | 0.796      |
+|    success_rate         | 0.07       |
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 7          |
+|    time_elapsed         | 11279      |
+|    total_timesteps      | 134400     |
+| train/                  |            |
+|    approx_kl            | 0.01956579 |
+|    clip_fraction        | 0.105      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -1.84      |
+|    explained_variance   | 0.0173     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 4.47       |
+|    n_updates            | 18         |
+|    policy_gradient_loss | -0.00677   |
+|    std                  | 0.596      |
+|    value_loss           | 1.69       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+Eval num_timesteps=150000, episode_reward=1.49 +/- 5.03
+Episode length: 615.45 +/- 136.25
+Success rate: 7.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 615         |
+|    mean_reward          | 1.49        |
+|    success_rate         | 0.07        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 8           |
+|    time_elapsed         | 13785       |
+|    total_timesteps      | 153600      |
+| train/                  |             |
+|    approx_kl            | 0.018723613 |
+|    clip_fraction        | 0.101       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -1.67       |
+|    explained_variance   | -0.000456   |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.227       |
+|    n_updates            | 21          |
+|    policy_gradient_loss | -0.00592    |
+|    std                  | 0.551       |
+|    value_loss           | 0.912       |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 9           |
+|    time_elapsed         | 14234       |
+|    total_timesteps      | 172800      |
+| train/                  |             |
+|    approx_kl            | 0.018255541 |
+|    clip_fraction        | 0.102       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -1.52       |
+|    explained_variance   | -0.0126     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.164       |
+|    n_updates            | 24          |
+|    policy_gradient_loss | -0.00645    |
+|    std                  | 0.509       |
+|    value_loss           | 0.739       |
+-----------------------------------------
+Eval num_timesteps=180000, episode_reward=0.88 +/- 4.39
+Episode length: 616.79 +/- 136.79
+Success rate: 5.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 617        |
+|    mean_reward          | 0.882      |
+|    success_rate         | 0.05       |
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 10         |
+|    time_elapsed         | 16751      |
+|    total_timesteps      | 192000     |
+| train/                  |            |
+|    approx_kl            | 0.01566049 |
+|    clip_fraction        | 0.0967     |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -1.39      |
+|    explained_variance   | 0.0127     |
+|    learning_rate        | 0.0003     |
+|    loss                 | -0.00585   |
+|    n_updates            | 27         |
+|    policy_gradient_loss | -0.00471   |
+|    std                  | 0.482      |
+|    value_loss           | 0.899      |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+Eval num_timesteps=210000, episode_reward=1.39 +/- 5.59
+Episode length: 601.96 +/- 161.45
+Success rate: 9.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 602         |
+|    mean_reward          | 1.39        |
+|    success_rate         | 0.09        |
+| time/                   |             |
+|    fps                  | 10          |
+|    iterations           | 11          |
+|    time_elapsed         | 19217       |
+|    total_timesteps      | 211200      |
+| train/                  |             |
+|    approx_kl            | 0.014196421 |
+|    clip_fraction        | 0.0988      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -1.25       |
+|    explained_variance   | 0.0887      |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.0294     |
+|    n_updates            | 30          |
+|    policy_gradient_loss | -0.00423    |
+|    std                  | 0.448       |
+|    value_loss           | 0.179       |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+---------------------------------------
+| time/                   |           |
+|    fps                  | 11        |
+|    iterations           | 12        |
+|    time_elapsed         | 19667     |
+|    total_timesteps      | 230400    |
+| train/                  |           |
+|    approx_kl            | 0.0111975 |
+|    clip_fraction        | 0.0854    |
+|    clip_range           | 0.22      |
+|    entropy_loss         | -1.14     |
+|    explained_variance   | -0.00299  |
+|    learning_rate        | 0.0003    |
+|    loss                 | 0.0187    |
+|    n_updates            | 33        |
+|    policy_gradient_loss | -0.00165  |
+|    std                  | 0.425     |
+|    value_loss           | 0.954     |
+---------------------------------------
+Eval num_timesteps=240000, episode_reward=1.69 +/- 5.59
+Episode length: 601.73 +/- 163.08
+Success rate: 9.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 602         |
+|    mean_reward          | 1.69        |
+|    success_rate         | 0.09        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 13          |
+|    time_elapsed         | 22141       |
+|    total_timesteps      | 249600      |
+| train/                  |             |
+|    approx_kl            | 0.010824466 |
+|    clip_fraction        | 0.0897      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -1.02       |
+|    explained_variance   | 0.0137      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0165      |
+|    n_updates            | 36          |
+|    policy_gradient_loss | -0.00217    |
+|    std                  | 0.399       |
+|    value_loss           | 0.41        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 14          |
+|    time_elapsed         | 22594       |
+|    total_timesteps      | 268800      |
+| train/                  |             |
+|    approx_kl            | 0.015971195 |
+|    clip_fraction        | 0.0977      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.872      |
+|    explained_variance   | 0.0109      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.108       |
+|    n_updates            | 39          |
+|    policy_gradient_loss | -0.00158    |
+|    std                  | 0.371       |
+|    value_loss           | 1.23        |
+-----------------------------------------
+Eval num_timesteps=270000, episode_reward=2.36 +/- 6.58
+Episode length: 576.61 +/- 195.43
+Success rate: 13.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 577         |
+|    mean_reward          | 2.36        |
+|    success_rate         | 0.13        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 15          |
+|    time_elapsed         | 24981       |
+|    total_timesteps      | 288000      |
+| train/                  |             |
+|    approx_kl            | 0.014514898 |
+|    clip_fraction        | 0.0862      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.754      |
+|    explained_variance   | 0.186       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0769      |
+|    n_updates            | 42          |
+|    policy_gradient_loss | -0.00114    |
+|    std                  | 0.35        |
+|    value_loss           | 0.38        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=300000, episode_reward=2.25 +/- 7.10
+Episode length: 587.75 +/- 171.63
+Success rate: 15.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 588         |
+|    mean_reward          | 2.25        |
+|    success_rate         | 0.15        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 16          |
+|    time_elapsed         | 27409       |
+|    total_timesteps      | 307200      |
+| train/                  |             |
+|    approx_kl            | 0.010392137 |
+|    clip_fraction        | 0.0851      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.647      |
+|    explained_variance   | 0.0225      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0138      |
+|    n_updates            | 45          |
+|    policy_gradient_loss | -0.000194   |
+|    std                  | 0.333       |
+|    value_loss           | 0.892       |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 17          |
+|    time_elapsed         | 27863       |
+|    total_timesteps      | 326400      |
+| train/                  |             |
+|    approx_kl            | 0.011273928 |
+|    clip_fraction        | 0.0751      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.573      |
+|    explained_variance   | 0.0451      |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.0144     |
+|    n_updates            | 48          |
+|    policy_gradient_loss | 0.00153     |
+|    std                  | 0.322       |
+|    value_loss           | 1.27        |
+-----------------------------------------
+Eval num_timesteps=330000, episode_reward=1.85 +/- 7.07
+Episode length: 587.59 +/- 171.05
+Success rate: 13.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+------------------------------------------
+| eval/                   |              |
+|    mean_ep_length       | 588          |
+|    mean_reward          | 1.85         |
+|    success_rate         | 0.13         |
+| time/                   |              |
+|    fps                  | 11           |
+|    iterations           | 18           |
+|    time_elapsed         | 30286        |
+|    total_timesteps      | 345600       |
+| train/                  |              |
+|    approx_kl            | 0.0123938415 |
+|    clip_fraction        | 0.0899       |
+|    clip_range           | 0.22         |
+|    entropy_loss         | -0.521       |
+|    explained_variance   | -0.0184      |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.0136       |
+|    n_updates            | 51           |
+|    policy_gradient_loss | -0.000336    |
+|    std                  | 0.317        |
+|    value_loss           | 0.635        |
+| train_stage/            |              |
+|    stage_idx            | 1            |
+------------------------------------------
+Eval num_timesteps=360000, episode_reward=1.24 +/- 6.28
+Episode length: 573.38 +/- 202.29
+Success rate: 10.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 573         |
+|    mean_reward          | 1.24        |
+|    success_rate         | 0.1         |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 19          |
+|    time_elapsed         | 32667       |
+|    total_timesteps      | 364800      |
+| train/                  |             |
+|    approx_kl            | 0.019457486 |
+|    clip_fraction        | 0.0857      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.518      |
+|    explained_variance   | 0.0968      |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.0299     |
+|    n_updates            | 54          |
+|    policy_gradient_loss | 0.000478    |
+|    std                  | 0.316       |
+|    value_loss           | 0.533       |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 20          |
+|    time_elapsed         | 33117       |
+|    total_timesteps      | 384000      |
+| train/                  |             |
+|    approx_kl            | 0.010793155 |
+|    clip_fraction        | 0.0935      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.484      |
+|    explained_variance   | 0.122       |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.0239     |
+|    n_updates            | 57          |
+|    policy_gradient_loss | -0.00073    |
+|    std                  | 0.308       |
+|    value_loss           | 0.559       |
+-----------------------------------------
+Eval num_timesteps=390000, episode_reward=1.99 +/- 7.29
+Episode length: 561.01 +/- 208.43
+Success rate: 14.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 561         |
+|    mean_reward          | 1.99        |
+|    success_rate         | 0.14        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 21          |
+|    time_elapsed         | 35455       |
+|    total_timesteps      | 403200      |
+| train/                  |             |
+|    approx_kl            | 0.011166165 |
+|    clip_fraction        | 0.0724      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.472      |
+|    explained_variance   | 0.113       |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.0019     |
+|    n_updates            | 60          |
+|    policy_gradient_loss | 0.00206     |
+|    std                  | 0.309       |
+|    value_loss           | 0.32        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=420000, episode_reward=2.92 +/- 9.03
+Episode length: 528.36 +/- 223.63
+Success rate: 24.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 528         |
+|    mean_reward          | 2.92        |
+|    success_rate         | 0.24        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 22          |
+|    time_elapsed         | 37684       |
+|    total_timesteps      | 422400      |
+| train/                  |             |
+|    approx_kl            | 0.012277367 |
+|    clip_fraction        | 0.0889      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.46       |
+|    explained_variance   | 0.0378      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.00781     |
+|    n_updates            | 63          |
+|    policy_gradient_loss | 0.0017      |
+|    std                  | 0.307       |
+|    value_loss           | 0.316       |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+----------------------------------------
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 23         |
+|    time_elapsed         | 38135      |
+|    total_timesteps      | 441600     |
+| train/                  |            |
+|    approx_kl            | 0.01806214 |
+|    clip_fraction        | 0.0805     |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -0.45      |
+|    explained_variance   | 0.111      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.0408     |
+|    n_updates            | 66         |
+|    policy_gradient_loss | 0.00132    |
+|    std                  | 0.304      |
+|    value_loss           | 0.624      |
+----------------------------------------
+Eval num_timesteps=450000, episode_reward=3.94 +/- 9.75
+Episode length: 489.60 +/- 244.47
+Success rate: 29.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 490         |
+|    mean_reward          | 3.94        |
+|    success_rate         | 0.29        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 24          |
+|    time_elapsed         | 40231       |
+|    total_timesteps      | 460800      |
+| train/                  |             |
+|    approx_kl            | 0.014085797 |
+|    clip_fraction        | 0.0815      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.416      |
+|    explained_variance   | 0.111       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0656      |
+|    n_updates            | 69          |
+|    policy_gradient_loss | 0.0017      |
+|    std                  | 0.301       |
+|    value_loss           | 1.13        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=480000, episode_reward=3.23 +/- 9.84
+Episode length: 483.18 +/- 252.76
+Success rate: 28.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 483         |
+|    mean_reward          | 3.23        |
+|    success_rate         | 0.28        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 25          |
+|    time_elapsed         | 42909       |
+|    total_timesteps      | 480000      |
+| train/                  |             |
+|    approx_kl            | 0.009457354 |
+|    clip_fraction        | 0.0853      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.395      |
+|    explained_variance   | 0.0884      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0369      |
+|    n_updates            | 72          |
+|    policy_gradient_loss | 0.00232     |
+|    std                  | 0.298       |
+|    value_loss           | 1.25        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 26          |
+|    time_elapsed         | 43409       |
+|    total_timesteps      | 499200      |
+| train/                  |             |
+|    approx_kl            | 0.016300034 |
+|    clip_fraction        | 0.0998      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.415      |
+|    explained_variance   | 0.23        |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.00239     |
+|    n_updates            | 75          |
+|    policy_gradient_loss | 0.00703     |
+|    std                  | 0.301       |
+|    value_loss           | 0.577       |
+-----------------------------------------
+Eval num_timesteps=510000, episode_reward=1.77 +/- 20.16
+Episode length: 507.28 +/- 222.50
+Success rate: 30.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 507         |
+|    mean_reward          | 1.77        |
+|    success_rate         | 0.3         |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 27          |
+|    time_elapsed         | 45927       |
+|    total_timesteps      | 518400      |
+| train/                  |             |
+|    approx_kl            | 0.017517542 |
+|    clip_fraction        | 0.106       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.4        |
+|    explained_variance   | 0.0854      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.37        |
+|    n_updates            | 78          |
+|    policy_gradient_loss | 0.00204     |
+|    std                  | 0.299       |
+|    value_loss           | 1.12        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+----------------------------------------
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 28         |
+|    time_elapsed         | 46467      |
+|    total_timesteps      | 537600     |
+| train/                  |            |
+|    approx_kl            | 0.04602034 |
+|    clip_fraction        | 0.115      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -0.407     |
+|    explained_variance   | 0.054      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.0341     |
+|    n_updates            | 81         |
+|    policy_gradient_loss | 0.0207     |
+|    std                  | 0.298      |
+|    value_loss           | 0.978      |
+----------------------------------------
+Eval num_timesteps=540000, episode_reward=2.52 +/- 9.73
+Episode length: 510.38 +/- 230.18
+Success rate: 25.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 510         |
+|    mean_reward          | 2.52        |
+|    success_rate         | 0.25        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 29          |
+|    time_elapsed         | 48994       |
+|    total_timesteps      | 556800      |
+| train/                  |             |
+|    approx_kl            | 0.013627822 |
+|    clip_fraction        | 0.105       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.388      |
+|    explained_variance   | 0.0323      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0759      |
+|    n_updates            | 84          |
+|    policy_gradient_loss | 0.00357     |
+|    std                  | 0.295       |
+|    value_loss           | 2.03        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=570000, episode_reward=2.19 +/- 9.90
+Episode length: 455.37 +/- 262.38
+Success rate: 25.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 455         |
+|    mean_reward          | 2.19        |
+|    success_rate         | 0.25        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 30          |
+|    time_elapsed         | 51250       |
+|    total_timesteps      | 576000      |
+| train/                  |             |
+|    approx_kl            | 0.012627942 |
+|    clip_fraction        | 0.0985      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.356      |
+|    explained_variance   | 0.109       |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.0046     |
+|    n_updates            | 87          |
+|    policy_gradient_loss | 0.00305     |
+|    std                  | 0.292       |
+|    value_loss           | 1.4         |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 31          |
+|    time_elapsed         | 51693       |
+|    total_timesteps      | 595200      |
+| train/                  |             |
+|    approx_kl            | 0.011396873 |
+|    clip_fraction        | 0.089       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.359      |
+|    explained_variance   | 0.09        |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.03       |
+|    n_updates            | 90          |
+|    policy_gradient_loss | 0.00256     |
+|    std                  | 0.292       |
+|    value_loss           | 1.3         |
+-----------------------------------------
+Eval num_timesteps=600000, episode_reward=1.94 +/- 8.58
+Episode length: 540.09 +/- 220.13
+Success rate: 19.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 540         |
+|    mean_reward          | 1.94        |
+|    success_rate         | 0.19        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 32          |
+|    time_elapsed         | 54068       |
+|    total_timesteps      | 614400      |
+| train/                  |             |
+|    approx_kl            | 0.018009959 |
+|    clip_fraction        | 0.0915      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.344      |
+|    explained_variance   | -0.0425     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0197      |
+|    n_updates            | 93          |
+|    policy_gradient_loss | 0.00408     |
+|    std                  | 0.288       |
+|    value_loss           | 1.31        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+(sim_2) Stage 1: Spawning 0 static and 0 dynamic obstacles!
+[ns: /sim_2/] Last 10 Episodes: 1x - Exc. Max Steps, 8x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 1x - Exc. Max Steps, 9x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 0x - Exc. Max Steps, 9x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 7x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 0x - Exc. Max Steps, 7x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 3x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 2x - Crash, 0x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 1x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 2x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 1x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+Eval num_timesteps=630000, episode_reward=3.05 +/- 9.32
+Episode length: 528.86 +/- 217.75
+Success rate: 24.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 529         |
+|    mean_reward          | 3.05        |
+|    success_rate         | 0.24        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 33          |
+|    time_elapsed         | 56374       |
+|    total_timesteps      | 633600      |
+| train/                  |             |
+|    approx_kl            | 0.013850361 |
+|    clip_fraction        | 0.0973      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.332      |
+|    explained_variance   | 0.0302      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0357      |
+|    n_updates            | 96          |
+|    policy_gradient_loss | 0.00339     |
+|    std                  | 0.289       |
+|    value_loss           | 0.893       |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+(sim_1) Stage 1: Spawning 0 static and 0 dynamic obstacles!
+[ns: /sim_1/] Last 10 Episodes: 2x - Exc. Max Steps, 6x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 1x - Exc. Max Steps, 7x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 1x - Exc. Max Steps, 8x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 7x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 1x - Exc. Max Steps, 8x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 1x - Exc. Max Steps, 7x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 6x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 4x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 5x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 3x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 1x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 1x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 1x - Crash, 0x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 2x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 2x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 34          |
+|    time_elapsed         | 56860       |
+|    total_timesteps      | 652800      |
+| train/                  |             |
+|    approx_kl            | 0.019524947 |
+|    clip_fraction        | 0.0903      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.313      |
+|    explained_variance   | 0.0077      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0315      |
+|    n_updates            | 99          |
+|    policy_gradient_loss | 0.00203     |
+|    std                  | 0.285       |
+|    value_loss           | 1.57        |
+-----------------------------------------
+Eval num_timesteps=660000, episode_reward=2.56 +/- 8.93
+Episode length: 538.54 +/- 212.74
+Success rate: 21.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 539         |
+|    mean_reward          | 2.56        |
+|    success_rate         | 0.21        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 35          |
+|    time_elapsed         | 59243       |
+|    total_timesteps      | 672000      |
+| train/                  |             |
+|    approx_kl            | 0.015124911 |
+|    clip_fraction        | 0.109       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.29       |
+|    explained_variance   | 0.00326     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0471      |
+|    n_updates            | 102         |
+|    policy_gradient_loss | 0.00287     |
+|    std                  | 0.281       |
+|    value_loss           | 0.971       |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=690000, episode_reward=3.84 +/- 9.74
+Episode length: 481.16 +/- 251.40
+Success rate: 29.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 481         |
+|    mean_reward          | 3.84        |
+|    success_rate         | 0.29        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 36          |
+|    time_elapsed         | 61304       |
+|    total_timesteps      | 691200      |
+| train/                  |             |
+|    approx_kl            | 0.016238192 |
+|    clip_fraction        | 0.0991      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.267      |
+|    explained_variance   | 0.0951      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 2.87        |
+|    n_updates            | 105         |
+|    policy_gradient_loss | 0.00256     |
+|    std                  | 0.278       |
+|    value_loss           | 1.09        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+----------------------------------------
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 37         |
+|    time_elapsed         | 61750      |
+|    total_timesteps      | 710400     |
+| train/                  |            |
+|    approx_kl            | 0.02584737 |
+|    clip_fraction        | 0.0977     |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -0.245     |
+|    explained_variance   | 0.00409    |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.685      |
+|    n_updates            | 108        |
+|    policy_gradient_loss | 0.00167    |
+|    std                  | 0.277      |
+|    value_loss           | 1.98       |
+----------------------------------------
+Eval num_timesteps=720000, episode_reward=1.07 +/- 9.53
+Episode length: 490.54 +/- 250.15
+Success rate: 20.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 491         |
+|    mean_reward          | 1.07        |
+|    success_rate         | 0.2         |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 38          |
+|    time_elapsed         | 63849       |
+|    total_timesteps      | 729600      |
+| train/                  |             |
+|    approx_kl            | 0.057283483 |
+|    clip_fraction        | 0.0891      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.247      |
+|    explained_variance   | 0.18        |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.0157     |
+|    n_updates            | 111         |
+|    policy_gradient_loss | 0.0038      |
+|    std                  | 0.277       |
+|    value_loss           | 1.05        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 39          |
+|    time_elapsed         | 64300       |
+|    total_timesteps      | 748800      |
+| train/                  |             |
+|    approx_kl            | 0.018443536 |
+|    clip_fraction        | 0.109       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.266      |
+|    explained_variance   | 0.156       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.058       |
+|    n_updates            | 114         |
+|    policy_gradient_loss | 0.00562     |
+|    std                  | 0.28        |
+|    value_loss           | 1.14        |
+-----------------------------------------
+Eval num_timesteps=750000, episode_reward=2.85 +/- 10.24
+Episode length: 483.44 +/- 243.82
+Success rate: 29.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 483         |
+|    mean_reward          | 2.85        |
+|    success_rate         | 0.29        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 40          |
+|    time_elapsed         | 66385       |
+|    total_timesteps      | 768000      |
+| train/                  |             |
+|    approx_kl            | 0.016106132 |
+|    clip_fraction        | 0.104       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.286      |
+|    explained_variance   | 0.156       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0363      |
+|    n_updates            | 117         |
+|    policy_gradient_loss | 0.00266     |
+|    std                  | 0.284       |
+|    value_loss           | 2.14        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=780000, episode_reward=2.75 +/- 10.88
+Episode length: 457.87 +/- 259.11
+Success rate: 31.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 458         |
+|    mean_reward          | 2.75        |
+|    success_rate         | 0.31        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 41          |
+|    time_elapsed         | 68377       |
+|    total_timesteps      | 787200      |
+| train/                  |             |
+|    approx_kl            | 0.009467848 |
+|    clip_fraction        | 0.104       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.28       |
+|    explained_variance   | 0.0662      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.615       |
+|    n_updates            | 120         |
+|    policy_gradient_loss | 0.00308     |
+|    std                  | 0.279       |
+|    value_loss           | 2.38        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 42          |
+|    time_elapsed         | 68932       |
+|    total_timesteps      | 806400      |
+| train/                  |             |
+|    approx_kl            | 0.013424638 |
+|    clip_fraction        | 0.103       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.265      |
+|    explained_variance   | 0.046       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.49        |
+|    n_updates            | 123         |
+|    policy_gradient_loss | 0.00232     |
+|    std                  | 0.279       |
+|    value_loss           | 1.92        |
+-----------------------------------------
+Eval num_timesteps=810000, episode_reward=4.63 +/- 11.25
+Episode length: 456.40 +/- 243.96
+Success rate: 39.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 456         |
+|    mean_reward          | 4.63        |
+|    success_rate         | 0.39        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 43          |
+|    time_elapsed         | 71464       |
+|    total_timesteps      | 825600      |
+| train/                  |             |
+|    approx_kl            | 0.026074123 |
+|    clip_fraction        | 0.128       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.258      |
+|    explained_variance   | 0.0827      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0936      |
+|    n_updates            | 126         |
+|    policy_gradient_loss | 0.0029      |
+|    std                  | 0.276       |
+|    value_loss           | 2.72        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=840000, episode_reward=1.48 +/- 10.95
+Episode length: 429.53 +/- 275.55
+Success rate: 28.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 430         |
+|    mean_reward          | 1.48        |
+|    success_rate         | 0.28        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 44          |
+|    time_elapsed         | 73849       |
+|    total_timesteps      | 844800      |
+| train/                  |             |
+|    approx_kl            | 0.012690765 |
+|    clip_fraction        | 0.113       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.235      |
+|    explained_variance   | 0.089       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.591       |
+|    n_updates            | 129         |
+|    policy_gradient_loss | 0.00289     |
+|    std                  | 0.274       |
+|    value_loss           | 3.1         |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 45          |
+|    time_elapsed         | 74417       |
+|    total_timesteps      | 864000      |
+| train/                  |             |
+|    approx_kl            | 0.015612371 |
+|    clip_fraction        | 0.101       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.249      |
+|    explained_variance   | 0.132       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.83        |
+|    n_updates            | 132         |
+|    policy_gradient_loss | 0.00427     |
+|    std                  | 0.278       |
+|    value_loss           | 2.35        |
+-----------------------------------------
+Eval num_timesteps=870000, episode_reward=3.70 +/- 11.77
+Episode length: 397.41 +/- 270.19
+Success rate: 39.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 397         |
+|    mean_reward          | 3.7         |
+|    success_rate         | 0.39        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 46          |
+|    time_elapsed         | 76602       |
+|    total_timesteps      | 883200      |
+| train/                  |             |
+|    approx_kl            | 0.018023545 |
+|    clip_fraction        | 0.106       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.257      |
+|    explained_variance   | 0.0756      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.021       |
+|    n_updates            | 135         |
+|    policy_gradient_loss | 0.00275     |
+|    std                  | 0.277       |
+|    value_loss           | 3.06        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=900000, episode_reward=2.71 +/- 11.58
+Episode length: 426.49 +/- 258.75
+Success rate: 35.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 426        |
+|    mean_reward          | 2.71       |
+|    success_rate         | 0.35       |
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 47         |
+|    time_elapsed         | 79092      |
+|    total_timesteps      | 902400     |
+| train/                  |            |
+|    approx_kl            | 0.03216265 |
+|    clip_fraction        | 0.119      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -0.262     |
+|    explained_variance   | 0.0824     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.721      |
+|    n_updates            | 138        |
+|    policy_gradient_loss | 0.00709    |
+|    std                  | 0.278      |
+|    value_loss           | 2.98       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 48          |
+|    time_elapsed         | 79636       |
+|    total_timesteps      | 921600      |
+| train/                  |             |
+|    approx_kl            | 0.011358063 |
+|    clip_fraction        | 0.113       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.245      |
+|    explained_variance   | 0.0356      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0976      |
+|    n_updates            | 141         |
+|    policy_gradient_loss | 0.00369     |
+|    std                  | 0.274       |
+|    value_loss           | 1.78        |
+-----------------------------------------
+Eval num_timesteps=930000, episode_reward=5.31 +/- 11.76
+Episode length: 374.13 +/- 267.43
+Success rate: 46.00%
+New best mean reward!
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 374         |
+|    mean_reward          | 5.31        |
+|    success_rate         | 0.46        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 49          |
+|    time_elapsed         | 81738       |
+|    total_timesteps      | 940800      |
+| train/                  |             |
+|    approx_kl            | 0.018281855 |
+|    clip_fraction        | 0.122       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.206      |
+|    explained_variance   | 0.13        |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0404      |
+|    n_updates            | 144         |
+|    policy_gradient_loss | 0.00367     |
+|    std                  | 0.269       |
+|    value_loss           | 2.09        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=960000, episode_reward=4.86 +/- 12.55
+Episode length: 346.99 +/- 274.23
+Success rate: 46.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 347         |
+|    mean_reward          | 4.86        |
+|    success_rate         | 0.46        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 50          |
+|    time_elapsed         | 83745       |
+|    total_timesteps      | 960000      |
+| train/                  |             |
+|    approx_kl            | 0.013436854 |
+|    clip_fraction        | 0.103       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.178      |
+|    explained_variance   | 0.0699      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.144       |
+|    n_updates            | 147         |
+|    policy_gradient_loss | 0.00323     |
+|    std                  | 0.266       |
+|    value_loss           | 3.34        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 51          |
+|    time_elapsed         | 84286       |
+|    total_timesteps      | 979200      |
+| train/                  |             |
+|    approx_kl            | 0.020466799 |
+|    clip_fraction        | 0.125       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.142      |
+|    explained_variance   | 0.094       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.366       |
+|    n_updates            | 150         |
+|    policy_gradient_loss | 0.0054      |
+|    std                  | 0.261       |
+|    value_loss           | 3.44        |
+-----------------------------------------
+Eval num_timesteps=990000, episode_reward=3.79 +/- 11.44
+Episode length: 422.30 +/- 259.58
+Success rate: 37.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 422         |
+|    mean_reward          | 3.79        |
+|    success_rate         | 0.37        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 52          |
+|    time_elapsed         | 86444       |
+|    total_timesteps      | 998400      |
+| train/                  |             |
+|    approx_kl            | 0.017635085 |
+|    clip_fraction        | 0.117       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.126      |
+|    explained_variance   | 0.136       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.66        |
+|    n_updates            | 153         |
+|    policy_gradient_loss | 0.0056      |
+|    std                  | 0.259       |
+|    value_loss           | 2.99        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 53          |
+|    time_elapsed         | 86951       |
+|    total_timesteps      | 1017600     |
+| train/                  |             |
+|    approx_kl            | 0.016391626 |
+|    clip_fraction        | 0.124       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.111      |
+|    explained_variance   | 0.143       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0496      |
+|    n_updates            | 156         |
+|    policy_gradient_loss | 0.00499     |
+|    std                  | 0.257       |
+|    value_loss           | 3.36        |
+-----------------------------------------
+Eval num_timesteps=1020000, episode_reward=3.26 +/- 11.66
+Episode length: 420.91 +/- 266.34
+Success rate: 37.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 421         |
+|    mean_reward          | 3.26        |
+|    success_rate         | 0.37        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 54          |
+|    time_elapsed         | 88855       |
+|    total_timesteps      | 1036800     |
+| train/                  |             |
+|    approx_kl            | 0.014324483 |
+|    clip_fraction        | 0.117       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.108      |
+|    explained_variance   | 0.0885      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0353      |
+|    n_updates            | 159         |
+|    policy_gradient_loss | 0.0039      |
+|    std                  | 0.257       |
+|    value_loss           | 2.69        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=1050000, episode_reward=3.14 +/- 11.75
+Episode length: 404.60 +/- 272.53
+Success rate: 37.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 405        |
+|    mean_reward          | 3.14       |
+|    success_rate         | 0.37       |
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 55         |
+|    time_elapsed         | 90769      |
+|    total_timesteps      | 1056000    |
+| train/                  |            |
+|    approx_kl            | 0.01470983 |
+|    clip_fraction        | 0.113      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -0.111     |
+|    explained_variance   | 0.0755     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.107      |
+|    n_updates            | 162        |
+|    policy_gradient_loss | 0.0019     |
+|    std                  | 0.258      |
+|    value_loss           | 2.25       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+----------------------------------------
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 56         |
+|    time_elapsed         | 91228      |
+|    total_timesteps      | 1075200    |
+| train/                  |            |
+|    approx_kl            | 0.03390488 |
+|    clip_fraction        | 0.124      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -0.0944    |
+|    explained_variance   | 0.0579     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.0868     |
+|    n_updates            | 165        |
+|    policy_gradient_loss | 0.00247    |
+|    std                  | 0.255      |
+|    value_loss           | 3.24       |
+----------------------------------------
+Eval num_timesteps=1080000, episode_reward=3.55 +/- 12.49
+Episode length: 362.77 +/- 261.00
+Success rate: 43.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 363        |
+|    mean_reward          | 3.55       |
+|    success_rate         | 0.43       |
+| time/                   |            |
+|    fps                  | 11         |
+|    iterations           | 57         |
+|    time_elapsed         | 92918      |
+|    total_timesteps      | 1094400    |
+| train/                  |            |
+|    approx_kl            | 0.01738044 |
+|    clip_fraction        | 0.119      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | -0.0717    |
+|    explained_variance   | 0.0655     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.497      |
+|    n_updates            | 168        |
+|    policy_gradient_loss | 0.00505    |
+|    std                  | 0.251      |
+|    value_loss           | 4.07       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+Eval num_timesteps=1110000, episode_reward=4.77 +/- 12.67
+Episode length: 338.77 +/- 268.98
+Success rate: 47.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 339         |
+|    mean_reward          | 4.77        |
+|    success_rate         | 0.47        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 58          |
+|    time_elapsed         | 94524       |
+|    total_timesteps      | 1113600     |
+| train/                  |             |
+|    approx_kl            | 0.017865136 |
+|    clip_fraction        | 0.137       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.0401     |
+|    explained_variance   | 0.104       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 4.79        |
+|    n_updates            | 171         |
+|    policy_gradient_loss | 0.00547     |
+|    std                  | 0.248       |
+|    value_loss           | 4.51        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 59          |
+|    time_elapsed         | 94982       |
+|    total_timesteps      | 1132800     |
+| train/                  |             |
+|    approx_kl            | 0.023923095 |
+|    clip_fraction        | 0.139       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | -0.02       |
+|    explained_variance   | 0.127       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.8         |
+|    n_updates            | 174         |
+|    policy_gradient_loss | 0.00474     |
+|    std                  | 0.246       |
+|    value_loss           | 3.37        |
+-----------------------------------------
+Eval num_timesteps=1140000, episode_reward=2.44 +/- 11.90
+Episode length: 395.55 +/- 267.78
+Success rate: 36.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 396         |
+|    mean_reward          | 2.44        |
+|    success_rate         | 0.36        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 60          |
+|    time_elapsed         | 96777       |
+|    total_timesteps      | 1152000     |
+| train/                  |             |
+|    approx_kl            | 0.019192507 |
+|    clip_fraction        | 0.13        |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.0106      |
+|    explained_variance   | 0.0926      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.425       |
+|    n_updates            | 177         |
+|    policy_gradient_loss | 0.00396     |
+|    std                  | 0.242       |
+|    value_loss           | 4.54        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 10x - Exc. Max Steps, 0x - Crash, 0x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 3x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 4x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 0x - Crash, 7x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 2x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 0x - Crash, 8x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 4x - Crash, 1x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 9x - Exc. Max Steps, 1x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 2x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 4x - Crash, 0x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 4x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 4x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 3x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 3x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 3x - Crash, 5x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 1x - Exc. Max Steps, 3x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 3x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 1x - Crash, 7x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+Eval num_timesteps=1170000, episode_reward=1.40 +/- 12.22
+Episode length: 364.41 +/- 279.57
+Success rate: 35.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 364         |
+|    mean_reward          | 1.4         |
+|    success_rate         | 0.35        |
+| time/                   |             |
+|    fps                  | 11          |
+|    iterations           | 61          |
+|    time_elapsed         | 98468       |
+|    total_timesteps      | 1171200     |
+| train/                  |             |
+|    approx_kl            | 0.014936167 |
+|    clip_fraction        | 0.128       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.0444      |
+|    explained_variance   | 0.0928      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0879      |
+|    n_updates            | 180         |
+|    policy_gradient_loss | 0.00368     |
+|    std                  | 0.238       |
+|    value_loss           | 3.29        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 2x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 3x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 2x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 0x - Crash, 1x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 0x - Crash, 7x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 2x - Exc. Max Steps, 1x - Crash, 7x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 2x - Exc. Max Steps, 2x - Crash, 6x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 2x - Exc. Max Steps, 0x - Crash, 8x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 1x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 9x - Exc. Max Steps, 1x - Crash, 0x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 1x - Exc. Max Steps, 1x - Crash, 8x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 2x - Exc. Max Steps, 3x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 4x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+[ns: /sim_1/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+(sim_1) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_1/] Last 10 Episodes: 2x - Exc. Max Steps, 3x - Crash, 5x - Goal Reached, 
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 62          |
+|    time_elapsed         | 98923       |
+|    total_timesteps      | 1190400     |
+| train/                  |             |
+|    approx_kl            | 0.019473685 |
+|    clip_fraction        | 0.127       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.0657      |
+|    explained_variance   | 0.0849      |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.00391    |
+|    n_updates            | 183         |
+|    policy_gradient_loss | 0.00303     |
+|    std                  | 0.235       |
+|    value_loss           | 3.3         |
+-----------------------------------------
+Eval num_timesteps=1200000, episode_reward=2.62 +/- 12.37
+Episode length: 362.03 +/- 275.88
+Success rate: 38.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 362         |
+|    mean_reward          | 2.62        |
+|    success_rate         | 0.38        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 63          |
+|    time_elapsed         | 100608      |
+|    total_timesteps      | 1209600     |
+| train/                  |             |
+|    approx_kl            | 0.016548747 |
+|    clip_fraction        | 0.122       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.095       |
+|    explained_variance   | 0.0808      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.00337     |
+|    n_updates            | 186         |
+|    policy_gradient_loss | 0.0042      |
+|    std                  | 0.231       |
+|    value_loss           | 3.12        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 64          |
+|    time_elapsed         | 101066      |
+|    total_timesteps      | 1228800     |
+| train/                  |             |
+|    approx_kl            | 0.026756594 |
+|    clip_fraction        | 0.112       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.116       |
+|    explained_variance   | 0.091       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.329       |
+|    n_updates            | 189         |
+|    policy_gradient_loss | 0.00324     |
+|    std                  | 0.229       |
+|    value_loss           | 3.24        |
+-----------------------------------------
+Eval num_timesteps=1230000, episode_reward=2.00 +/- 12.49
+Episode length: 338.58 +/- 281.27
+Success rate: 36.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 339         |
+|    mean_reward          | 2           |
+|    success_rate         | 0.36        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 65          |
+|    time_elapsed         | 102665      |
+|    total_timesteps      | 1248000     |
+| train/                  |             |
+|    approx_kl            | 0.029422626 |
+|    clip_fraction        | 0.115       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.164       |
+|    explained_variance   | 0.0792      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 2.12        |
+|    n_updates            | 192         |
+|    policy_gradient_loss | 0.00321     |
+|    std                  | 0.223       |
+|    value_loss           | 4.08        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=1260000, episode_reward=1.54 +/- 11.96
+Episode length: 373.58 +/- 284.05
+Success rate: 34.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 374        |
+|    mean_reward          | 1.54       |
+|    success_rate         | 0.34       |
+| time/                   |            |
+|    fps                  | 12         |
+|    iterations           | 66         |
+|    time_elapsed         | 104387     |
+|    total_timesteps      | 1267200    |
+| train/                  |            |
+|    approx_kl            | 0.01690633 |
+|    clip_fraction        | 0.122      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | 0.19       |
+|    explained_variance   | 0.0418     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 2.71       |
+|    n_updates            | 195        |
+|    policy_gradient_loss | 0.00356    |
+|    std                  | 0.221      |
+|    value_loss           | 3.79       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 67          |
+|    time_elapsed         | 104846      |
+|    total_timesteps      | 1286400     |
+| train/                  |             |
+|    approx_kl            | 0.014908379 |
+|    clip_fraction        | 0.109       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.226       |
+|    explained_variance   | 0.118       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0126      |
+|    n_updates            | 198         |
+|    policy_gradient_loss | 0.00447     |
+|    std                  | 0.217       |
+|    value_loss           | 2.72        |
+-----------------------------------------
+Eval num_timesteps=1290000, episode_reward=2.82 +/- 12.70
+Episode length: 334.61 +/- 274.69
+Success rate: 40.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 335         |
+|    mean_reward          | 2.82        |
+|    success_rate         | 0.4         |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 68          |
+|    time_elapsed         | 106437      |
+|    total_timesteps      | 1305600     |
+| train/                  |             |
+|    approx_kl            | 0.018333226 |
+|    clip_fraction        | 0.0996      |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.235       |
+|    explained_variance   | 0.0936      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.857       |
+|    n_updates            | 201         |
+|    policy_gradient_loss | 0.00299     |
+|    std                  | 0.216       |
+|    value_loss           | 2.82        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=1320000, episode_reward=0.08 +/- 11.31
+Episode length: 387.82 +/- 285.89
+Success rate: 28.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 388         |
+|    mean_reward          | 0.079       |
+|    success_rate         | 0.28        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 69          |
+|    time_elapsed         | 108206      |
+|    total_timesteps      | 1324800     |
+| train/                  |             |
+|    approx_kl            | 0.041842017 |
+|    clip_fraction        | 0.119       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.271       |
+|    explained_variance   | 0.109       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0985      |
+|    n_updates            | 204         |
+|    policy_gradient_loss | 0.00258     |
+|    std                  | 0.212       |
+|    value_loss           | 2.44        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+----------------------------------------
+| time/                   |            |
+|    fps                  | 12         |
+|    iterations           | 70         |
+|    time_elapsed         | 108664     |
+|    total_timesteps      | 1344000    |
+| train/                  |            |
+|    approx_kl            | 0.04495666 |
+|    clip_fraction        | 0.119      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | 0.296      |
+|    explained_variance   | 0.108      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 2.14       |
+|    n_updates            | 207        |
+|    policy_gradient_loss | 0.00469    |
+|    std                  | 0.21       |
+|    value_loss           | 3.73       |
+----------------------------------------
+Eval num_timesteps=1350000, episode_reward=1.87 +/- 11.86
+Episode length: 418.95 +/- 267.61
+Success rate: 34.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 419         |
+|    mean_reward          | 1.87        |
+|    success_rate         | 0.34        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 71          |
+|    time_elapsed         | 110539      |
+|    total_timesteps      | 1363200     |
+| train/                  |             |
+|    approx_kl            | 0.018516375 |
+|    clip_fraction        | 0.121       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.306       |
+|    explained_variance   | 0.0558      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.64        |
+|    n_updates            | 210         |
+|    policy_gradient_loss | 0.00354     |
+|    std                  | 0.21        |
+|    value_loss           | 3.58        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=1380000, episode_reward=0.90 +/- 11.86
+Episode length: 391.43 +/- 289.54
+Success rate: 31.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 391         |
+|    mean_reward          | 0.899       |
+|    success_rate         | 0.31        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 72          |
+|    time_elapsed         | 112323      |
+|    total_timesteps      | 1382400     |
+| train/                  |             |
+|    approx_kl            | 0.025630292 |
+|    clip_fraction        | 0.128       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.309       |
+|    explained_variance   | 0.045       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 2.86        |
+|    n_updates            | 213         |
+|    policy_gradient_loss | 0.00783     |
+|    std                  | 0.209       |
+|    value_loss           | 3.48        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 73          |
+|    time_elapsed         | 112781      |
+|    total_timesteps      | 1401600     |
+| train/                  |             |
+|    approx_kl            | 0.024843495 |
+|    clip_fraction        | 0.134       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.335       |
+|    explained_variance   | 0.129       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.078       |
+|    n_updates            | 216         |
+|    policy_gradient_loss | 0.00409     |
+|    std                  | 0.207       |
+|    value_loss           | 3.3         |
+-----------------------------------------
+Eval num_timesteps=1410000, episode_reward=1.93 +/- 12.41
+Episode length: 364.88 +/- 285.13
+Success rate: 35.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 365         |
+|    mean_reward          | 1.93        |
+|    success_rate         | 0.35        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 74          |
+|    time_elapsed         | 114477      |
+|    total_timesteps      | 1420800     |
+| train/                  |             |
+|    approx_kl            | 0.034553777 |
+|    clip_fraction        | 0.139       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.363       |
+|    explained_variance   | 0.128       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.136       |
+|    n_updates            | 219         |
+|    policy_gradient_loss | 0.00516     |
+|    std                  | 0.203       |
+|    value_loss           | 4.25        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+Eval num_timesteps=1440000, episode_reward=1.63 +/- 12.08
+Episode length: 393.71 +/- 277.67
+Success rate: 33.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 394         |
+|    mean_reward          | 1.63        |
+|    success_rate         | 0.33        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 75          |
+|    time_elapsed         | 116267      |
+|    total_timesteps      | 1440000     |
+| train/                  |             |
+|    approx_kl            | 0.034688033 |
+|    clip_fraction        | 0.135       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.379       |
+|    explained_variance   | 0.132       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0717      |
+|    n_updates            | 222         |
+|    policy_gradient_loss | 0.00508     |
+|    std                  | 0.202       |
+|    value_loss           | 3.17        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 76          |
+|    time_elapsed         | 116720      |
+|    total_timesteps      | 1459200     |
+| train/                  |             |
+|    approx_kl            | 0.021425962 |
+|    clip_fraction        | 0.128       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.414       |
+|    explained_variance   | 0.156       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0786      |
+|    n_updates            | 225         |
+|    policy_gradient_loss | 0.0049      |
+|    std                  | 0.199       |
+|    value_loss           | 3.05        |
+-----------------------------------------
+Eval num_timesteps=1470000, episode_reward=1.48 +/- 12.13
+Episode length: 375.89 +/- 287.81
+Success rate: 32.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 376         |
+|    mean_reward          | 1.48        |
+|    success_rate         | 0.32        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 77          |
+|    time_elapsed         | 118450      |
+|    total_timesteps      | 1478400     |
+| train/                  |             |
+|    approx_kl            | 0.020672863 |
+|    clip_fraction        | 0.121       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.404       |
+|    explained_variance   | 0.0772      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.0217      |
+|    n_updates            | 228         |
+|    policy_gradient_loss | 0.00656     |
+|    std                  | 0.199       |
+|    value_loss           | 2.48        |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 78          |
+|    time_elapsed         | 118908      |
+|    total_timesteps      | 1497600     |
+| train/                  |             |
+|    approx_kl            | 0.019568363 |
+|    clip_fraction        | 0.132       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.424       |
+|    explained_variance   | 0.111       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 2.09        |
+|    n_updates            | 231         |
+|    policy_gradient_loss | 0.0053      |
+|    std                  | 0.199       |
+|    value_loss           | 3.02        |
+-----------------------------------------
+Eval num_timesteps=1500000, episode_reward=0.69 +/- 11.31
+Episode length: 389.85 +/- 285.96
+Success rate: 28.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 390        |
+|    mean_reward          | 0.686      |
+|    success_rate         | 0.28       |
+| time/                   |            |
+|    fps                  | 12         |
+|    iterations           | 79         |
+|    time_elapsed         | 120688     |
+|    total_timesteps      | 1516800    |
+| train/                  |            |
+|    approx_kl            | 0.03394614 |
+|    clip_fraction        | 0.133      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | 0.434      |
+|    explained_variance   | 0.155      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.191      |
+|    n_updates            | 234        |
+|    policy_gradient_loss | 0.00482    |
+|    std                  | 0.197      |
+|    value_loss           | 3.16       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+Eval num_timesteps=1530000, episode_reward=0.25 +/- 11.25
+Episode length: 381.02 +/- 292.78
+Success rate: 27.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 381        |
+|    mean_reward          | 0.248      |
+|    success_rate         | 0.27       |
+| time/                   |            |
+|    fps                  | 12         |
+|    iterations           | 80         |
+|    time_elapsed         | 122438     |
+|    total_timesteps      | 1536000    |
+| train/                  |            |
+|    approx_kl            | 0.05111643 |
+|    clip_fraction        | 0.122      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | 0.421      |
+|    explained_variance   | 0.143      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.369      |
+|    n_updates            | 237        |
+|    policy_gradient_loss | 0.00374    |
+|    std                  | 0.197      |
+|    value_loss           | 3.09       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 81          |
+|    time_elapsed         | 122884      |
+|    total_timesteps      | 1555200     |
+| train/                  |             |
+|    approx_kl            | 0.025231425 |
+|    clip_fraction        | 0.126       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.441       |
+|    explained_variance   | 0.149       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 2.99        |
+|    n_updates            | 240         |
+|    policy_gradient_loss | 0.00724     |
+|    std                  | 0.196       |
+|    value_loss           | 2.54        |
+-----------------------------------------
+Eval num_timesteps=1560000, episode_reward=1.77 +/- 11.49
+Episode length: 419.69 +/- 286.29
+Success rate: 30.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 420        |
+|    mean_reward          | 1.77       |
+|    success_rate         | 0.3        |
+| time/                   |            |
+|    fps                  | 12         |
+|    iterations           | 82         |
+|    time_elapsed         | 124761     |
+|    total_timesteps      | 1574400    |
+| train/                  |            |
+|    approx_kl            | 0.03672511 |
+|    clip_fraction        | 0.119      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | 0.449      |
+|    explained_variance   | 0.203      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.256      |
+|    n_updates            | 243        |
+|    policy_gradient_loss | 0.00598    |
+|    std                  | 0.195      |
+|    value_loss           | 3.04       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+Eval num_timesteps=1590000, episode_reward=-0.92 +/- 9.40
+Episode length: 460.81 +/- 271.49
+Success rate: 18.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 461        |
+|    mean_reward          | -0.923     |
+|    success_rate         | 0.18       |
+| time/                   |            |
+|    fps                  | 12         |
+|    iterations           | 83         |
+|    time_elapsed         | 126838     |
+|    total_timesteps      | 1593600    |
+| train/                  |            |
+|    approx_kl            | 0.02933985 |
+|    clip_fraction        | 0.129      |
+|    clip_range           | 0.22       |
+|    entropy_loss         | 0.438      |
+|    explained_variance   | 0.201      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.793      |
+|    n_updates            | 246        |
+|    policy_gradient_loss | 0.00573    |
+|    std                  | 0.199      |
+|    value_loss           | 1.96       |
+| train_stage/            |            |
+|    stage_idx            | 1          |
+----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 84          |
+|    time_elapsed         | 127440      |
+|    total_timesteps      | 1612800     |
+| train/                  |             |
+|    approx_kl            | 0.026078856 |
+|    clip_fraction        | 0.122       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.413       |
+|    explained_variance   | 0.268       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.149       |
+|    n_updates            | 249         |
+|    policy_gradient_loss | 0.00608     |
+|    std                  | 0.2         |
+|    value_loss           | 2.84        |
+-----------------------------------------
+Eval num_timesteps=1620000, episode_reward=-0.42 +/- 11.05
+Episode length: 384.94 +/- 294.08
+Success rate: 24.00%
+(eval_sim) INFO: Tried to trigger previous stage but already reached first one
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 385         |
+|    mean_reward          | -0.417      |
+|    success_rate         | 0.24        |
+| time/                   |             |
+|    fps                  | 12          |
+|    iterations           | 85          |
+|    time_elapsed         | 129816      |
+|    total_timesteps      | 1632000     |
+| train/                  |             |
+|    approx_kl            | 0.031270135 |
+|    clip_fraction        | 0.121       |
+|    clip_range           | 0.22        |
+|    entropy_loss         | 0.41        |
+|    explained_variance   | 0.256       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.676       |
+|    n_updates            | 252         |
+|    policy_gradient_loss | 0.00602     |
+|    std                  | 0.2         |
+|    value_loss           | 3.1         |
+| train_stage/            |             |
+|    stage_idx            | 1           |
+-----------------------------------------
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 2x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 5x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 2x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 2x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 2x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 2x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 3x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 4x - Crash, 2x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 5x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 0x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 3x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 0x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 2x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 0x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 2x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 7x - Exc. Max Steps, 0x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 6x - Exc. Max Steps, 1x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 1x - Crash, 6x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 2x - Crash, 0x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 0x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 3x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 8x - Exc. Max Steps, 1x - Crash, 1x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 1x - Exc. Max Steps, 6x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 4x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 1x - Crash, 5x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 4x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 3x - Crash, 2x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 3x - Exc. Max Steps, 3x - Crash, 4x - Goal Reached, 
+(sim_2) INFO: Tried to trigger previous stage but already reached first one
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 2x - Crash, 3x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 4x - Exc. Max Steps, 2x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 5x - Exc. Max Steps, 1x - Crash, 4x - Goal Reached, 
+[ns: /sim_2/] Last 10 Episodes: 2x - Exc. Max Steps, 2x - Crash, 6x - Goal Reached, 

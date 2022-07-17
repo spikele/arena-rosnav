@@ -1,0 +1,1 @@
+epochs = 30or15?, trained with observations100DWA

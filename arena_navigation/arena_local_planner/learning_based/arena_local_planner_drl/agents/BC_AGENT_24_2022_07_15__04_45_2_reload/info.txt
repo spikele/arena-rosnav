@@ -1,0 +1,1 @@
+epochs = 15, trained with observations1000DWA
