@@ -9,6 +9,7 @@ from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 class PolicyType(Enum):
     CNN = "CnnPolicy"
     MLP = "MlpPolicy"
+    MI = "MultiInputPolicy"
 
 
 class BaseAgent(ABC):

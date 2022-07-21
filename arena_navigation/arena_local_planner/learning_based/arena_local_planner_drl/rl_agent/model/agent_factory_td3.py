@@ -60,5 +60,5 @@ class AgentFactoryTD3:
             print("test1")
             return agent_class(**kwargs)
         else:
-            return agent_class
             print("test2")
+            return agent_class

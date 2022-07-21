@@ -368,3 +368,50 @@ class EXTRACTOR_6(BaseFeaturesExtractor):
 
         extracted_features = self.fc(self.cnn(laser_scan))
         return th.cat((extracted_features, robot_state), 1)
+
+
+class EXTRACTOR_6_HER(BaseFeaturesExtractor):
+    """
+    Custom Convolutional Neural Network (Nature CNN) to serve as feature extractor ahead of the policy and value head.
+
+    :param observation_space: (gym.Space)
+    :param features_dim: (int) Number of features extracted.
+        This corresponds to the number of unit for the last layer.
+    """
+
+    def __init__(
+        self, observation_space: gym.spaces.Dict, features_dim: int = 32
+    ):
+        super(EXTRACTOR_6_HER, self).__init__(observation_space, features_dim + _RS)
+
+        self.cnn = nn.Sequential(
+            nn.Conv1d(1, 32, 8, 4),
+            nn.ReLU(),
+            nn.Conv1d(32, 64, 4, 2),
+            nn.ReLU(),
+            nn.Conv1d(64, 64, 4, 2),
+            nn.ReLU(),
+            nn.Flatten(),
+        )
+
+        # Compute shape by doing one forward pass
+        with th.no_grad():
+            tensor_forward = th.randn(1, 1, _L)
+            n_flatten = self.cnn(tensor_forward).shape[1]
+
+        self.fc = nn.Sequential(
+            nn.Linear(n_flatten, features_dim),
+            nn.ReLU(),
+        )
+
+    def forward(self, observations: th.Tensor) -> th.Tensor:
+        """
+        :return: (th.Tensor) features,
+            extracted features by the network
+        """
+
+        laser_scan = th.unsqueeze(observations["observation"][:, :-_RS], 1)
+        robot_state = observations["observation"][:, -_RS:]
+
+        extracted_features = self.fc(self.cnn(laser_scan))
+        return th.cat((extracted_features, robot_state), 1)

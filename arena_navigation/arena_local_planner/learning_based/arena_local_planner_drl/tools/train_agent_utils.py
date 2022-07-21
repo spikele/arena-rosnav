@@ -19,8 +19,9 @@ import numpy as np
 
 
 from rl_agent.envs.flatland_gym_env import (
-    FlatlandEnv,
+    FlatlandEnv, 
 )
+from rl_agent.envs.flatland_gym_env_her import FlatlandGoalEnv
 
 
 """ 
@@ -412,6 +413,69 @@ def make_envs(
             # eval env
             env = Monitor(
                 FlatlandEnv(
+                    eval_ns,
+                    params["reward_fnc"],
+                    params["discrete_action_space"],
+                    goal_radius=params["goal_radius"],
+                    max_steps_per_episode=params["eval_max_steps_per_episode"],
+                    train_mode=False,
+                    debug=args.debug,
+                    task_mode=params["task_mode"],
+                    curr_stage=params["curr_stage"],
+                    PATHS=PATHS,
+                ),
+                PATHS.get("eval"),
+                info_keywords=("done_reason", "is_success"),
+            )
+        env.seed(seed + rank)
+        return env
+
+    set_random_seed(seed)
+    return _init
+
+def make_envs_her(
+    args: argparse.Namespace,
+    with_ns: bool,
+    rank: int,
+    params: dict,
+    seed: int = 0,
+    PATHS: dict = None,
+    train: bool = True,
+):
+    """
+    Utility function for multiprocessed env
+
+    :param with_ns: (bool) if the system was initialized with namespaces
+    :param rank: (int) index of the subprocess
+    :param params: (dict) hyperparameters of agent to be trained
+    :param seed: (int) the inital seed for RNG
+    :param PATHS: (dict) script relevant paths
+    :param train: (bool) to differentiate between train and eval env
+    :param args: (Namespace) program arguments
+    :return: (Callable)
+    """
+
+    def _init() -> Union[gym.Env, gym.Wrapper]:
+        train_ns = f"sim_{rank+1}" if with_ns else ""
+        eval_ns = f"eval_sim" if with_ns else ""
+
+        if train:
+            # train env
+            env = FlatlandGoalEnv(
+                train_ns,
+                params["reward_fnc"],
+                params["discrete_action_space"],
+                goal_radius=params["goal_radius"],
+                max_steps_per_episode=params["train_max_steps_per_episode"],
+                debug=args.debug,
+                task_mode=params["task_mode"],
+                curr_stage=params["curr_stage"],
+                PATHS=PATHS,
+            )
+        else:
+            # eval env
+            env = Monitor(
+                FlatlandGoalEnv(
                     eval_ns,
                     params["reward_fnc"],
                     params["discrete_action_space"],
