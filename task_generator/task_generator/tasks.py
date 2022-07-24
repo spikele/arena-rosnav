@@ -825,6 +825,57 @@ class RandomEvalTask(ABSTask):
         else:
             return 'End'
 
+class RandomEvalOneMapTask(ABSTask):
+    """Evertime the start position and end position of the robot is reset."""
+
+    def __init__(
+        self,repeats:int, obstacles_manager: ObstaclesManager, robot_manager: RobotManager
+    ):
+        super().__init__(obstacles_manager, robot_manager)
+
+        self.max_repeats = repeats
+        self.num_repeats = 0
+
+    def reset(self, seed):
+        """[summary]"""
+        random.seed(seed) # fix task generation at reset with seed
+        if self.max_repeats >= self.num_repeats: # robot runs 1 episode more than specified for recording purposes
+            self.num_repeats += 1
+            info = {}
+            with self._map_lock:
+                max_fail_times = 10
+                fail_times = 0
+                while fail_times < max_fail_times:
+                    try:
+                        (
+                            start_pos,
+                            goal_pos,
+                        ) = self.robot_manager.set_start_pos_goal_pos() # TODO: min_dist from config
+                        self.obstacles_manager.reset_pos_obstacles_random(
+                            forbidden_zones=[
+                                (
+                                    start_pos.x,
+                                    start_pos.y,
+                                    self.robot_manager.ROBOT_RADIUS*10,
+                                ),
+                                (
+                                    goal_pos.x,
+                                    goal_pos.y,
+                                    self.robot_manager.ROBOT_RADIUS*10,
+                                ),
+                            ]
+                        )
+                        info["robot_goal_pos"] = [goal_pos.x,goal_pos.y,goal_pos.theta]
+                        break
+                    except rospy.ServiceException as e:
+                        rospy.logwarn(repr(e))
+                        fail_times += 1
+                if fail_times == max_fail_times:
+                    raise Exception("reset error!")
+            return info
+        else:
+            return 'End'
+
 class ManualTask(ABSTask):
     """randomly spawn obstacles and user can mannually set the goal postion of the robot"""
 
@@ -1473,6 +1524,36 @@ def get_predefined_task(
 
         task = RandomEvalTask(repeats, obstacles_manager, robot_manager)
         print("random eval tasks requested")
+    
+    if mode == "random_eval_one_map":
+        rospy.set_param("/task_mode", "random_eval")
+
+        # load map parameters
+        json_path = Path(PATHS["scenario"])
+        assert json_path.is_file() and json_path.suffix == ".json"
+        map_params = json.load(json_path.open())
+        repeats = map_params["repeats"]
+        numb_dyn_obst = map_params["numb_dynamic_obstacles"]
+        numb_static_obst = map_params["numb_static_obstacles"]
+        map_type = map_params['type']
+        if map_type == 'mixed':
+            indoor_prob = map_params['indoor_prob']
+        else:
+            indoor_prob = 0
+        
+        # start map generator node
+        # start_map_generator_node(map_type, indoor_prob)
+
+        # register random obstacles
+        numb_obst = numb_static_obst + numb_dyn_obst
+        if numb_obst != 0:
+            prob_dyn_obst = float(numb_dyn_obst) / numb_obst
+        else:
+            prob_dyn_obst = 1
+        obstacles_manager.register_random_obstacles(numb_obst, prob_dyn_obst)
+
+        task = RandomEvalOneMapTask(repeats, obstacles_manager, robot_manager)
+        print("random eval one map tasks requested")
     return task
 
 def start_map_generator_node(map_type: str, indoor_prob: float):

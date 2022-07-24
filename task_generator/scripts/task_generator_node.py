@@ -49,6 +49,14 @@ class TaskGenerator:
                 else:
                     time.sleep(1)
 
+        if self.mode == "random_eval_one_map":
+            # load random eval params
+            json_path = Path(paths["scenario"])
+            assert json_path.is_file() and json_path.suffix == ".json"
+            random_eval_config = json.load(json_path.open())
+            self.seed = random_eval_config["seed"]
+            self.random_eval_repeats = random_eval_config["repeats"]
+
         # if auto_reset is set to true, the task generator will automatically reset the task
         # this can be activated only when the mode set to 'ScenarioTask'
         auto_reset = rospy.get_param("~auto_reset")
@@ -61,7 +69,7 @@ class TaskGenerator:
         robot_odom_topic_name = rospy.get_param(
             "robot_odom_topic_name", "odom")
         
-        auto_reset = auto_reset and self.mode in ["scenario","random_eval"]
+        auto_reset = auto_reset and self.mode in ["scenario","random_eval","random_eval_one_map"]
         self.curr_goal_pos_ = None
         
         self.pub = rospy.Publisher('End_of_scenario', Bool, queue_size=10)
@@ -118,6 +126,14 @@ class TaskGenerator:
                 self.new_map = self.request_new_map(seed)
                 # reset task and hand over new map for map update and seed for the task generation
                 info = self.task.reset(self.new_map,seed)
+            else: # self termination
+                subprocess.call(["killall","-9","rosmaster"]) # apt-get install psmisc necessary
+                sys.exit()
+        elif self.mode == "random_eval_one_map":
+            if self.random_eval_repeats >= self.nr: 
+                # reset task and hand over seed for the task generation
+                seed = (self.random_eval_repeats * (1 + self.nr)) * self.seed 
+                info = self.task.reset(seed)
             else: # self termination
                 subprocess.call(["killall","-9","rosmaster"]) # apt-get install psmisc necessary
                 sys.exit()

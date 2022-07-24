@@ -178,7 +178,7 @@ def main():
 
 
 
-    with open('/home/liam/observations/observations1000DWA.dictionary', 'rb') as file:
+    with open('/home/liam/observations/observationsDWA100Map1.dictionary', 'rb') as file:
         #epoch = pickle.load(file)
         [epoch_obs, epoch_act] = pickle.load(file)
         print("number of episodes before trimming: " + str(len(epoch_obs)))
