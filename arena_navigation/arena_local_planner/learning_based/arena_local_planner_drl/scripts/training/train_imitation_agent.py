@@ -178,7 +178,7 @@ def main():
 
 
 
-    with open('/home/liam/observations/observationsDWA100Map1.dictionary', 'rb') as file:
+    with open('/home/liam/observations/observations1000DWAMap1.dictionary', 'rb') as file:
         #epoch = pickle.load(file)
         [epoch_obs, epoch_act] = pickle.load(file)
         print("number of episodes before trimming: " + str(len(epoch_obs)))
@@ -249,16 +249,16 @@ def main():
         demonstrations=transitions,
     )
 
-    #reward_before_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
+    reward_before_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
     #reward_before_training, _ = evaluate_policy(bc_trainer.policy, env, 10)
-    #print(f"Reward before training: {reward_before_training}")
+    print(f"Reward before training: {reward_before_training}")
 
     bc_trainer.train(n_epochs=15)
 
-    #reward_after_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
+    reward_after_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
     #reward_after_training, _ = evaluate_policy(bc_trainer.policy, env, 10)
-    #print(f"Reward before training: {reward_before_training}")
-    #print(f"Reward after training: {reward_after_training}")
+    print(f"Reward before training: {reward_before_training}")
+    print(f"Reward after training: {reward_after_training}")
 
     #print(bc_trainer.policy)
     #print(model.policy)
