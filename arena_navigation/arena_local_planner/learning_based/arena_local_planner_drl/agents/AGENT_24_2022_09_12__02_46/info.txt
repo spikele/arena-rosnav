@@ -1,0 +1,3 @@
+trained with train_agent_sac_her, and with the reward function: reward_her
+with achieved goal always [0,0] (flatland_gym_env_her new 2)
+without actions in observation space

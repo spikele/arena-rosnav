@@ -193,6 +193,7 @@ class RobotManager:
                 rospy.wait_for_service("/global_planner/makeGlobalPlan")
             else:
                 # Make sure move_base is ready to take goals/make plan
+                # possibly caused crashes
                 if not rospy.get_param("_dedicated_train_launch", default=False):
                     rospy.wait_for_service("/move_base/make_plan")
 
@@ -246,6 +247,7 @@ class RobotManager:
         goal.pose.orientation.y = quaternion[2]
         goal.pose.orientation.z = quaternion[3]
 
+        # possibly caused crashes
         if not rospy.get_param("_dedicated_train_launch", default=False):
             rospy.wait_for_service("/move_base/make_plan")
 

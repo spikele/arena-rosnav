@@ -1,0 +1,5 @@
+trained with train_agent_sac_her, and with the reward function: reward_her
+with achieved goal: rho,theta from last pose to current pose
+and desired goal: rho,theta from last pose to subgoal
+(flatland_gym_env_her new 3)
+without actions in observation space

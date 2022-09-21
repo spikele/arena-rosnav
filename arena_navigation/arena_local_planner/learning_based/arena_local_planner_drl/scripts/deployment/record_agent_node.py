@@ -59,6 +59,11 @@ class DeploymentRecordAgent(BaseRecordAgent):
         self.episode_obs = []
         self.episode_act = []
 
+        self.episode_info = []
+
+        self.total_count = 0
+        self.success_count = 0
+        self.crash_count = 0
 
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
@@ -66,6 +71,7 @@ class DeploymentRecordAgent(BaseRecordAgent):
 
         #self.name = agent_name
         self.name = "BC_AGENT_24_untrained"
+        #self.name = "BC_AGENT_24_untrained_AIOS"
 
         hyperparameter_path = os.path.join(
             TRAINED_MODELS_DIR, self.name, "hyperparameters.json"
@@ -134,15 +140,21 @@ class DeploymentRecordAgent(BaseRecordAgent):
             
             merged_obs, obs_dict = self.get_observations()
             obs = merged_obs
-            
+
             self.episode_obs.append(obs)
 
             #if episode_not_empty:
             if len(self.episode_obs) > 1:
                 self.episode_act.append(action)
+                reward, info = self.get_reward(action, obs_dict)
+                self.episode_info.append(info)
+
 
         # when shutdown, save epoch again with the latest episode
         self.end_episode(-1)
+        print((str(self.total_count)) + "episodes")
+        print(str(self.success_count) + "successes (" + str((self.success_count/self.total_count)*100) + "%)")
+        print(str(self.crash_count) + "crashes (" + str((self.crash_count/self.total_count)*100) + "%)")
 
         """epoch_obs = []
         epoch_act = []
@@ -189,15 +201,84 @@ class DeploymentRecordAgent(BaseRecordAgent):
 
     
     def end_episode(self, msg_nr) -> None:
-        print("end of the" + str(msg_nr) + ". episode, size: " + str(len(self.episode_obs)))
-        self.epoch_obs.append(self.episode_obs)
-        self.epoch_act.append(self.episode_act)
+        
+        #print("act length is " + str(len(self.episode_act)))
+        #print("info length is " + str(len(self.episode_info)))
+        #print("obs length is " + str(len(self.episode_obs)))
+
+        #count = 0
+        #count2 = 0
+        self.total_count += 1
+        was_crash = False
+        
+        for i in range(0, len(self.episode_info)):
+            info = self.episode_info[i]
+
+            """if info["is_done"]:
+                #count += 1
+                self.episode_act = self.episode_act[0:i+1]
+                self.episode_info = self.episode_info[0:i+1]
+                self.episode_obs = self.episode_obs[0:i+2]
+                
+                if info["done_reason"] == 2:
+                    print("cut episode because it was a success")
+                    self.success_count += 1
+                elif info["done_reason"] == 1:
+                    print("cut episode because there was a crash")
+                    self.crash_count += 1
+                else:
+                    print("ELSE (should not occur)")
+                break"""
+                # TODO: IDEA: instead of cutting off when done, omit episode when there is a crash because it is probably counterproductive to learn from it
+            if info["is_done"]:
+                self.episode_act = self.episode_act[0:i+1]
+                self.episode_info = self.episode_info[0:i+1]
+                self.episode_obs = self.episode_obs[0:i+2]
+
+                if info["done_reason"] == 2:
+                    print("cut episode because it was a success")
+                    self.success_count += 1
+                elif info["done_reason"] == 1:
+                    print("cut episode because there was a crash")
+                    self.crash_count += 1
+                    was_crash = True
+                else:
+                    print("ELSE (should not occur)")
+                break
+
+        #if count > 0:
+            #print("count before trimming: " + str(count))
+        
+            #print("act length after is " + str(len(self.episode_act)))
+            #print("info length after is " + str(len(self.episode_info)))
+            #print("obs length after is " + str(len(self.episode_obs)))
+
+            #for i in range(0, len(self.episode_info)):
+                #info = self.episode_info[i]
+                #if info["is_done"]:
+                    #count2 += 1
+
+            #print("count after trimming: " + str(count2))
+
+        if msg_nr != -1:
+            num = msg_nr.data
+        else:
+            num = msg_nr
+        print("end of the " + str(num) + ". episode, size: " + str(len(self.episode_obs)))
+        
+        """self.epoch_obs.append(self.episode_obs)
+        self.epoch_act.append(self.episode_act)"""
+        if not was_crash:
+            self.epoch_obs.append(self.episode_obs)
+            self.epoch_act.append(self.episode_act)
+
         self.episode_obs = []
         self.episode_act = []
+        self.episode_info = []
         with open('/home/liam/observations/observations.dictionary', 'wb') as file:
             pickle.dump([self.epoch_obs, self.epoch_act], file)
             file.close()
-            print("saved observations")
+            #print("saved observations")
 
     def _wait_for_next_action_cycle(self) -> None:
         """Stops the loop until a trigger message is sent by the ActionPublisher

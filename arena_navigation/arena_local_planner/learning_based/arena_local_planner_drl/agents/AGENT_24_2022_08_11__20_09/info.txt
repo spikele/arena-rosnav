@@ -1,0 +1,6 @@
+tau=1e-2,
+train_freq=params["n_steps"],
+gradient_steps=1,
+learning_starts=10000,
+
+pol_kwargs["share_features_extractor"] = True

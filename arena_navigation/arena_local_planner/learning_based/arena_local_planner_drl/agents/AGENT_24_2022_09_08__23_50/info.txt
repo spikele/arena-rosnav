@@ -1,0 +1,2 @@
+trained with train_agent_sac_her, and with the reward function: reward_her
+without updating last_robot_position at the end of step (flatland_gym_env_her old)

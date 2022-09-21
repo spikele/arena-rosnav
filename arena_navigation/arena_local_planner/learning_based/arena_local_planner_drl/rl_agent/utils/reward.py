@@ -46,6 +46,7 @@ class RewardCalculator:
             "rule_03": RewardCalculator._cal_reward_rule_03,
             "rule_04": RewardCalculator._cal_reward_rule_04,
             "rule_05": RewardCalculator._cal_reward_rule_05,
+            "rule_her": RewardCalculator._cal_reward_rule_her,
             #"barn": RewardCalculator._cal_reward_rule_barn,
         }
         self.cal_func = self._cal_funcs[rule]
@@ -153,6 +154,10 @@ class RewardCalculator:
         self._reward_collision(laser_scan, punishment=10)
         self._reward_goal_approached(goal_in_robot_frame, reward_factor=0.4, penalty_factor=0.6)
         self.last_action = self._curr_action
+
+    def _cal_reward_rule_her(self, laser_scan: np.ndarray, goal_in_robot_frame: Tuple[float, float], *args, **kwargs):
+        self._reward_goal_reached(goal_in_robot_frame)
+        self._reward_collision(laser_scan)
 
     def _set_current_dist_to_globalplan(self, global_plan: np.ndarray, robot_pose: Pose2D):
         if global_plan is not None and len(global_plan) != 0:

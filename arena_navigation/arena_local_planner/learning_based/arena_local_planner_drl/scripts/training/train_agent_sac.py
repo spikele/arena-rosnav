@@ -131,11 +131,13 @@ def main():
         )"""
     elif args.agent is not None:
         agent: Union[Type[BaseAgent], Type[ActorCriticPolicy]] = AgentFactorySAC.instantiate(args.agent)
+        pol_kwargs = agent.get_kwargs()
+        #pol_kwargs["share_features_extractor"] = True
         if isinstance(agent, BaseAgent):
             model = SAC(
                 agent.type.value,
                 env,
-                policy_kwargs=agent.get_kwargs(),
+                policy_kwargs=pol_kwargs,
                 tau=1e-2,
                 train_freq=params["n_steps"],
                 gradient_steps=-1,
@@ -184,6 +186,7 @@ def main():
 
 
     print(model.policy)
+    print(model.policy.share_features_extractor)
 
     # set num of timesteps to be generated
     n_timesteps = 40000000 if args.n is None else args.n

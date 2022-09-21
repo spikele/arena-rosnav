@@ -1,0 +1,2 @@
+trained with train_agent_sac, and with the reward function: reward_her
+without actions in observation space

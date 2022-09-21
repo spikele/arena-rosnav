@@ -233,6 +233,8 @@ class ObservationCollector:
             "global_plan": self._globalplan,
             "robot_pose": self._robot_pose,
             "last_action": kwargs.get("last_action", np.array([0, 0, 0])),
+            #NEW:
+            "subgoal_pose": self._subgoal,
         }
 
         self._laser_deque.clear()

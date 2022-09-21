@@ -1,0 +1,1 @@
+BC with DWA 1000 episodes on map_empty (observations1000DWAMapEmptyBurger), burger robot

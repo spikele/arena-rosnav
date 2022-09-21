@@ -1,0 +1,5 @@
+trained with train_agent_sac_her, and with the reward function: reward_her
+with achieved goal: x,y,theta of robot_pose (global coordinates)
+and desired goal: x,y,theta of subgoal (global coordinates)
+(flatland_gym_env_her new 5)
+without actions in observation space
