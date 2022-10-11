@@ -3,7 +3,7 @@ from typing import Type, Union
 
 import os, sys, rospy, time
 
-from stable_baselines3 import SAC
+from sb3_contrib import TQC
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 from stable_baselines3.common.callbacks import (
     EvalCallback,
@@ -45,7 +45,6 @@ def main():
         load_target=args.load,
         config_name=args.config,
         n_envs=args.n_envs,
-        algorithm="sac"
     )
 
     # instantiate train environment
@@ -136,35 +135,25 @@ def main():
         #pol_kwargs = agent.get_kwargs()
         #pol_kwargs["share_features_extractor"] = True
         if isinstance(agent, BaseAgent):
-            for i in params:
-                print(i, params[i])
-            model = SAC(
+            model = TQC(
                 agent.type.value,
                 env,
                 #policy_kwargs=pol_kwargs,
                 policy_kwargs=agent.get_kwargs(),
-                #tau=1e-2,
-                #train_freq=params["n_steps"],
-                #gradient_steps=-1,
-                #learning_starts=0,
-                learning_rate=params["learning_rate"],
-                buffer_size=params["buffer_size"],
-                learning_starts=params["learning_starts"],
-                batch_size=params["m_batch_size"],
-                tau=params["tau"],
-                gamma=params["gamma"],
+                tau=1e-2,
                 train_freq=params["n_steps"],
-                gradient_steps=params["gradient_steps"],
-                action_noise=params["action_noise"],
-                replay_buffer_class=params["replay_buffer_class"],
-                replay_buffer_kwargs=params["replay_buffer_kwargs"],
-                optimize_memory_usage=params["optimize_memory_usage"],
-                ent_coef= params["ent_coef"],
-                target_update_interval=params["target_update_interval"],
-                target_entropy= params["target_entropy"],
-                use_sde=params["use_sde"],
-                sde_sample_freq=params["sde_sample_freq"],
-                use_sde_at_warmup=params["use_sde_at_warmup"],
+                gradient_steps=-1,
+                learning_starts=50000,
+                #gamma=params["gamma"],
+                #n_steps=params["n_steps"],
+                #ent_coef=params["ent_coef"],
+                #learning_rate=params["learning_rate"],
+                #vf_coef=params["vf_coef"],
+                #max_grad_norm=params["max_grad_norm"],
+                #gae_lambda=params["gae_lambda"],
+                #batch_size=params["m_batch_size"],
+                #n_epochs=params["n_epochs"],
+                #clip_range=params["clip_range"],
                 tensorboard_log=PATHS.get("tb"),
                 verbose=1,
             )
@@ -192,10 +181,10 @@ def main():
     else:
         # load flag
         if os.path.isfile(os.path.join(PATHS["model"], AGENT_NAME + ".zip")):
-            model = SAC.load(os.path.join(PATHS["model"], AGENT_NAME), env)
+            model = TQC.load(os.path.join(PATHS["model"], AGENT_NAME), env)
             
         elif os.path.isfile(os.path.join(PATHS["model"], "best_model.zip")):
-            model = SAC.load(os.path.join(PATHS["model"], "best_model"), env)
+            model = TQC.load(os.path.join(PATHS["model"], "best_model"), env)
         if os.path.isfile(os.path.join(PATHS["model"], "replay_buffer.pkl")):
             print("loading replay buffer")
             model.load_replay_buffer(os.path.join(PATHS["model"], "replay_buffer"))

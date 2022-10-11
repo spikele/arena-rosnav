@@ -56,7 +56,7 @@ Dict containing agent specific hyperparameter keys (for documentation and typing
 :key curr_stage: In case of staged training which stage to start with.
 """
 
-HYPERPARAM_KEYS = {
+HYPERPARAM_KEYS_PPO = {
     key: None
     for key in [
         "agent_name",
@@ -84,8 +84,44 @@ HYPERPARAM_KEYS = {
     ]
 }
 
+HYPERPARAM_KEYS_SAC = {
+    key: None
+    for key in [
+        "agent_name",
+        "robot",
+        "actions_in_observationspace",
+        "reward_fnc",
+        "discrete_action_space",
+        "normalize",
+        "task_mode",
+        "train_max_steps_per_episode",
+        "eval_max_steps_per_episode",
+        "goal_radius",
+        "curr_stage",
+        "batch_size",
+        "learning_rate",
+        "buffer_size",
+        "learning_starts",
+        "m_batch_size",
+        "tau",
+        "gamma",
+        "n_steps",
+        "gradient_steps",
+        "action_noise",
+        "replay_buffer_class",
+        "replay_buffer_kwargs",
+        "optimize_memory_usage",
+        "ent_coef",
+        "target_update_interval",
+        "target_entropy",
+        "use_sde",
+        "sde_sample_freq",
+        "use_sde_at_warmup",
+    ]
+}
 
-def initialize_hyperparameters(PATHS: dict, load_target: str, config_name: str = "default", n_envs: int = 1) -> dict:
+
+def initialize_hyperparameters(PATHS: dict, load_target: str, config_name: str = "default", n_envs: int = 1, algorithm: str ="ppo") -> dict:
     """
     Write hyperparameters to json file in case agent is new otherwise load existing hyperparameters
 
@@ -96,11 +132,11 @@ def initialize_hyperparameters(PATHS: dict, load_target: str, config_name: str =
     """
     # when building new agent
     if load_target is None:
-        hyperparams = load_hyperparameters_json(PATHS=PATHS, from_scratch=True, config_name=config_name)
+        hyperparams = load_hyperparameters_json(PATHS=PATHS, from_scratch=True, config_name=config_name, algorithm=algorithm)
         hyperparams["robot"] = rospy.get_param("model", "not specified")
         hyperparams["agent_name"] = PATHS["model"].split("/")[-1]
     else:
-        hyperparams = load_hyperparameters_json(PATHS=PATHS)
+        hyperparams = load_hyperparameters_json(PATHS=PATHS, algorithm=algorithm)
 
     if "actions_in_observationspace" not in hyperparams:
         hyperparams["actions_in_observationspace"] = False
@@ -135,7 +171,7 @@ def write_hyperparameters_json(hyperparams: dict, PATHS: dict) -> None:
         json.dump(hyperparams, target, ensure_ascii=False, indent=4)
 
 
-def load_hyperparameters_json(PATHS: dict, from_scratch: bool = False, config_name: str = "default") -> dict:
+def load_hyperparameters_json(PATHS: dict, from_scratch: bool = False, config_name: str = "default", algorithm: str ="ppo") -> dict:
     """
     Load hyperparameters from model directory when loading - when training from scratch
     load from ../configs/hyperparameters
@@ -152,7 +188,7 @@ def load_hyperparameters_json(PATHS: dict, from_scratch: bool = False, config_na
     if os.path.isfile(doc_location):
         with open(doc_location, "r") as file:
             hyperparams = json.load(file)
-        check_hyperparam_format(loaded_hyperparams=hyperparams, PATHS=PATHS)
+        check_hyperparam_format(loaded_hyperparams=hyperparams, PATHS=PATHS, algorithm=algorithm)
         return hyperparams
     else:
         if from_scratch:
@@ -189,13 +225,17 @@ def print_hyperparameters(hyperparams: dict) -> None:
     print("--------------------------------\n\n")
 
 
-def check_hyperparam_format(loaded_hyperparams: dict, PATHS: dict) -> None:
-    if set(HYPERPARAM_KEYS.keys()) != set(loaded_hyperparams.keys()):
-        missing_keys = set(HYPERPARAM_KEYS.keys()).difference(
+def check_hyperparam_format(loaded_hyperparams: dict, PATHS: dict, algorithm: str ="ppo") -> None:
+    if algorithm is "sac":
+        hyperparam_keys = HYPERPARAM_KEYS_SAC
+    else:
+        hyperparam_keys = HYPERPARAM_KEYS_PPO
+    if set(hyperparam_keys.keys()) != set(loaded_hyperparams.keys()):
+        missing_keys = set(hyperparam_keys.keys()).difference(
             set(loaded_hyperparams.keys())
         )
         redundant_keys = set(loaded_hyperparams.keys()).difference(
-            set(HYPERPARAM_KEYS.keys())
+            set(hyperparam_keys.keys())
         )
         if missing_keys.difference(set(["actions_in_observationspace"])):
             raise AssertionError(
@@ -369,6 +409,18 @@ def get_paths(agent_name: str, args: argparse.Namespace) -> dict:
         PATHS["tb"] = None
 
     return PATHS
+
+
+def get_buffer_path(args: argparse.Namespace) -> dict:
+    """
+    Function to generate path of the replay buffer that should be loaded
+
+    :param args (argparse.Namespace): Object containing the program arguments
+    """
+    dir = rospkg.RosPack().get_path("arena_local_planner_drl")
+    agent_name = args.load_replay_buffer
+
+    return os.path.join(dir, "agents", agent_name)
 
 
 def make_envs(

@@ -191,11 +191,11 @@ class RobotManager:
             # wait for aio global planner
             if self.planer == "aio":
                 rospy.wait_for_service("/global_planner/makeGlobalPlan")
-            else:
+            #else:
                 # Make sure move_base is ready to take goals/make plan
                 # possibly caused crashes
-                if not rospy.get_param("_dedicated_train_launch", default=False):
-                    rospy.wait_for_service("/move_base/make_plan")
+                #if not rospy.get_param("_dedicated_train_launch", default=False):
+                #    rospy.wait_for_service("/move_base/make_plan")
 
             try:
                 # publish the goal, if the gobal plath planner can't generate a path, a, exception will be raised.
@@ -248,8 +248,8 @@ class RobotManager:
         goal.pose.orientation.z = quaternion[3]
 
         # possibly caused crashes
-        if not rospy.get_param("_dedicated_train_launch", default=False):
-            rospy.wait_for_service("/move_base/make_plan")
+        #if not rospy.get_param("_dedicated_train_launch", default=False):
+        #    rospy.wait_for_service("/move_base/make_plan")
 
         self._goal_pub.publish(goal)
         # self._validate_path()

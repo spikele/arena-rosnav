@@ -62,6 +62,20 @@ def training_args(parser):
     )
 
 
+def off_policy_training_args(parser):
+    """off-policy algorithm arguments"""
+    parser.add_argument(
+        "--load_replay_buffer", type=str, help="name of the agent whose replay buffer should be loaded"
+    )
+
+
+def bc_training_args(parser):
+    """behaviour cloning training script arguments"""
+    parser.add_argument(
+        "--recording", type=str, default="observations100_ROSNAV_Jackal_EmptyMap", help="file name of the recording"
+    )
+
+
 def run_agent_args(parser):
     parser.add_argument(
         "--no-gpu", action="store_true", help="disables gpu for training"
@@ -168,6 +182,26 @@ def process_run_agent_args(parsed_args):
 def parse_training_args(args=None, ignore_unknown=False):
     """parser for training script"""
     arg_populate_funcs = [training_args, custom_mlp_args]
+    arg_check_funcs = [process_training_args]
+
+    return parse_various_args(
+        args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+    )
+
+
+def parse_off_policy_training_args(args=None, ignore_unknown=False):
+    """parser for training script"""
+    arg_populate_funcs = [training_args, custom_mlp_args, off_policy_training_args]
+    arg_check_funcs = [process_training_args]
+
+    return parse_various_args(
+        args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+    )
+
+
+def parse_bc_training_args(args=None, ignore_unknown=False):
+    """parser for training script"""
+    arg_populate_funcs = [training_args, custom_mlp_args, bc_training_args]
     arg_check_funcs = [process_training_args]
 
     return parse_various_args(

@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-from typing import Type, Union
+from typing import Any, Dict, List, Type, Union
+import warnings
+from abc import ABC, abstractmethod
+from typing import Callable, Optional
+
+import gym
+import numpy as np
 
 import os, sys, rospy, time
 
@@ -13,7 +19,7 @@ from stable_baselines3.common.policies import ActorCriticPolicy, BasePolicy
 
 from rl_agent.model.agent_factory import AgentFactory
 from rl_agent.model.base_agent import BaseAgent
-from tools.argsparser import parse_training_args
+from tools.argsparser import parse_bc_training_args
 from tools.custom_mlp_utils import *
 from tools.train_agent_utils import *
 from tools.staged_train_callback import InitiateNewTrainStage
@@ -27,7 +33,7 @@ import pickle
 import numpy as np
 
 def main():
-    args, _ = parse_training_args()
+    args, _ = parse_bc_training_args()
 
     # in debug mode, we emulate multiprocessing on only one process
     # in order to be better able to locate bugs
@@ -36,7 +42,7 @@ def main():
 
     # generate agent name and model specific paths
     #AGENT_NAME = get_agent_name(args)
-    AGENT_NAME = "BC_" + get_agent_name(args)
+    AGENT_NAME = "BC_" + args.recording + get_agent_name(args)
     PATHS = get_paths(AGENT_NAME, args)
 
     print("________ STARTING TRAINING WITH:  %s ________\n" % AGENT_NAME)
@@ -177,8 +183,10 @@ def main():
 
 
 
-
-    with open('/home/liam/observations/observations100_ROSNAV_Jackal_Map1.dictionary', 'rb') as file:
+    recording_path = "/home/liam/observations/" + args.recording + ".dictionary"
+    #with open('/home/liam/observations/observations100_ROSNAV_Jackal_Map1.dictionary', 'rb') as file:
+    #with open('/home/liam/observations/observations100_DWA_Jackal_EmptyMap1.dictionary', 'rb') as file:
+    with open(recording_path, 'rb') as file:
         #epoch = pickle.load(file)
         [epoch_obs, epoch_act] = pickle.load(file)
         print("number of episodes before trimming: " + str(len(epoch_obs)))
@@ -242,6 +250,33 @@ def main():
     # update the timesteps the model has trained in total
     # update_total_timesteps_json(n_timesteps, PATHS) """
 
+    is_success_buffer = []
+
+    def log_success_callback(locals_: Dict[str, Any], globals_: Dict[str, Any]) -> None:
+        """
+        Callback passed to the  ``evaluate_policy`` function
+        in order to log the success rate (when applicable),
+        for instance when using HER.
+
+        :param locals_:
+        :param globals_:
+        """
+        #print(locals_)
+        #print(locals_.keys())
+        info = locals_["info"]
+        #print(len(info))
+        #print(info[0].keys())
+        #print(info[1])
+        #print(info[0])
+        #print(type(info[0]))
+        #print(info[0].keys())        
+        if locals_["done"]:
+            maybe_is_success = info[0].get("is_success")
+            #print(maybe_is_success)
+            if maybe_is_success is not None:
+                is_success_buffer.append(maybe_is_success)
+
+
     bc_trainer = bc.BC(
         observation_space=env.observation_space,
         action_space=env.action_space,
@@ -250,16 +285,38 @@ def main():
     )
 
     # reward_before_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
-    #reward_before_training, _ = evaluate_policy(bc_trainer.policy, env, 10)
+    #reward_before_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 10)
     # print(f"Reward before training: {reward_before_training}")
 
     bc_trainer.train(n_epochs=15)
     #bc_trainer.train(n_epochs=10)
 
-    #reward_after_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
-    reward_after_training, _ = evaluate_policy(bc_trainer.policy, env, 10)
+    reward_after_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
+    #reward_after_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 10)
     # print(f"Reward before training: {reward_before_training}")
     print(f"Reward after training: {reward_after_training}")
+
+    is_success_buffer = []
+    episode_rewards, episode_lengths = evaluate_policy(
+                bc_trainer.policy,
+                eval_env,
+                n_eval_episodes=100,
+                #render=self.render,
+                deterministic=False,
+                return_episode_rewards=True,
+                warn=True,
+                callback=log_success_callback,
+            )
+    print(f"is_success_buffer size: {len(is_success_buffer)}")
+    print(f"episode_rewards after training: {episode_rewards}")
+    print(f"episode_lengths after training: {episode_lengths}")
+    mean_reward, std_reward = np.mean(episode_rewards), np.std(episode_rewards)
+    mean_ep_length, std_ep_length = np.mean(episode_lengths), np.std(episode_lengths)
+    print(f"Eval num_timesteps={100}, " f"episode_reward={mean_reward:.2f} +/- {std_reward:.2f}")
+    print(f"Episode length: {mean_ep_length:.2f} +/- {std_ep_length:.2f}")
+    if len(is_success_buffer) > 0:
+        success_rate = np.mean(is_success_buffer)
+        print(f"Success rate: {100 * success_rate:.2f}%")
 
     #print(bc_trainer.policy)
     #print(model.policy)
