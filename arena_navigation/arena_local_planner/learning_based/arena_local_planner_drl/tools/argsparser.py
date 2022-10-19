@@ -76,6 +76,13 @@ def bc_training_args(parser):
     )
 
 
+def dagger_training_args(parser):
+    """dagger training script arguments"""
+    parser.add_argument(
+        "--expert", type=str, help="name of the agent who will be used as expert for dagger", required=True
+    )
+
+
 def run_agent_args(parser):
     parser.add_argument(
         "--no-gpu", action="store_true", help="disables gpu for training"
@@ -202,6 +209,16 @@ def parse_off_policy_training_args(args=None, ignore_unknown=False):
 def parse_bc_training_args(args=None, ignore_unknown=False):
     """parser for training script"""
     arg_populate_funcs = [training_args, custom_mlp_args, bc_training_args]
+    arg_check_funcs = [process_training_args]
+
+    return parse_various_args(
+        args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+    )
+
+
+def parse_dagger_training_args(args=None, ignore_unknown=False):
+    """parser for training script"""
+    arg_populate_funcs = [training_args, custom_mlp_args, bc_training_args, dagger_training_args]
     arg_check_funcs = [process_training_args]
 
     return parse_various_args(

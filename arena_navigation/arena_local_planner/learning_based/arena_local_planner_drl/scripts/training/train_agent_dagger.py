@@ -19,7 +19,7 @@ from stable_baselines3.common.policies import ActorCriticPolicy, BasePolicy
 
 from rl_agent.model.agent_factory import AgentFactory
 from rl_agent.model.base_agent import BaseAgent
-from tools.argsparser import parse_bc_training_args
+from tools.argsparser import parse_dagger_training_args
 from tools.custom_mlp_utils import *
 from tools.train_agent_utils import *
 from tools.staged_train_callback import InitiateNewTrainStage
@@ -28,12 +28,14 @@ from tools.staged_train_callback import InitiateNewTrainStage
 # NEW IMPORTS:
 from imitation.algorithms import bc
 from imitation.data import types
+from imitation.algorithms.dagger import SimpleDAggerTrainer
+import tempfile
 from stable_baselines3.common.evaluation import evaluate_policy
 import pickle
 import numpy as np
 
 def main():
-    args, _ = parse_bc_training_args()
+    args, _ = parse_dagger_training_args()
 
     # in debug mode, we emulate multiprocessing on only one process
     # in order to be better able to locate bugs
@@ -71,17 +73,6 @@ def main():
     else:
         env = DummyVecEnv([make_envs(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)])
 
-    # threshold settings for training curriculum
-    # type can be either 'succ' or 'rew'
-    """ trainstage_cb = InitiateNewTrainStage(
-        n_envs=args.n_envs,
-        treshhold_type="succ",
-        upper_threshold=0.9,
-        lower_threshold=0.7,
-        task_mode=params["task_mode"],
-        verbose=1,
-    ) """
-
     # stop training on reward threshold callback
     """ stoptraining_cb = StopTrainingOnRewardThreshold(treshhold_type="succ", threshold=0.95, verbose=1) """
 
@@ -94,21 +85,6 @@ def main():
 
     # try to load most recent vec_normalize obj (contains statistics like moving avg)
     env, eval_env = load_vec_normalize(params, PATHS, env, eval_env)
-
-    # evaluation settings
-    # n_eval_episodes: number of episodes to evaluate agent on
-    # eval_freq: evaluate the agent every eval_freq train timesteps
-    """ eval_cb = EvalCallback(
-        eval_env=eval_env,
-        train_env=env,
-        n_eval_episodes=100,
-        eval_freq=15000,
-        log_path=PATHS["eval"],
-        best_model_save_path=PATHS["model"],
-        deterministic=True,
-        callback_on_eval_end=trainstage_cb,
-        callback_on_new_best=stoptraining_cb,
-    ) """
     
     # determine mode
     if args.custom_mlp:
@@ -173,18 +149,18 @@ def main():
             )
     else:
         # load flag
-        if os.path.isfile(os.path.join(PATHS["model"], AGENT_NAME + ".zip")):
-            model = PPO.load(os.path.join(PATHS["model"], AGENT_NAME), env)
-        elif os.path.isfile(os.path.join(PATHS["model"], "best_model.zip")):
-            model = PPO.load(os.path.join(PATHS["model"], "best_model"), env)
-        update_hyperparam_model(model, PATHS, params, args.n_envs)
+        raise Exception("Load is not possible with Imitation Learning")
 
 
+    EXPERT_PATH = get_expert_path(args)
+    if os.path.isfile(os.path.join(EXPERT_PATH, args.expert + ".zip")):
+        expert_model = PPO.load(os.path.join(EXPERT_PATH, args.expert), env)
+    elif os.path.isfile(os.path.join(EXPERT_PATH, "best_model.zip")):
+        expert_model = PPO.load(os.path.join(EXPERT_PATH, "best_model"), env)
 
 
 
     recording_path = "/home/liam/observations/" + args.recording + ".dictionary"
-    print(recording_path)
     #with open('/home/liam/observations/observations100_ROSNAV_Jackal_Map1.dictionary', 'rb') as file:
     #with open('/home/liam/observations/observations100_DWA_Jackal_EmptyMap1.dictionary', 'rb') as file:
     with open(recording_path, 'rb') as file:
@@ -235,21 +211,8 @@ def main():
         terminal = False
     )] """
 
-    # set num of timesteps to be generated
-    """ n_timesteps = 40000000 if args.n is None else args.n """
     # start training
     start = time.time()
-    """ try:
-        model.learn(
-            total_timesteps=n_timesteps,
-            callback=eval_cb,
-            reset_num_timesteps=True,
-        )
-    except KeyboardInterrupt:
-        print("KeyboardInterrupt..")
-    # finally:
-    # update the timesteps the model has trained in total
-    # update_total_timesteps_json(n_timesteps, PATHS) """
 
     is_success_buffer = []
 
@@ -263,26 +226,7 @@ def main():
         :param locals_:
         :param globals_:
         """
-        #print(locals_)
-
-        #print(locals_.keys())
-        #print(locals_["info"].keys())
-        #print(len(locals_["infos"]))
-        #print(locals_["done"])
-        #print(len(locals_["info"]))
-        #print(locals_["info"].keys())
-
-        #info = locals_["info"]
-        #print(len(info))
-        #print(info[0].keys())
-        #print(info[1])
-        #print(info[0])
-        #print(info[0].keys())        
         if locals_["done"]:
-            #print(type(info[0]))
-            #print(len(info[0]))
-            #print(info[0].keys())
-            #maybe_is_success = info[0].get("is_success")
             maybe_is_success = locals_["info"]["is_success"]
             print("maybe is success: " + str(maybe_is_success))
             if maybe_is_success is not None:
@@ -296,18 +240,24 @@ def main():
         demonstrations=transitions,
     )
 
-    # reward_before_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
-    # print(f"Reward before training: {reward_before_training}")
+    rng = np.random.default_rng(0)
+    with tempfile.TemporaryDirectory(prefix="dagger_example_") as tmpdir:
+        print(tmpdir)
+        dagger_trainer = SimpleDAggerTrainer(
+            venv=env,
+            scratch_dir=tmpdir,
+            expert_policy=expert_model,
+            bc_trainer=bc_trainer,
+            rng=rng,
+        )
+        dagger_trainer.train(10000)
 
-    bc_trainer.train(n_epochs=15)
-
-    #reward_after_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
-    # print(f"Reward before training: {reward_before_training}")
-    #print(f"Reward after training: {reward_after_training}")
+    reward_after_training, _ = evaluate_policy(dagger_trainer.policy, eval_env, 100)
+    print(f"Reward after training: {reward_after_training}")
 
     is_success_buffer = []
     episode_rewards, episode_lengths = evaluate_policy(
-                bc_trainer.policy,
+                dagger_trainer.policy,
                 eval_env,
                 n_eval_episodes=100,
                 #render=self.render,
@@ -330,7 +280,7 @@ def main():
     else:
         model_path = PATHS["model"]
 
-    model.policy = bc_trainer.policy
+    model.policy = dagger_trainer.policy
 
     os.makedirs(model_path, exist_ok=True)
     path = os.path.join(model_path, "best_model")

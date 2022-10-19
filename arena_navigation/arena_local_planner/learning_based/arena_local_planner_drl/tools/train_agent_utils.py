@@ -106,6 +106,7 @@ HYPERPARAM_KEYS_SAC = {
         "tau",
         "gamma",
         "n_steps",
+        "train_freq",
         "gradient_steps",
         "action_noise",
         "replay_buffer_class",
@@ -226,7 +227,7 @@ def print_hyperparameters(hyperparams: dict) -> None:
 
 
 def check_hyperparam_format(loaded_hyperparams: dict, PATHS: dict, algorithm: str ="ppo") -> None:
-    if algorithm is "sac":
+    if algorithm == "sac":
         hyperparam_keys = HYPERPARAM_KEYS_SAC
     else:
         hyperparam_keys = HYPERPARAM_KEYS_PPO
@@ -409,6 +410,18 @@ def get_paths(agent_name: str, args: argparse.Namespace) -> dict:
         PATHS["tb"] = None
 
     return PATHS
+
+
+def get_expert_path(args: argparse.Namespace) -> dict:
+    """
+    Function to generate path of the replay buffer that should be loaded
+
+    :param args (argparse.Namespace): Object containing the program arguments
+    """
+    dir = rospkg.RosPack().get_path("arena_local_planner_drl")
+    agent_name = args.expert
+
+    return os.path.join(dir, "agents", agent_name)
 
 
 def get_buffer_path(args: argparse.Namespace) -> dict:
