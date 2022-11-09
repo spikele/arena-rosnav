@@ -3,7 +3,7 @@ from typing import Type, Union
 
 import os, sys, rospy, time
 
-from stable_baselines3 import PPO
+from stable_baselines3 import SAC, HerReplayBuffer
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 from stable_baselines3.common.callbacks import (
     EvalCallback,
@@ -11,16 +11,17 @@ from stable_baselines3.common.callbacks import (
 )
 from stable_baselines3.common.policies import ActorCriticPolicy, BasePolicy
 
-from rl_agent.model.agent_factory import AgentFactory
+from rl_agent.model.agent_factory_her import AgentFactoryHER
+from rl_agent.model.agent_factory_sac import AgentFactorySAC
 from rl_agent.model.base_agent import BaseAgent
-from tools.argsparser import parse_training_args
+from tools.argsparser import parse_off_policy_training_args
 from tools.custom_mlp_utils import *
 from tools.train_agent_utils import *
 from tools.staged_train_callback import InitiateNewTrainStage
 
 
 def main():
-    args, _ = parse_training_args()
+    args, _ = parse_off_policy_training_args()
 
     # in debug mode, we emulate multiprocessing on only one process
     # in order to be better able to locate bugs
@@ -45,17 +46,18 @@ def main():
         load_target=args.load,
         config_name=args.config,
         n_envs=args.n_envs,
+        algorithm="sac"
     )
 
     # instantiate train environment
     # when debug run on one process only
     if not args.debug and ns_for_nodes:
         env = SubprocVecEnv(
-            [make_envs(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)],
+            [make_envs_her(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)],
             start_method="fork",
         )
     else:
-        env = DummyVecEnv([make_envs(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)])
+        env = DummyVecEnv([make_envs_her(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)])
 
     # threshold settings for training curriculum
     # type can be either 'succ' or 'rew'
@@ -78,7 +80,7 @@ def main():
     if ns_for_nodes:
         eval_env = DummyVecEnv(
             [
-                make_envs(
+                make_envs_her(
                     args,
                     ns_for_nodes,
                     0,
@@ -101,9 +103,10 @@ def main():
         eval_env=eval_env,
         train_env=env,
         n_eval_episodes=100,
-        eval_freq=15000,
+        eval_freq=15000*4,
         log_path=PATHS["eval"],
         best_model_save_path=PATHS["model"],
+        save_replay_buffer=True,
         deterministic=True,
         callback_on_eval_end=trainstage_cb,
         callback_on_new_best=stoptraining_cb,
@@ -112,7 +115,7 @@ def main():
     # determine mode
     if args.custom_mlp:
         # custom mlp flag
-        model = PPO(
+        """model = PPO(
             "MlpPolicy",
             env,
             policy_kwargs=dict(net_arch=args.net_arch, activation_fn=get_act_fn(args.act_fn)),
@@ -128,29 +131,49 @@ def main():
             clip_range=params["clip_range"],
             tensorboard_log=PATHS["tb"],
             verbose=1,
-        )
+        )"""
     elif args.agent is not None:
-        agent: Union[Type[BaseAgent], Type[ActorCriticPolicy]] = AgentFactory.instantiate(args.agent)
+        agent: Union[Type[BaseAgent], Type[ActorCriticPolicy]] = AgentFactoryHER.instantiate(args.agent)
+        #pol_kwargs = agent.get_kwargs()
+        #pol_kwargs["share_features_extractor"] = True
         if isinstance(agent, BaseAgent):
-            model = PPO(
+            model = SAC(
                 agent.type.value,
                 env,
+                #policy_kwargs=pol_kwargs,
                 policy_kwargs=agent.get_kwargs(),
-                gamma=params["gamma"],
-                n_steps=params["n_steps"],
-                ent_coef=params["ent_coef"],
+                #tau=1e-2,
+                #train_freq=params["n_steps"],
+                #gradient_steps=-1,
+                #learning_starts=10000,
                 learning_rate=params["learning_rate"],
-                vf_coef=params["vf_coef"],
-                max_grad_norm=params["max_grad_norm"],
-                gae_lambda=params["gae_lambda"],
+                buffer_size=params["buffer_size"],
+                learning_starts=params["learning_starts"],
                 batch_size=params["m_batch_size"],
-                n_epochs=params["n_epochs"],
-                clip_range=params["clip_range"],
+                tau=params["tau"],
+                gamma=params["gamma"],
+                train_freq=params["train_freq"],
+                gradient_steps=params["gradient_steps"],
+                action_noise=params["action_noise"],
+                replay_buffer_class=HerReplayBuffer,
+                replay_buffer_kwargs=dict(
+                    n_sampled_goal=4,
+                    goal_selection_strategy='future',
+                    online_sampling=True,
+                    max_episode_length=params["train_max_steps_per_episode"],
+                ),
+                optimize_memory_usage=params["optimize_memory_usage"],
+                ent_coef=params["ent_coef"],
+                target_update_interval=params["target_update_interval"],
+                target_entropy= params["target_entropy"],
+                use_sde=params["use_sde"],
+                sde_sample_freq=params["sde_sample_freq"],
+                use_sde_at_warmup=params["use_sde_at_warmup"],
                 tensorboard_log=PATHS.get("tb"),
                 verbose=1,
             )
         elif issubclass(agent, ActorCriticPolicy):
-            model = PPO(
+            """model = PPO(
                 agent,
                 env,
                 gamma=params["gamma"],
@@ -165,7 +188,7 @@ def main():
                 clip_range=params["clip_range"],
                 tensorboard_log=PATHS.get("tb"),
                 verbose=1,
-            )
+            )"""
         else:
             raise TypeError(
                 f"Registered agent class {args.agent} is neither of type" "'BaseAgent' or 'ActorCriticPolicy'!"
@@ -173,12 +196,24 @@ def main():
     else:
         # load flag
         if os.path.isfile(os.path.join(PATHS["model"], AGENT_NAME + ".zip")):
-            model = PPO.load(os.path.join(PATHS["model"], AGENT_NAME), env)
+            model = SAC.load(os.path.join(PATHS["model"], AGENT_NAME), env)
+            
         elif os.path.isfile(os.path.join(PATHS["model"], "best_model.zip")):
-            model = PPO.load(os.path.join(PATHS["model"], "best_model"), env)
-        update_hyperparam_model(model, PATHS, params, args.n_envs)
+            model = SAC.load(os.path.join(PATHS["model"], "best_model"), env)
+        if os.path.isfile(os.path.join(PATHS["model"], "replay_buffer.pkl")):
+            print("loading replay buffer")
+            model.load_replay_buffer(os.path.join(PATHS["model"], "replay_buffer"))
+            print("finished loading replay buffer")
+        # update_hyperparam_model(model, PATHS, params, args.n_envs)
+
+    if args.load_replay_buffer is not None:
+        BUFFER_PATH = get_buffer_path(args)
+        print("loading replay buffer")
+        model.load_replay_buffer(os.path.join(BUFFER_PATH, "replay_buffer"))
+        print("finished loading replay buffer")
 
     print(model.policy)
+    print(model.policy.share_features_extractor)
 
     # set num of timesteps to be generated
     n_timesteps = 40000000 if args.n is None else args.n

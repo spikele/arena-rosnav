@@ -57,8 +57,12 @@ class ObservationCollector:
         else:
             self.ns_prefix = "/" + ns + "/"
 
-        self._action_in_obs = rospy.get_param("actions_in_obs", default=False)
-        print(self._action_in_obs)
+        self._action_in_obs = rospy.get_param(
+            "actions_in_obs",
+            #default=False
+        )
+        for i in range(20):
+            print("ACTIONS IN OBSERVATION SPACE:" + str(self._action_in_obs))
 
         # define observation_space
         if not self._action_in_obs:
@@ -160,7 +164,7 @@ class ObservationCollector:
             # self.ts = message_filters.TimeSynchronizer([self._scan_sub, self._robot_state_sub], 10)
             self.ts.registerCallback(self.callback_odom_scan)
         else:
-            self._scan_sub = rospy.Subscriber(
+            self._scan_sub = rospy.Subscriber(#CORRECT
                 #f"{self.ns_prefix}scan",
                 f"/scan",
                 LaserScan,
@@ -168,7 +172,7 @@ class ObservationCollector:
                 tcp_nodelay=True,
             )
 
-            self._robot_state_sub = rospy.Subscriber(
+            self._robot_state_sub = rospy.Subscriber(#CORRECT
                 #f"{self.ns_prefix}odom",
                 f"/odom",
                 Odometry,
@@ -179,7 +183,7 @@ class ObservationCollector:
         # self._clock_sub = rospy.Subscriber(
         #     f'{self.ns_prefix}clock', Clock, self.callback_clock, tcp_nodelay=True)
 
-        self._subgoal_sub = rospy.Subscriber(
+        self._subgoal_sub = rospy.Subscriber(#CORRECT
             #f"{self.ns_prefix}subgoal", PoseStamped, self.callback_subgoal
             f"/subgoal", PoseStamped, self.callback_subgoal
         )
@@ -188,14 +192,15 @@ class ObservationCollector:
         print(obs_topic)
         print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
-        self._globalplan_sub = rospy.Subscriber(
+        self._globalplan_sub = rospy.Subscriber(#TODO SHOULD BE /kino_astar_path!!!!!!!!!!!!!!!!!!!!!!!!
             #f"{self.ns_prefix}globalPlan", Path, self.callback_global_plan
             #f"/move_base/DWAPlannerROS/global_plan", Path, self.callback_global_plan
-            obs_topic, Path, self.callback_global_plan
+            #obs_topic, Path, self.callback_global_plan
+            "/kino_astar_path", Path, self.callback_global_plan
         )
     
         # new by liam
-        self._cmd_vel_sub = rospy.Subscriber(
+        self._cmd_vel_sub = rospy.Subscriber(#CORRECT
             f"/cmd_vel", Twist, self.callback_cmd_vel
         )
 

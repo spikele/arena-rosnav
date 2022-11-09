@@ -158,3 +158,11 @@ class AGENT_24(BaseAgent):
     features_extractor_kwargs = dict(features_dim=512)
     net_arch = [128, 64, 64]
     activation_fn = nn.ReLU
+
+@AgentFactory.register("AGENT_24_FrameStack")
+class AGENT_24(BaseAgent):
+    type = PolicyType.CNN
+    features_extractor_class = EXTRACTOR_6_FrameStack
+    features_extractor_kwargs = dict(features_dim=512)
+    net_arch = [128, dict(pi=[64, 64], vf=[64, 64])]
+    activation_fn = nn.ReLU

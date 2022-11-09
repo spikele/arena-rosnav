@@ -32,6 +32,12 @@ from stable_baselines3.common.evaluation import evaluate_policy
 import pickle
 import numpy as np
 
+import matplotlib.pyplot as plt
+
+RECORDINGS_DIR = os.path.join(
+    rospkg.RosPack().get_path("arena_local_planner_drl"), "recordings"
+)
+
 def main():
     args, _ = parse_bc_training_args()
 
@@ -42,7 +48,7 @@ def main():
 
     # generate agent name and model specific paths
     #AGENT_NAME = get_agent_name(args)
-    AGENT_NAME = "BC_" + args.recording + get_agent_name(args)
+    AGENT_NAME = "BC_" + get_agent_name(args) + args.recording
     PATHS = get_paths(AGENT_NAME, args)
 
     print("________ STARTING TRAINING WITH:  %s ________\n" % AGENT_NAME)
@@ -183,7 +189,8 @@ def main():
 
 
 
-    recording_path = "/home/liam/observations/" + args.recording + ".dictionary"
+    #recording_path = "/home/liam/observations/" + args.recording + ".dictionary"
+    recording_path = os.path.join(RECORDINGS_DIR, args.recording + ".dictionary")
     print(recording_path)
     #with open('/home/liam/observations/observations100_ROSNAV_Jackal_Map1.dictionary', 'rb') as file:
     #with open('/home/liam/observations/observations100_DWA_Jackal_EmptyMap1.dictionary', 'rb') as file:
@@ -262,48 +269,155 @@ def main():
 
         :param locals_:
         :param globals_:
-        """
-        #print(locals_)
-
-        #print(locals_.keys())
-        #print(locals_["info"].keys())
-        #print(len(locals_["infos"]))
-        #print(locals_["done"])
-        #print(len(locals_["info"]))
-        #print(locals_["info"].keys())
-
-        #info = locals_["info"]
-        #print(len(info))
-        #print(info[0].keys())
-        #print(info[1])
-        #print(info[0])
-        #print(info[0].keys())        
+        """     
         if locals_["done"]:
-            #print(type(info[0]))
-            #print(len(info[0]))
-            #print(info[0].keys())
-            #maybe_is_success = info[0].get("is_success")
             maybe_is_success = locals_["info"]["is_success"]
-            print("maybe is success: " + str(maybe_is_success))
+            #print("maybe is success: " + str(maybe_is_success))
             if maybe_is_success is not None:
                 is_success_buffer.append(maybe_is_success)
+                #print("buffer length: " + str(len(is_success_buffer)))
+
+    def eval_callback() -> None:
+        is_success_buffer_2 = []
+
+        def log_success_callback2(locals_: Dict[str, Any], globals_: Dict[str, Any]) -> None:
+            """
+            Callback passed to the  ``evaluate_policy`` function
+            in order to log the success rate (when applicable),
+            for instance when using HER.
+
+            :param locals_:
+            :param globals_:
+            """     
+            if locals_["done"]:
+                maybe_is_success = locals_["info"]["is_success"]
+                #print("maybe is success: " + str(maybe_is_success))
+                if maybe_is_success is not None:
+                    is_success_buffer_2.append(maybe_is_success)
+                    #print("buffer length: " + str(len(is_success_buffer_2)))
+
+        episode_rewards, episode_lengths = evaluate_policy(
+            bc_trainer.policy,
+            eval_env,
+            n_eval_episodes=100,
+            #render=self.render,
+            deterministic=False,
+            return_episode_rewards=True,
+            warn=True,
+            callback=log_success_callback2,
+        )
+        #print(f"is_success_buffer size: {len(is_success_buffer)}")
+        #print(f"episode_rewards after training: {episode_rewards}")
+        #print(f"episode_lengths after training: {episode_lengths}")
+        mean_reward, std_reward = np.mean(episode_rewards), np.std(episode_rewards)
+        mean_ep_length, std_ep_length = np.mean(episode_lengths), np.std(episode_lengths)
+        #print(f"Eval num_timesteps={100}, " f"episode_reward={mean_reward:.2f} +/- {std_reward:.2f}")
+        #print(f"Episode length: {mean_ep_length:.2f} +/- {std_ep_length:.2f}")
+        if len(is_success_buffer_2) > 0:
+            success_rate = np.mean(is_success_buffer_2)
+            #print(f"Success rate: {100 * success_rate:.2f}%")
+        else:
+            success_rate = -1
+        
+        eval_list.append({
+            "mean_reward": mean_reward,
+            "std_reward": std_reward,
+            "mean_ep_length": mean_ep_length,
+            "std_ep_length": std_ep_length,
+            "success_rate": success_rate,
+            #"sr_buffer_length": len(is_success_buffer_2)
+        })
+        
 
 
+    rng = np.random.default_rng(0)
     bc_trainer = bc.BC(
         observation_space=env.observation_space,
         action_space=env.action_space,
         policy=model.policy,
         demonstrations=transitions,
+        rng=rng,
     )
 
     # reward_before_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
     # print(f"Reward before training: {reward_before_training}")
 
-    bc_trainer.train(n_epochs=15)
+
+    BC_epochs = 15
+
+    eval_list = []
+
+    bc_trainer.train(
+        n_epochs=BC_epochs,
+        #on_epoch_end=eval_callback
+    )
 
     #reward_after_training, _ = evaluate_policy(bc_trainer.policy, eval_env, 100)
     # print(f"Reward before training: {reward_before_training}")
     #print(f"Reward after training: {reward_after_training}")
+
+    """x = [i for i in range(BC_epochs)]
+    #print("x: " + str(x))
+
+    success_rates = [eval_result["success_rate"] for eval_result in eval_list]
+    #print("success_rates" + str(success_rates))
+    #plt.figure(1)
+    plt.plot(x, success_rates)
+    plt.xlabel("Epoch")
+    plt.ylabel("Success Rate")
+    plt.title("Success Rates")
+    plt.savefig(os.path.join(PATHS["model"], "success_rates.png"))
+    plt.show()
+
+
+    mean_rewards = [eval_result["mean_reward"] for eval_result in eval_list]
+    std_rewards = [eval_result["std_reward"] for eval_result in eval_list]
+    #print("mean_rewards" + str(mean_rewards))
+    #plt.figure(2)
+    fig, ax = plt.subplots()
+    ax.fill_between(x, np.add(mean_rewards, std_rewards), np.subtract(mean_rewards, std_rewards), alpha=.5, linewidth=0)
+    ax.plot(x, mean_rewards)
+    #plt.errorbar(x, mean_rewards, std_rewards)
+    plt.xlabel("Epoch")
+    plt.ylabel("Mean Reward")
+    plt.title("Rewards")
+    plt.savefig(os.path.join(PATHS["model"], "rewards.png"))
+    plt.show()
+
+
+    mean_ep_lengths = [eval_result["mean_ep_length"] for eval_result in eval_list]
+    std_ep_lengths = [eval_result["std_ep_length"] for eval_result in eval_list]
+    #print("mean_ep_lengths" + str(mean_ep_lengths))
+    #plt.figure(3)
+    fig, ax = plt.subplots()
+    ax.fill_between(x, np.add(mean_ep_lengths, std_ep_lengths), np.subtract(mean_ep_lengths, std_ep_lengths), alpha=.5, linewidth=0)
+    ax.plot(x, mean_ep_lengths)
+    #plt.errorbar(x, mean_ep_lengths, std_ep_lengths)
+    plt.xlabel("Epoch")
+    plt.ylabel("Mean Episode Length")
+    plt.title("Episode Lengths")
+    plt.savefig(os.path.join(PATHS["model"], "ep_lengths.png"))
+    plt.show()
+
+
+    i = 1
+    for eval_results in eval_list:
+        mean_reward = eval_results["mean_reward"]
+        std_reward = eval_results["std_reward"]
+        mean_ep_length = eval_results["mean_ep_length"]
+        std_ep_length = eval_results["std_ep_length"]
+        success_rate = eval_results["success_rate"]
+        #sr_buffer_length = eval_results["sr_buffer_length"]
+        print(f"After {i} epoch(s):")
+        i += 1
+        print(f"Eval num_timesteps={100}, " f"episode_reward={mean_reward:.2f} +/- {std_reward:.2f}")
+        print(f"Episode length: {mean_ep_length:.2f} +/- {std_ep_length:.2f}")
+        print(f"Success rate: {100 * success_rate:.2f}%")
+        #print(f"Success buffer length: {sr_buffer_length:.2f}")"""
+
+
+    time_before_eval = time.time()-start
+    print(f"Time passed before eval: {time_before_eval}s")
 
     is_success_buffer = []
     episode_rewards, episode_lengths = evaluate_policy(
@@ -326,20 +440,39 @@ def main():
     if len(is_success_buffer) > 0:
         success_rate = np.mean(is_success_buffer)
         print(f"Success rate: {100 * success_rate:.2f}%")
-        model_path = PATHS["model"] + "SR" + str(success_rate)
     else:
-        model_path = PATHS["model"]
+        success_rate = 0
 
     model.policy = bc_trainer.policy
 
-    os.makedirs(model_path, exist_ok=True)
-    path = os.path.join(model_path, "best_model")
+    os.makedirs(PATHS["model"], exist_ok=True)
+    path = os.path.join(PATHS["model"], "best_model")
     model.save(path)
     print(f"Saved model to {path}")
 
+    WORLD_PATH_PARAM = rospy.get_param("world_path")
+    MAP = os.path.split(os.path.split(WORLD_PATH_PARAM)[0])[1]
+    print(MAP)
 
     env.close()
-    print(f"Time passed: {time.time()-start}s")
+    time_after_eval = time.time()-start
+    print(f"Time passed after eval: {time_after_eval}s")
+
+    info_dict = {
+        "success_rate": str(success_rate),
+        "mean_reward": str(mean_reward),
+        "map": MAP,
+        "recording": args.recording, 
+        "time_before_eval": time_before_eval,
+        "time_after_eval": time_after_eval,
+        "BC_epochs": BC_epochs,
+    }
+    #os.makedirs(os.path.join(PATHS["model"], "info.json"))
+    with open(os.path.join(PATHS["model"], "info.json"), "w") as info_file:
+        json.dump(info_dict, info_file, indent=4)
+    #os.makedirs(os.path.join(PATHS["model"], "info_SR"+str(success_rate)+"_MR"+str(mean_reward)+"_MAP"+MAP), exist_ok=True)
+    print("created info file")
+
     print("Training script will be terminated")
     sys.exit()
 

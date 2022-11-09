@@ -4,7 +4,7 @@ from typing import Type, Union
 import os, sys, rospy, time
 
 from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
+from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv, VecFrameStack
 from stable_baselines3.common.callbacks import (
     EvalCallback,
     StopTrainingOnRewardThreshold,
@@ -93,6 +93,10 @@ def main():
 
     # try to load most recent vec_normalize obj (contains statistics like moving avg)
     env, eval_env = load_vec_normalize(params, PATHS, env, eval_env)
+
+
+    env = VecFrameStack(env, 4)
+    eval_env = VecFrameStack(eval_env, 4)
 
     # evaluation settings
     # n_eval_episodes: number of episodes to evaluate agent on

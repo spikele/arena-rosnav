@@ -12,7 +12,7 @@
   <group if="$(eval arg('train_mode') == false)">
     <!-- run_agent -->
     <!-- <node name="DRL_local_planner" pkg="arena_local_planner_drl" type="drl_agent_real_node.py" args="$(arg agent_name)" output="screen"/> -->
-    <node name="record_local_planner" pkg="arena_local_planner_drl" type="record_agent_node.py" args="$(arg agent_name) /move_base/DWAPlannerROS/global_plan" output="log"/>
+    <node name="record_local_planner" pkg="arena_local_planner_drl" type="record_agent_node.py" args="$(arg agent_name) DWA" output="screen"/>
 
     <!-- action_publisher -->
     <!-- makes sure that drl actions will be published according to sim time in eval mode -->

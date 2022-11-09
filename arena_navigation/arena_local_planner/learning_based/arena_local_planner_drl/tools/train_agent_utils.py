@@ -81,6 +81,7 @@ HYPERPARAM_KEYS_PPO = {
         "m_batch_size",
         "n_epochs",
         "clip_range",
+        "seed",
     ]
 }
 
@@ -118,11 +119,12 @@ HYPERPARAM_KEYS_SAC = {
         "use_sde",
         "sde_sample_freq",
         "use_sde_at_warmup",
+        "seed",
     ]
 }
 
 
-def initialize_hyperparameters(PATHS: dict, load_target: str, config_name: str = "default", n_envs: int = 1, algorithm: str ="ppo") -> dict:
+def initialize_hyperparameters(PATHS: dict, load_target: str, config_name: str = "default", n_envs: int = 1, algorithm: str = "ppo") -> dict:
     """
     Write hyperparameters to json file in case agent is new otherwise load existing hyperparameters
 
@@ -441,7 +443,7 @@ def make_envs(
     with_ns: bool,
     rank: int,
     params: dict,
-    seed: int = 0,
+    # seed: int = 0,
     PATHS: dict = None,
     train: bool = True,
 ):
@@ -451,12 +453,14 @@ def make_envs(
     :param with_ns: (bool) if the system was initialized with namespaces
     :param rank: (int) index of the subprocess
     :param params: (dict) hyperparameters of agent to be trained
-    :param seed: (int) the inital seed for RNG
+    # :param seed: (int) the inital seed for RNG
     :param PATHS: (dict) script relevant paths
     :param train: (bool) to differentiate between train and eval env
     :param args: (Namespace) program arguments
     :return: (Callable)
     """
+
+    seed = params["seed"]
 
     def _init() -> Union[gym.Env, gym.Wrapper]:
         train_ns = f"sim_{rank+1}" if with_ns else ""

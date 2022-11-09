@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
 import os
 import pickle
-from typing_extensions import Self
 import rospy
 import rospkg
 import sys
 from datetime import datetime as dt
 
-#from stable_baselines3 import PPO
+from stable_baselines3 import PPO
 
 from flatland_msgs.srv import StepWorld, StepWorldRequest
 from rospy.exceptions import ROSException
 from std_msgs.msg import Int16, Bool
 
-from rl_agent.record_agent_wrapper import BaseRecordAgent
-
+from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 robot_model = rospy.get_param("model")
 """ TEMPORARY GLOBAL CONSTANTS """
@@ -32,11 +30,10 @@ RECORDINGS_DIR = os.path.join(
 )
 
 
-class DeploymentRecordAgent(BaseRecordAgent):
+class DeploymentDRLAgent(BaseDRLAgent):
     def __init__(
         self,
         agent_name: str,
-        planner_name: str,
         ns: str = None,
         robot_name: str = None,
         action_space_path: str = DEFAULT_ACTION_SPACE,
@@ -71,11 +68,9 @@ class DeploymentRecordAgent(BaseRecordAgent):
 
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
-            rospy.init_node(f"Record_local_planner", anonymous=True)
+            rospy.init_node(f"DRL_local_planner", anonymous=True)
 
-        #self.name = agent_name
-        self.name = "BC_AGENT_24_untrained"
-        #self.name = "BC_AGENT_24_untrained_AIOS"
+        self.name = agent_name
 
         hyperparameter_path = os.path.join(
             TRAINED_MODELS_DIR, self.name, "hyperparameters.json"
@@ -85,9 +80,8 @@ class DeploymentRecordAgent(BaseRecordAgent):
             robot_name,
             hyperparameter_path,
             action_space_path,
-            planner_name
         )
-        #self.setup_agent()
+        self.setup_agent()
 
         if self._is_train_mode:
             # step world to fast forward simulation time
@@ -107,10 +101,10 @@ class DeploymentRecordAgent(BaseRecordAgent):
         MAP = os.path.split(os.path.split(WORLD_PATH_PARAM)[0])[1]
         START_TIME = dt.now().strftime("%Y_%m_%d__%H_%M")
 
-        self.RECORDING_NAME = "recording_" + "_" + MAP + "_" + planner_name + START_TIME + ".dictionary"
+        self.RECORDING_NAME = "recording_" + "_" + MAP + "_" + "ROSNAV" + START_TIME + ".dictionary"
 
-    """ def setup_agent(self) -> None
-        # Loads the trained policy and when required the VecNormalize object.
+    def setup_agent(self) -> None:
+        """Loads the trained policy and when required the VecNormalize object."""
         model_file = os.path.join(
             TRAINED_MODELS_DIR, self.name, "best_model.zip"
         )
@@ -131,7 +125,7 @@ class DeploymentRecordAgent(BaseRecordAgent):
                 vec_normalize = pickle.load(file_handler)
             self._obs_norm_func = vec_normalize.normalize_obs
 
-        self._agent = PPO.load(model_file).policy """
+        self._agent = PPO.load(model_file).policy
 
     def run(self) -> None:
         """Loop for running the agent until ROS is shutdown.
@@ -143,104 +137,33 @@ class DeploymentRecordAgent(BaseRecordAgent):
             the ActionPublisher node in order to comply with the specified \
             action publishing rate.
         """
-
-        while not rospy.is_shutdown():
-            #episode_not_empty = len(self.episode_obs) > 0
-            #if episode_not_empty:
-            if len(self.episode_obs) > 0:
-                action = obs_dict["last_action"]
-            
-            merged_obs, obs_dict = self.get_observations()
-            obs = merged_obs
-
-            self.episode_obs.append(obs)
-
-            #if episode_not_empty:
-            if len(self.episode_obs) > 1:
-                self.episode_act.append(action)
-                reward, info = self.get_reward(action, obs_dict)
-                self.episode_info.append(info)
-
-
-        # when shutdown, save epoch again with the latest episode
-        self.end_episode(-1)
-        print((str(self.total_count)) + "episodes")
-        print(str(self.success_count) + "successes (" + str((self.success_count/self.total_count)*100) + "%)")
-        print(str(self.crash_count) + "crashes (" + str((self.crash_count/self.total_count)*100) + "%)")
-
-        """epoch_obs = []
-        epoch_act = []
-        episode_obs = []
-        episode_act = []
         while not rospy.is_shutdown():
             # if self._is_train_mode:
             #     self.call_service_takeSimStep(self._action_frequency)
             # else:
             #     self._wait_for_next_action_cycle()
-            #print("getting observation")
-            episode_not_empty = len(episode_obs) > 0
-            if episode_not_empty:
-                action = obs_dict["last_action"]
-                #print(action)
-            
-            merged_obs, obs_dict = self.get_observations()
-            obs = merged_obs
-            
-            episode_obs.append(obs)
+            obs = self.get_observations()[0]
+            action = self.get_action(obs)
 
-            if episode_not_empty:
-                episode_act.append(action)
-                reward, info = self.get_reward(action, obs_dict)
-                if info["is_done"]:
-                    print("end of an episode, size: " + str(len(episode_obs)) + ", info: " + str(info))
-                    epoch_obs.append(episode_obs)
-                    epoch_act.append(episode_act)
-                    episode_obs = []
-                    episode_act = []
-            #print(obs)
-            # action = self.get_action(obs)
-            # self.publish_action(action)
+            self.episode_obs.append(obs)
+            self.episode_act.append(action)
 
-        print("number of episodes: " + str(len(epoch_obs)))
-        #with open("observations.txt", "w") as file:
-        #    for line in obs_array:
-        #        file.write(line)
-        with open('/home/liam/observations.dictionary', 'wb') as file:
-            pickle.dump([epoch_obs, epoch_act], file)
-            #pickle.dump(epoch_obs, file)
-            file.close()
-        print("saved observations")"""
+            self.publish_action(action)
 
-    
+        # when shutdown, save epoch again with the latest episode
+        self.end_episode(-1)
+        print((str(self.total_count)) + "episodes")
+        """print(str(self.success_count) + "successes (" + str((self.success_count/self.total_count)*100) + "%)")
+        print(str(self.crash_count) + "crashes (" + str((self.crash_count/self.total_count)*100) + "%)")"""
+
     def end_episode(self, msg_nr) -> None:
-        
-        #print("act length is " + str(len(self.episode_act)))
-        #print("info length is " + str(len(self.episode_info)))
-        #print("obs length is " + str(len(self.episode_obs)))
-
-        #count = 0
-        #count2 = 0
         self.total_count += 1
-        was_crash = False
+        """was_crash = False
         
         for i in range(0, len(self.episode_info)):
             info = self.episode_info[i]
 
-            """if info["is_done"]:
-                #count += 1
-                self.episode_act = self.episode_act[0:i+1]
-                self.episode_info = self.episode_info[0:i+1]
-                self.episode_obs = self.episode_obs[0:i+2]
-                
-                if info["done_reason"] == 2:
-                    print("cut episode because it was a success")
-                    self.success_count += 1
-                elif info["done_reason"] == 1:
-                    print("cut episode because there was a crash")
-                    self.crash_count += 1
-                else:
-                    print("ELSE (should not occur)")
-                break"""
+            
                 # TODO: IDEA: instead of cutting off when done, omit episode when there is a crash because it is probably counterproductive to learn from it
             if info["is_done"]:
                 self.episode_act = self.episode_act[0:i+1]
@@ -256,21 +179,7 @@ class DeploymentRecordAgent(BaseRecordAgent):
                     was_crash = True
                 else:
                     print("ELSE (should not occur)")
-                break
-
-        #if count > 0:
-            #print("count before trimming: " + str(count))
-        
-            #print("act length after is " + str(len(self.episode_act)))
-            #print("info length after is " + str(len(self.episode_info)))
-            #print("obs length after is " + str(len(self.episode_obs)))
-
-            #for i in range(0, len(self.episode_info)):
-                #info = self.episode_info[i]
-                #if info["is_done"]:
-                    #count2 += 1
-
-            #print("count after trimming: " + str(count2))
+                break"""
 
         if msg_nr != -1:
             num = msg_nr.data
@@ -278,11 +187,11 @@ class DeploymentRecordAgent(BaseRecordAgent):
             num = msg_nr
         print("end of the " + str(num) + ". episode, size: " + str(len(self.episode_obs)))
         
-        """self.epoch_obs.append(self.episode_obs)
-        self.epoch_act.append(self.episode_act)"""
-        if not was_crash:
+        self.epoch_obs.append(self.episode_obs)
+        self.epoch_act.append(self.episode_act[:-1])
+        """if not was_crash:
             self.epoch_obs.append(self.episode_obs)
-            self.epoch_act.append(self.episode_act)
+            self.epoch_act.append(self.episode_act)"""
 
         self.episode_obs = []
         self.episode_act = []
@@ -324,8 +233,8 @@ class DeploymentRecordAgent(BaseRecordAgent):
             rospy.logdebug("step Service call failed: %s" % e)
 
 
-def main(agent_name: str, planner_name: str) -> None:
-    AGENT = DeploymentRecordAgent(agent_name=agent_name, planner_name=planner_name, ns=NS_PREFIX)
+def main(agent_name: str) -> None:
+    AGENT = DeploymentDRLAgent(agent_name=agent_name, ns=NS_PREFIX)
 
     try:
         AGENT.run()
@@ -335,5 +244,4 @@ def main(agent_name: str, planner_name: str) -> None:
 
 if __name__ == "__main__":
     AGENT_NAME = sys.argv[1]
-    PLANNER_NAME = sys.argv[2]
-    main(agent_name=AGENT_NAME, planner_name=PLANNER_NAME)
+    main(agent_name=AGENT_NAME)

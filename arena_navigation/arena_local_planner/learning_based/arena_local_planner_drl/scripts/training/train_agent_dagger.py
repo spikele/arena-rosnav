@@ -44,7 +44,7 @@ def main():
 
     # generate agent name and model specific paths
     #AGENT_NAME = get_agent_name(args)
-    AGENT_NAME = "BC_" + args.recording + get_agent_name(args)
+    AGENT_NAME = "DAgger_" + get_agent_name(args) + args.recording
     PATHS = get_paths(AGENT_NAME, args)
 
     print("________ STARTING TRAINING WITH:  %s ________\n" % AGENT_NAME)
@@ -228,19 +228,22 @@ def main():
         """
         if locals_["done"]:
             maybe_is_success = locals_["info"]["is_success"]
-            print("maybe is success: " + str(maybe_is_success))
+            #print("maybe is success: " + str(maybe_is_success))
             if maybe_is_success is not None:
                 is_success_buffer.append(maybe_is_success)
 
-
+    rng = np.random.default_rng(0)
     bc_trainer = bc.BC(
         observation_space=env.observation_space,
         action_space=env.action_space,
         policy=model.policy,
         demonstrations=transitions,
+        rng=rng
     )
 
-    rng = np.random.default_rng(0)
+    DAgger_timesteps = 10000
+    BC_epochs = 4
+
     with tempfile.TemporaryDirectory(prefix="dagger_example_") as tmpdir:
         print(tmpdir)
         dagger_trainer = SimpleDAggerTrainer(
@@ -250,10 +253,13 @@ def main():
             bc_trainer=bc_trainer,
             rng=rng,
         )
-        dagger_trainer.train(10000)
+        dagger_trainer.train(total_timesteps=DAgger_timesteps, bc_train_kwargs={"n_epochs": BC_epochs})
 
-    reward_after_training, _ = evaluate_policy(dagger_trainer.policy, eval_env, 100)
-    print(f"Reward after training: {reward_after_training}")
+    #reward_after_training, _ = evaluate_policy(dagger_trainer.policy, eval_env, 100)
+    #print(f"Reward after training: {reward_after_training}")
+
+    time_before_eval = time.time()-start
+    print(f"Time passed before eval: {time_before_eval}s")
 
     is_success_buffer = []
     episode_rewards, episode_lengths = evaluate_policy(
@@ -276,20 +282,40 @@ def main():
     if len(is_success_buffer) > 0:
         success_rate = np.mean(is_success_buffer)
         print(f"Success rate: {100 * success_rate:.2f}%")
-        model_path = PATHS["model"] + "SR" + str(success_rate)
     else:
-        model_path = PATHS["model"]
+        success_rate = 0
 
-    model.policy = dagger_trainer.policy
+    model.policy = bc_trainer.policy
 
-    os.makedirs(model_path, exist_ok=True)
-    path = os.path.join(model_path, "best_model")
+    os.makedirs(PATHS["model"], exist_ok=True)
+    path = os.path.join(PATHS["model"], "best_model")
     model.save(path)
     print(f"Saved model to {path}")
 
+    WORLD_PATH_PARAM = rospy.get_param("world_path")
+    MAP = os.path.split(os.path.split(WORLD_PATH_PARAM)[0])[1]
+    print(MAP)
 
     env.close()
-    print(f"Time passed: {time.time()-start}s")
+    time_after_eval = time.time()-start
+    print(f"Time passed after eval: {time_after_eval}s")
+
+    info_dict = {
+        "success_rate": str(success_rate),
+        "mean_reward": str(mean_reward),
+        "map": MAP,
+        "recording": args.recording, 
+        "time_before_eval": time_before_eval,
+        "time_after_eval": time_after_eval,
+        "BC_epochs": BC_epochs,
+        "DAgger_timesteps": DAgger_timesteps,
+    }
+    #os.makedirs(os.path.join(PATHS["model"], "info.json"))
+    with open(os.path.join(PATHS["model"], "info.json"), "w") as info_file:
+        json.dump(info_dict, info_file, indent=4)
+    #os.makedirs(os.path.join(PATHS["model"], "info_SR"+str(success_rate)+"_MR"+str(mean_reward)+"_MAP"+MAP), exist_ok=True)
+    print("created info file")
+
     print("Training script will be terminated")
     sys.exit()
 

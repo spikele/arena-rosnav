@@ -56,7 +56,14 @@ class ObservationCollector:
         else:
             self.ns_prefix = "/" + ns + "/"
 
-        self._action_in_obs = rospy.get_param("actions_in_obs", default=False)
+        #self._action_in_obs = rospy.get_param("actions_in_obs", default=False)
+
+        self._action_in_obs = rospy.get_param(
+            "actions_in_obs",
+            #default=False
+        )
+        for i in range(100):
+            print("ACTIONS IN OBSERVATION SPACE:" + str(self._action_in_obs))
 
         # define observation_space
         if not self._action_in_obs:
@@ -233,6 +240,8 @@ class ObservationCollector:
             "global_plan": self._globalplan,
             "robot_pose": self._robot_pose,
             "last_action": kwargs.get("last_action", np.array([0, 0, 0])),
+            #NEW:
+            "subgoal_pose": self._subgoal,
         }
 
         self._laser_deque.clear()
