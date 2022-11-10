@@ -13,7 +13,13 @@ from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 _RS: Robot state size - placeholder for robot related inputs to the NN
 _L: Number of laser beams - placeholder for the laser beam data 
 """
-if not rospy.get_param("actions_in_obs", default=False):
+action_in_obs = rospy.get_param(
+    "actions_in_obs",
+    #default=False
+)
+print("ACTIONS IN OBSERVATION SPACE IN FEATURE EXTRACTORS:" + str(action_in_obs))
+#if not rospy.get_param("actions_in_obs", default=False):
+if not action_in_obs:
     _RS = 2  # robot state size
 else:
     _RS = 2 + 3  # rho, theta, linear x, linear y, angular z

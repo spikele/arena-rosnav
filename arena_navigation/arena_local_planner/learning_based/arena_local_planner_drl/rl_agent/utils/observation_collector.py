@@ -62,8 +62,8 @@ class ObservationCollector:
             "actions_in_obs",
             #default=False
         )
-        for i in range(100):
-            print("ACTIONS IN OBSERVATION SPACE:" + str(self._action_in_obs))
+        #for i in range(100):
+        print("ACTIONS IN OBSERVATION SPACE:" + str(self._action_in_obs))
 
         # define observation_space
         if not self._action_in_obs:
