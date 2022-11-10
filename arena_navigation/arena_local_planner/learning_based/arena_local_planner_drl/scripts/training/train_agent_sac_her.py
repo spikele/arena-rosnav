@@ -202,9 +202,20 @@ def main():
 
     print("buffer device: ")
     print(model.replay_buffer.device)
+
+    WORLD_PATH_PARAM = rospy.get_param("world_path")
+    MAP = os.path.split(os.path.split(WORLD_PATH_PARAM)[0])[1]
+    print(MAP)
+
+    info_dict = {
+        "map": MAP,
+    }
+    with open(os.path.join(PATHS["model"], "info.json"), "w") as info_file:
+        json.dump(info_dict, info_file, indent=4)
+    print("created info file")
     
     # set num of timesteps to be generated
-    n_timesteps = 40000000 if args.n is None else args.n
+    n_timesteps = 2000000 if args.n is None else args.n
     # start training
     start = time.time()
     try:
