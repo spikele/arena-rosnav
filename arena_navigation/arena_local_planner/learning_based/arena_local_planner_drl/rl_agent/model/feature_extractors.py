@@ -15,7 +15,7 @@ _L: Number of laser beams - placeholder for the laser beam data
 """
 action_in_obs = rospy.get_param(
     "actions_in_obs",
-    #default=False
+    default=False
 )
 print("ACTIONS IN OBSERVATION SPACE IN FEATURE EXTRACTORS:" + str(action_in_obs))
 #if not rospy.get_param("actions_in_obs", default=False):

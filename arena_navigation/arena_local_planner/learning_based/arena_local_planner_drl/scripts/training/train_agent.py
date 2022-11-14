@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from typing import Type, Union
 
-import os, sys, rospy, time
+import os, sys, rospy, time, yaml
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
@@ -63,7 +63,7 @@ def main():
         n_envs=args.n_envs,
         treshhold_type="succ",
         upper_threshold=0.9,
-        lower_threshold=0.7,
+        lower_threshold=0.5,
         task_mode=params["task_mode"],
         verbose=1,
     )
@@ -106,7 +106,7 @@ def main():
         best_model_save_path=PATHS["model"],
         deterministic=True,
         callback_on_eval_end=trainstage_cb,
-        callback_on_new_best=stoptraining_cb,
+        #callback_on_new_best=stoptraining_cb,
     )
 
     # determine mode
@@ -187,12 +187,30 @@ def main():
     info_dict = {
         "map": MAP,
     }
+
+    if params["task_mode"] == "staged":
+        # get the training curriculum stages
+        # copied from tasks.py
+        file_location = PATHS.get("curriculum")
+        if os.path.isfile(file_location):
+            with open(file_location, "r") as file:
+                stages = yaml.load(file, Loader=yaml.FullLoader)
+            assert isinstance(
+                stages, dict
+            ), "'training_curriculum.yaml' has wrong fromat! Has to encode dictionary!"
+        else:
+            raise FileNotFoundError(
+                "Couldn't find 'training_curriculum.yaml' in %s "
+                % PATHS.get("curriculum")
+            )
+        info_dict["stages"] = stages
+    
     with open(os.path.join(PATHS["model"], "info.json"), "w") as info_file:
         json.dump(info_dict, info_file, indent=4)
     print("created info file")
 
     # set num of timesteps to be generated
-    n_timesteps = 2000000 if args.n is None else args.n
+    n_timesteps = 4000000 if args.n is None else args.n
     # start training
     start = time.time()
     try:

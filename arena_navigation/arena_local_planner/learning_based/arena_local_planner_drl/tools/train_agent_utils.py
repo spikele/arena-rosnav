@@ -376,19 +376,36 @@ def get_paths(agent_name: str, args: argparse.Namespace) -> dict:
     dir = rospkg.RosPack().get_path("arena_local_planner_drl")
     robot_model = rospy.get_param("model")
 
-    PATHS = {
-        "model": os.path.join(dir, "agents", agent_name),
-        "tb": os.path.join(dir, "training_logs", "tensorboard", agent_name),
-        "eval": os.path.join(dir, "training_logs", "train_eval_log", agent_name),
-        "robot_setting": os.path.join(
-            rospkg.RosPack().get_path("simulator_setup"),
-            "robot",
-            f"{robot_model}.model.yaml",
-        ),
-        "hyperparams": os.path.join(dir, "configs", "hyperparameters"),
-        "robot_as": os.path.join(dir, "configs", f"default_settings_{robot_model}.yaml"),
-        "curriculum": os.path.join(dir, "configs", "training_curriculum_map1small.yaml"),
-    }
+    EVALUATING_FOR_THESIS = True
+
+    if EVALUATING_FOR_THESIS:
+        PATHS = {
+            "model": os.path.join(dir, "agents_thesis", agent_name),
+            "tb": os.path.join(dir, "training_logs_thesis", "tensorboard", agent_name),
+            "eval": os.path.join(dir, "training_logs_thesis", "train_eval_log", agent_name),
+            "robot_setting": os.path.join(
+                rospkg.RosPack().get_path("simulator_setup"),
+                "robot",
+                f"{robot_model}.model.yaml",
+            ),
+            "hyperparams": os.path.join(dir, "configs", "hyperparameters"),
+            "robot_as": os.path.join(dir, "configs", f"default_settings_{robot_model}.yaml"),
+            "curriculum": os.path.join(dir, "configs", "training_curriculum_map1small.yaml"),
+        }
+    else:
+        PATHS = {
+            "model": os.path.join(dir, "agents", agent_name),
+            "tb": os.path.join(dir, "training_logs", "tensorboard", agent_name),
+            "eval": os.path.join(dir, "training_logs", "train_eval_log", agent_name),
+            "robot_setting": os.path.join(
+                rospkg.RosPack().get_path("simulator_setup"),
+                "robot",
+                f"{robot_model}.model.yaml",
+            ),
+            "hyperparams": os.path.join(dir, "configs", "hyperparameters"),
+            "robot_as": os.path.join(dir, "configs", f"default_settings_{robot_model}.yaml"),
+            "curriculum": os.path.join(dir, "configs", "training_curriculum_map1small.yaml"),
+        }
     # check for mode
     if args.load is None:
         os.makedirs(PATHS["model"])
