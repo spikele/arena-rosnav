@@ -5,36 +5,17 @@
 
 
 1:
-  static: 6
-  dynamic: 0
+  static: 2
+  dynamic: 3
 2:
-  static: 8
-  dynamic: 0
+  static: 4
+  dynamic: 6
 3:
-  static: 10
-  dynamic: 0
+  static: 6
+  dynamic: 9
 4:
-  static: 12
-  dynamic: 0
-5:
-  static: 14
-  dynamic: 0
-6:
-  static: 18
-  dynamic: 0
-7:
-  static: 20
-  dynamic: 0
-8:
-  static: 24
-  dynamic: 0
-9:
-  static: 30
-  dynamic: 0
-10:
-  static: 34
-  dynamic: 0
-
+  static: 8
+  dynamic: 12
 #1:
 #  static: 0
 #  dynamic: 0
