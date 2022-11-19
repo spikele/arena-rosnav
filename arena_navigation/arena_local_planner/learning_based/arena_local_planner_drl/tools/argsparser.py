@@ -20,6 +20,63 @@ def training_args(parser):
     )
     group = parser.add_mutually_exclusive_group(required=True)
 
+    #import rl_agent.model.custom_policy
+    #import rl_agent.model.custom_sb3_policy
+    #from rl_agent.model.agent_factory import AgentFactory
+
+    group.add_argument(
+        "--agent",
+        type=str,
+        #choices=AgentFactory.registry.keys(),
+        help="predefined agent to train",
+    )
+    group.add_argument(
+        "--custom-mlp",
+        action="store_true",
+        help="enables training with custom multilayer perceptron",
+    )
+    group.add_argument(
+        "--load",
+        type=str,
+        metavar="[agent name]",
+        help="agent to be loaded for training",
+    )
+    parser.add_argument(
+        "--config",
+        type=str,
+        metavar="[config name]",
+        default="default",
+        help="name of the json file containing" "the hyperparameters",
+    )
+    parser.add_argument(
+        "--n", type=int, help="timesteps in total to be generated for training"
+    )
+    parser.add_argument(
+        "-log",
+        "--eval_log",
+        action="store_true",
+        help="enables storage of evaluation data",
+    )
+    parser.add_argument(
+        "--tb", action="store_true", help="enables tensorboard logging"
+    )
+
+
+'''def training_args_thesis(parser):
+    """program arguments training script"""
+    parser.add_argument(
+        "--n_envs", type=int, default=1, help="number of parallel environments"
+    )
+    parser.add_argument(
+        "--no-gpu", action="store_true", help="disables gpu for training"
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="disables multiprocessing in order to debug",
+    )
+    group = parser.add_mutually_exclusive_group(required=True)
+
     import rl_agent.model.custom_policy
     import rl_agent.model.custom_sb3_policy
     from rl_agent.model.agent_factory import AgentFactory
@@ -60,6 +117,13 @@ def training_args(parser):
     parser.add_argument(
         "--tb", action="store_true", help="enables tensorboard logging"
     )
+    parser.add_argument(
+        "--rl_alg",
+        type=str,
+        choices=["ppo", "sac", "tqc"],
+        default="ppo",
+        help="RL algorithm to use",
+    )'''
 
 
 def off_policy_training_args(parser):
@@ -185,6 +249,14 @@ def process_run_agent_args(parsed_args):
     if parsed_args.no_gpu:
         os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
+def parse_training_args_thesis(args=None, ignore_unknown=False):
+    """parser for training script"""
+    arg_populate_funcs = [training_args_thesis, custom_mlp_args]
+    arg_check_funcs = [process_training_args]
+
+    return parse_various_args(
+        args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+    )
 
 def parse_training_args(args=None, ignore_unknown=False):
     """parser for training script"""
