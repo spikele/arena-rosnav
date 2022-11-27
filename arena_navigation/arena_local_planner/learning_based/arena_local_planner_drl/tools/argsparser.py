@@ -2,7 +2,7 @@ import argparse
 import os
 import numpy as np
 
-from tools.custom_mlp_utils import get_net_arch
+from tools.custom_mlp_utils import get_net_arch, get_net_arch_thesis
 
 
 def training_args(parser):
@@ -62,7 +62,7 @@ def training_args(parser):
     )
 
 
-'''def training_args_thesis(parser):
+def training_args_thesis(parser):
     """program arguments training script"""
     parser.add_argument(
         "--n_envs", type=int, default=1, help="number of parallel environments"
@@ -77,14 +77,14 @@ def training_args(parser):
     )
     group = parser.add_mutually_exclusive_group(required=True)
 
-    import rl_agent.model.custom_policy
-    import rl_agent.model.custom_sb3_policy
-    from rl_agent.model.agent_factory import AgentFactory
+    #import rl_agent.model.custom_policy
+    #import rl_agent.model.custom_sb3_policy
+    #from rl_agent.model.agent_factory import AgentFactory
 
     group.add_argument(
         "--agent",
         type=str,
-        choices=AgentFactory.registry.keys(),
+        #choices=AgentFactory.registry.keys(),
         help="predefined agent to train",
     )
     group.add_argument(
@@ -117,19 +117,38 @@ def training_args(parser):
     parser.add_argument(
         "--tb", action="store_true", help="enables tensorboard logging"
     )
-    parser.add_argument(
+    '''parser.add_argument(
         "--rl_alg",
         type=str,
         choices=["ppo", "sac", "tqc"],
         default="ppo",
         help="RL algorithm to use",
     )'''
+    parser.add_argument(
+        "--info_file", action="store_true", help="enables saving additional information in a file"
+    )
 
 
 def off_policy_training_args(parser):
     """off-policy algorithm arguments"""
     parser.add_argument(
         "--load_replay_buffer", type=str, help="name of the agent whose replay buffer should be loaded"
+    )
+
+
+def imitation_training_args(parser):
+    """imitation learning arguments"""
+    parser.add_argument(
+        "--il_alg", type=str, default="", choices=["", "bc", "dagger"], help="IL algorithm to use"
+    )
+    parser.add_argument(
+        "--recording", type=str, default="observations100_ROSNAV_Jackal_EmptyMap", help="file name of the recording" #TODO new default
+    )
+    parser.add_argument(
+        "--expert", type=str, help="name of the agent who will be used as expert for dagger"
+    )
+    parser.add_argument(
+        "--eval_il", action="store_true", help="enables evaluating the IL-trained policy"
     )
 
 
@@ -218,12 +237,47 @@ def custom_mlp_args(parser):
         "each number representing the number of neurons per layer",
     )
     custom_mlp_args.add_argument(
+        "--qf",
+        type=str,
+        default="",
+        metavar="{num}-{num}-...",
+        help="architecture of the latent q network, "
+        "each number representing the number of neurons per layer",
+    )
+    custom_mlp_args.add_argument(
         "--act_fn",
         type=str,
         default="relu",
         choices=["relu", "sigmoid", "tanh"],
         help="activation function to be applied after each hidden layer",
     )
+
+
+def process_imitation_args(parsed_args):
+    """argument check function for IL related arguments"""
+    if parsed_args.il_alg == "dagger":
+        assert parsed_args.expert != ""
+    
+
+def process_training_args_thesis(parsed_args):
+    """argument check function"""
+    if parsed_args.no_gpu:
+        os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    if parsed_args.custom_mlp:
+        setattr(parsed_args, "net_arch", get_net_arch_thesis(parsed_args))
+    else:
+        if (
+            parsed_args.body != ""
+            or parsed_args.pi != ""
+            or parsed_args.vf != ""
+            or parsed_args.qf != ""
+        ):
+            print("[custom mlp] arguments will be ignored..")
+        delattr(parsed_args, "body")
+        delattr(parsed_args, "pi")
+        delattr(parsed_args, "vf")
+        delattr(parsed_args, "qf")
+        delattr(parsed_args, "act_fn")
 
 
 def process_training_args(parsed_args):
@@ -249,14 +303,16 @@ def process_run_agent_args(parsed_args):
     if parsed_args.no_gpu:
         os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
+
 def parse_training_args_thesis(args=None, ignore_unknown=False):
     """parser for training script"""
-    arg_populate_funcs = [training_args_thesis, custom_mlp_args]
-    arg_check_funcs = [process_training_args]
+    arg_populate_funcs = [training_args_thesis, off_policy_training_args, imitation_training_args, custom_mlp_args]
+    arg_check_funcs = [process_training_args_thesis, process_imitation_args]
 
     return parse_various_args(
         args, arg_populate_funcs, arg_check_funcs, ignore_unknown
     )
+
 
 def parse_training_args(args=None, ignore_unknown=False):
     """parser for training script"""

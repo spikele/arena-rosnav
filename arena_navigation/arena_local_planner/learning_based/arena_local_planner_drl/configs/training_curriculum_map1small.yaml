@@ -3,19 +3,33 @@
 # by determining the number of static/dynamic obstacles per stage
 # (will carry on training on last stage when threshhold reached)
 
-
 1:
-  static: 2
-  dynamic: 3
+  static: 0
+  dynamic: 0
 2:
-  static: 4
-  dynamic: 6
-3:
   static: 6
-  dynamic: 9
+  dynamic: 0
+3:
+  static: 12
+  dynamic: 0
 4:
-  static: 8
-  dynamic: 12
+  static: 12
+  dynamic: 4
+5:
+  static: 12
+  dynamic: 8
+#1:
+#  static: 2
+#  dynamic: 3
+#2:
+#  static: 4
+#  dynamic: 6
+#3:
+#  static: 6
+#  dynamic: 9
+#4:
+#  static: 8
+#  dynamic: 12
 #1:
 #  static: 0
 #  dynamic: 0

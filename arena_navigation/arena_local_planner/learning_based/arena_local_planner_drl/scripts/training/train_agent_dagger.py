@@ -285,7 +285,8 @@ def main():
     else:
         success_rate = 0
 
-    model.policy = bc_trainer.policy
+    #model.policy = bc_trainer.policy
+    model.policy = dagger_trainer.policy
 
     os.makedirs(PATHS["model"], exist_ok=True)
     path = os.path.join(PATHS["model"], "best_model")
