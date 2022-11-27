@@ -134,6 +134,9 @@ def off_policy_training_args(parser):
     parser.add_argument(
         "--load_replay_buffer", type=str, help="name of the agent whose replay buffer should be loaded"
     )
+    parser.add_argument(
+        "--save_replay_buffer", action="store_false", help="whether the replay buffer should be saved when the model is saved"
+    )
 
 
 def imitation_training_args(parser):

@@ -117,6 +117,7 @@ def main():
         eval_freq=15000,
         log_path=PATHS["eval"],
         best_model_save_path=PATHS["model"],
+        save_replay_buffer=args.save_replay_buffer,
         deterministic=True,
         callback_on_eval_end=trainstage_cb,
         #callback_on_new_best=stoptraining_cb,
