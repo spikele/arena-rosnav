@@ -372,8 +372,8 @@ def update_hyperparam_model_thesis(model: PPO, PATHS: dict, params: dict, n_envs
             "use_sde_at_warmup",
         ]
         for param in params_list:
-            if model.param != params[param]:
-                model.param = params[param]
+            if getattr(model, param) != params[param]:
+                setattr(model, param, params[param])
         if model.n_envs != n_envs:
             model.n_envs = n_envs
             model.replay_buffer.n_envs = n_envs
