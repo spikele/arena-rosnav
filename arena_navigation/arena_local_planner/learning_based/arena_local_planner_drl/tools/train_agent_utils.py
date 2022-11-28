@@ -137,6 +137,7 @@ def check_hyperparam_format_thesis(loaded_hyperparams: dict, PATHS: dict) -> Non
     elif loaded_hyperparams["algorithm"] == "ppo":
         hyperparam_keys = HYPERPARAM_KEYS_PPO
 
+
     if set(hyperparam_keys.keys()) != set(loaded_hyperparams.keys()):
         missing_keys = set(hyperparam_keys.keys()).difference(
             set(loaded_hyperparams.keys())
@@ -357,16 +358,15 @@ def update_hyperparam_model_thesis(model: PPO, PATHS: dict, params: dict, n_envs
             "learning_rate",
             "buffer_size",
             "learning_starts",
-            "m_batch_size",
             "tau",
             "gamma",
             "train_freq",
             "gradient_steps",
             "action_noise",
             "optimize_memory_usage",
-            "ent_coef",
+            #"ent_coef", #should not be updated if it is 'auto'
             "target_update_interval",
-            "target_entropy",
+            #"target_entropy", #should not be updated if it is 'auto'
             "use_sde",
             "sde_sample_freq",
             "use_sde_at_warmup",
@@ -374,6 +374,9 @@ def update_hyperparam_model_thesis(model: PPO, PATHS: dict, params: dict, n_envs
         for param in params_list:
             if getattr(model, param) != params[param]:
                 setattr(model, param, params[param])
+        model._convert_train_freq()
+        if model.batch_size != params["m_batch_size"]:
+            model.batch_size = params["m_batch_size"]
         if model.n_envs != n_envs:
             model.n_envs = n_envs
             model.replay_buffer.n_envs = n_envs

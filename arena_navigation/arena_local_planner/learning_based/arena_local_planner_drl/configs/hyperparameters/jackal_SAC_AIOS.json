@@ -17,7 +17,6 @@
     "m_batch_size": 256,
     "tau": 0.02,
     "gamma": 0.99,
-    "n_steps": 4800,
     "train_freq": 128,
     "gradient_steps": 64,
     "action_noise": null,
