@@ -135,25 +135,16 @@ class AGENT_24(BaseAgent):
     activation_fn = nn.ReLU
 
 
-@AgentFactory.register("AGENT_24_FrameStack")
+@AgentFactory.register("AGENT_24_frame_stacking")
 class AGENT_24(BaseAgent):
     type = PolicyType.CNN
-    features_extractor_class = EXTRACTOR_6_FrameStack
+    features_extractor_class = EXTRACTOR_6_FRAME_STACK
     features_extractor_kwargs = dict(features_dim=512)
     net_arch = [128, dict(pi=[64, 64], vf=[64, 64])]
     activation_fn = nn.ReLU
 
 
-@AgentFactory.register("AGENT_24_off_policy")
-class AGENT_24(BaseAgent):
-    type = PolicyType.CNN
-    features_extractor_class = EXTRACTOR_6
-    features_extractor_kwargs = dict(features_dim=512)
-    net_arch = [128, 64, 64]
-    activation_fn = nn.ReLU
-
-
-@AgentFactory.register("AGENT_24_off_policy_HER")
+@AgentFactory.register("AGENT_24_HER")
 class AGENT_24(BaseAgent):
     type = PolicyType.MI
     features_extractor_class = EXTRACTOR_6_HER
@@ -162,6 +153,49 @@ class AGENT_24(BaseAgent):
     activation_fn = nn.ReLU
 
 
+@AgentFactory.register("AGENT_24_frame_stacking_HER")
+class AGENT_24(BaseAgent):
+    type = PolicyType.CNN
+    features_extractor_class = EXTRACTOR_6_FRAME_STACK_HER
+    features_extractor_kwargs = dict(features_dim=512)
+    net_arch = [128, 64, 64]
+    activation_fn = nn.ReLU
+
+
+"""@AgentFactory.register("AGENT_24_off_policy")
+class AGENT_24(BaseAgent):
+    type = PolicyType.CNN
+    features_extractor_class = EXTRACTOR_6
+    features_extractor_kwargs = dict(features_dim=512)
+    net_arch = [128, 64, 64]
+    activation_fn = nn.ReLU
+
+
+@AgentFactory.register("AGENT_24_frame_stacking_off_policy")
+class AGENT_24(BaseAgent):
+    type = PolicyType.CNN
+    features_extractor_class = EXTRACTOR_6_FRAME_STACK
+    features_extractor_kwargs = dict(features_dim=512)
+    net_arch = [128, 64, 64]
+    activation_fn = nn.ReLU
+
+
+@AgentFactory.register("AGENT_24_HER_off_policy")
+class AGENT_24(BaseAgent):
+    type = PolicyType.MI
+    features_extractor_class = EXTRACTOR_6_HER
+    features_extractor_kwargs = dict(features_dim=512)
+    net_arch = [128, 64, 64]
+    activation_fn = nn.ReLU
+
+
+@AgentFactory.register("AGENT_24_frame_stacking_HER_off_policy")
+class AGENT_24(BaseAgent):
+    type = PolicyType.CNN
+    features_extractor_class = EXTRACTOR_6_FRAME_STACK_HER
+    features_extractor_kwargs = dict(features_dim=512)
+    net_arch = [128, 64, 64]
+    activation_fn = nn.ReLU"""
 
 
 '''@AgentFactoryTD3.register("AGENT_24")

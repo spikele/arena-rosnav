@@ -21,7 +21,9 @@
     "m_batch_size": 15,
     "n_epochs": 3,
     "clip_range": 0.22,
-    "seed": 51432762,
+    "use_sde": false,
+    "sde_sample_freq": -1,
+    "seed": 42367756,
     "algorithm": "ppo",
     "use_frame_stacking": false
 }

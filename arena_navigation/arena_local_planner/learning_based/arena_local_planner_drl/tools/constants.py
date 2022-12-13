@@ -37,6 +37,8 @@ HYPERPARAM_KEYS_PPO = {**HYPERPARAM_KEYS_GENERAL, **{
         "m_batch_size",
         "n_epochs",
         "clip_range",
+        "use_sde",
+        "sde_sample_freq",
     ]
 }}
 

@@ -105,7 +105,8 @@ def main():
     if params["use_frame_stacking"]:
         env = VecFrameStack(env, 4)
         eval_env = VecFrameStack(eval_env, 4)
-        agent_type += "_frame_stacking"
+        if agent_type is not None:
+            agent_type += "_frame_stacking"
 
     # evaluation settings
     # n_eval_episodes: number of episodes to evaluate agent on

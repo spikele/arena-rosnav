@@ -25,6 +25,8 @@ from rl_agent.envs.flatland_gym_env import (
 from rl_agent.envs.flatland_gym_env_her import FlatlandGoalEnv
 from rl_agent.envs.flatland_gym_env_dict import FlatlandDictEnv
 
+from rl_agent.model.feature_extractors import *
+
 from tools.constants import *
 
 """ 
@@ -348,6 +350,10 @@ def update_hyperparam_model_thesis(model: PPO, PATHS: dict, params: dict, n_envs
         if model.clip_range != params['clip_range']:
             model.clip_range = params['clip_range']
         """
+        if model.use_sde != params['use_sde']:
+            model.use_sde = params['use_sde']
+        if model.sde_sample_freq != params['sde_sample_freq']:
+            model.sde_sample_freq = params['sde_sample_freq']
         if model.rollout_buffer.buffer_size != params["n_steps"]:
             model.rollout_buffer.buffer_size = params["n_steps"]
         if model.n_envs != n_envs:
@@ -679,7 +685,7 @@ def make_envs_thesis(
         train_ns = f"sim_{rank+1}" if with_ns else ""
         eval_ns = f"eval_sim" if with_ns else ""
 
-        if params["use_her"]:
+        if params["algorithm"] in OFF_POLICY_ALGORITHMS and params["use_her"]:
             if train:
                 # train env
                 env = FlatlandGoalEnv(
@@ -954,14 +960,17 @@ def create_model(PATHS: dict, params: dict, args: argparse.Namespace, env: Union
                 online_sampling=True,
                 max_episode_length=params["train_max_steps_per_episode"],
             )
+            agent_type += "_HER"
         else:
             replay_buffer_class = None
             replay_buffer_kwargs = None
 
-
     # determine mode
     if args.custom_mlp:
         # custom mlp flag
+        if params["use_her"]:
+                # HER needs a modified features extractor, because it uses a dict observation space
+                warnings.warn("HER is currently only supported for training with AGENT_24, training script may crash")
 
         if params["algorithm"] == "ppo":
             model = PPO(
@@ -978,6 +987,8 @@ def create_model(PATHS: dict, params: dict, args: argparse.Namespace, env: Union
                 batch_size=params["m_batch_size"],
                 n_epochs=params["n_epochs"],
                 clip_range=params["clip_range"],
+                use_sde=params["use_sde"],
+                sde_sample_freq=params["sde_sample_freq"],
                 tensorboard_log=PATHS["tb"],
                 verbose=1,
             )
@@ -1035,8 +1046,26 @@ def create_model(PATHS: dict, params: dict, args: argparse.Namespace, env: Union
                 verbose=1,
             )
     elif args.agent is not None:
+        if args.agent != "AGENT_24":
+            if params["use_her"]:
+                # HER needs a modified features extractor, because it uses a dict observation space
+                warnings.warn("HER is currently only supported for AGENT_24, training script may crash")
+            if params["use_frame_stacking"]:
+                # frame_stacking needs a modified features extractor if one of the custom ones in feature_extractors.py is used
+                warnings.warn("frame stacking is currently only supported for AGENT_24, training script may crash")
+
+        agent: Union[Type[BaseAgent], Type[ActorCriticPolicy]] = AgentFactory.instantiate(agent_type)
+            
+        if params["algorithm"] in OFF_POLICY_ALGORITHMS:
+            # SAC and TQC do not allow shared layers in the net_arch, the shared layers will instead be added to both the q-function and the policy
+            net_arch = agent.net_arch
+            shared = net_arch[:-1]
+            qf = shared + net_arch[-1]["vf"]
+            pi = shared + net_arch[-1]["pi"]
+            agent.net_arch = dict(qf=qf, pi=pi)
+
         if params["algorithm"] == "ppo":
-            agent: Union[Type[BaseAgent], Type[ActorCriticPolicy]] = AgentFactory.instantiate(agent_type)
+            #agent: Union[Type[BaseAgent], Type[ActorCriticPolicy]] = AgentFactory.instantiate(agent_type)
             if isinstance(agent, BaseAgent):
                 model = PPO(
                     agent.type.value,
@@ -1052,6 +1081,8 @@ def create_model(PATHS: dict, params: dict, args: argparse.Namespace, env: Union
                     batch_size=params["m_batch_size"],
                     n_epochs=params["n_epochs"],
                     clip_range=params["clip_range"],
+                    use_sde=params["use_sde"],
+                    sde_sample_freq=params["sde_sample_freq"],
                     tensorboard_log=PATHS.get("tb"),
                     verbose=1,
                 )
@@ -1069,6 +1100,8 @@ def create_model(PATHS: dict, params: dict, args: argparse.Namespace, env: Union
                     batch_size=params["m_batch_size"],
                     n_epochs=params["n_epochs"],
                     clip_range=params["clip_range"],
+                    use_sde=params["use_sde"],
+                    sde_sample_freq=params["sde_sample_freq"],
                     tensorboard_log=PATHS.get("tb"),
                     verbose=1,
                 )
@@ -1077,7 +1110,7 @@ def create_model(PATHS: dict, params: dict, args: argparse.Namespace, env: Union
                     f"Registered agent class {args.agent} is neither of type" "'BaseAgent' or 'ActorCriticPolicy'!"
                 )
         elif params["algorithm"] == "sac":
-            agent: Type[BaseAgent] = AgentFactory.instantiate(agent_type+"_off_policy")
+            #agent: Type[BaseAgent] = AgentFactory.instantiate(agent_type+"_off_policy")
             if isinstance(agent, BaseAgent):
                 model = SAC(
                     agent.type.value,
@@ -1105,7 +1138,7 @@ def create_model(PATHS: dict, params: dict, args: argparse.Namespace, env: Union
                     verbose=1,
                 )
         elif params["algorithm"] == "tqc":
-            agent: Type[BaseAgent] = AgentFactory.instantiate(agent_type+"_off_policy")
+            #agent: Type[BaseAgent] = AgentFactory.instantiate(agent_type+"_off_policy")
             if isinstance(agent, BaseAgent):
                 model = TQC(
                     agent.type.value,
