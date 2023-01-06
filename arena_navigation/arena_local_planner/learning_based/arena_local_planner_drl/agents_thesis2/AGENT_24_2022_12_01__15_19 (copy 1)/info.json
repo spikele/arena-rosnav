@@ -1,0 +1,25 @@
+{
+    "map": "map1_small",
+    "stages": {
+        "1": {
+            "static": 0,
+            "dynamic": 0
+        },
+        "2": {
+            "static": 6,
+            "dynamic": 0
+        },
+        "3": {
+            "static": 12,
+            "dynamic": 0
+        },
+        "4": {
+            "static": 12,
+            "dynamic": 4
+        },
+        "5": {
+            "static": 12,
+            "dynamic": 8
+        }
+    }
+}
