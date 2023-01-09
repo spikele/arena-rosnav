@@ -9,6 +9,9 @@ import yaml
 from torch import nn
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 
+from geometry_msgs.msg import Pose2D
+from rl_agent.utils.observation_collector import ObservationCollector
+
 """ 
 _RS: Robot state size - placeholder for robot related inputs to the NN
 _L: Number of laser beams - placeholder for the laser beam data 
@@ -417,7 +420,72 @@ class EXTRACTOR_6_HER(BaseFeaturesExtractor):
         """
 
         laser_scan = th.unsqueeze(observations["observation"][:, :-_RS], 1)
-        robot_state = observations["observation"][:, -_RS:]
+
+        
+        #robot_state = obs[:, -_RS:]
+        """desired_pose = Pose2D()
+        desired_pose.x = observations["desired_goal"][0]
+        desired_pose.y = observations["desired_goal"][1]
+        desired_pose.theta = 0
+        achieved_pose = Pose2D()
+        achieved_pose.x = observations["achieved_goal"][0]
+        achieved_pose.y = observations["achieved_goal"][1]
+        achieved_pose.theta = 0
+
+        goal_pose_i_r_f = _get_goal_pose_in_robot_frame(desired_pose, achieved_pose)
+
+        if action_in_obs:
+            robot_state = th.cat(goal_pose_i_r_f, observations["observation"][:, -3:])
+        else:
+            robot_state = th.tensor(goal_pose_i_r_f)"""
+
+        length = observations["observation"].shape[0]
+        #length = 1
+
+        goal_poses = []
+
+        #print(observations.keys())
+        #print(observations["observation"].shape)
+        #print(observations["observation"][:].shape)
+        #print(observations["observation"][:, :-_RS].shape)
+        #print(observations["observation"][:-_RS].shape)
+        #print(observations["desired_goal"].shape)
+
+        for i in range(length):
+            goal_pos = Pose2D()
+            goal_pos.x = observations["desired_goal"][i, 0]
+            goal_pos.y = observations["desired_goal"][i, 1]
+            goal_pos.theta = observations["desired_goal"][i, 2]
+            robot_pos = Pose2D()
+            robot_pos.x = observations["achieved_goal"][i, 0]
+            robot_pos.y = observations["achieved_goal"][i, 1]
+            robot_pos.theta = observations["achieved_goal"][i, 2]
+
+        #goal_pose_i_r_f = ObservationCollector._get_goal_pose_in_robot_frame(desired_pose, achieved_pose)
+
+        #goal_pos = observations["desired_goal"][i]
+        #robot_pos = observations["achieved_goal"][i]
+
+            y_relative = goal_pos.y - robot_pos.y
+            x_relative = goal_pos.x - robot_pos.x
+            rho = (x_relative ** 2 + y_relative ** 2) ** 0.5
+            theta = (
+                th.arctan2(y_relative, x_relative) - robot_pos.theta + 4 * th.pi
+            ) % (2 * th.pi) - th.pi
+
+            goal_poses.append([rho, theta])
+
+        goal_poses_tensor = th.tensor(goal_poses, device=th.device('cuda'))
+        #print(goal_poses_tensor.shape)
+        #print(observations["observation"][:, -3:].shape)
+
+        if action_in_obs:
+            robot_state = th.cat((goal_poses_tensor, observations["observation"][:, -3:]), 1)
+        else:
+            robot_state = goal_poses_tensor
+
+        #print(robot_state.shape)
+        #robot_state = observations["observation"][:, -_RS:]
 
         extracted_features = self.fc(self.cnn(laser_scan))
         return th.cat((extracted_features, robot_state), 1)
@@ -486,7 +554,7 @@ class EXTRACTOR_6_FRAME_STACK_HER(BaseFeaturesExtractor):
     """
 
     def __init__(
-        self, observation_space: gym.spaces.Box, features_dim: int = 32
+        self, observation_space: gym.spaces.Dict, features_dim: int = 32
     ):
         super(EXTRACTOR_6_FRAME_STACK_HER, self).__init__(observation_space, features_dim + _RS)
 
@@ -524,7 +592,32 @@ class EXTRACTOR_6_FRAME_STACK_HER(BaseFeaturesExtractor):
         
         laser_scans = th.unsqueeze(th.cat((obs[:, 0:_L], obs[:, one_obs:one_obs+_L], obs[:, 2*one_obs:2*one_obs+_L], obs[:, 3*one_obs:3*one_obs+_L]), 1), 1)
         #print("laser_scans shape:" + str(laser_scans.shape))
-        robot_state = obs[:, -_RS:]
+
+        #robot_state = obs[:, -_RS:]
+        length = len(observations)
+
+        goal_poses = []
+
+        for i in range(length):
+            desired_pose = Pose2D()
+            desired_pose.x = observations["desired_goal"][i][0]
+            desired_pose.y = observations["desired_goal"][i][1]
+            desired_pose.theta = 0
+            achieved_pose = Pose2D()
+            achieved_pose.x = observations["achieved_goal"][i][0]
+            achieved_pose.y = observations["achieved_goal"][i][1]
+            achieved_pose.theta = 0
+
+            goal_pose_i_r_f = ObservationCollector._get_goal_pose_in_robot_frame(desired_pose, achieved_pose)
+
+            goal_poses.append(goal_pose_i_r_f)
+
+        goal_poses_tensor = th.tensor(goal_poses, device=th.device('cuda'))
+
+        if action_in_obs:
+            robot_state = th.cat(goal_poses_tensor, observations["observation"][:, -3:])
+        else:
+            robot_state = goal_poses_tensor
 
         #extracted_features = self.fc(self.cnn(laser_scan))
         extracted_features = self.fc(self.cnn(laser_scans))

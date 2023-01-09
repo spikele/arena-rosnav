@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#NEW VERSION 7
+#NEW VERSION 3
 
 from operator import is_
 from random import randint
@@ -18,7 +18,7 @@ from rl_agent.utils.debug import timeit
 from task_generator.tasks import ABSTask
 import numpy as np
 import rospy
-from geometry_msgs.msg import Twist, Pose2D
+from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 from flatland_msgs.srv import StepWorld, StepWorldRequest
 from std_msgs.msg import Bool
@@ -29,7 +29,7 @@ from rl_agent.utils.debug import timeit
 from task_generator.task_generator.tasks import *
 
 
-class FlatlandGoalEnv(gym.GoalEnv):
+class FlatlandGoalEnv(gym.Env):
     """Custom Environment that follows gym interface"""
 
     def __init__(
@@ -97,45 +97,15 @@ class FlatlandGoalEnv(gym.GoalEnv):
         )
 
 
-        service_client_get_map = rospy.ServiceProxy("/static_map", GetMap)
-        map_response = service_client_get_map()
-        map = map_response.map
-        #print(map.info)
-        
-
-        '''achieved_goal_space = ObservationCollector._stack_spaces((
-            spaces.Box(low=0, high=15, shape=(1,), dtype=np.float32),
-            spaces.Box(low=-np.pi, high=np.pi, shape=(1,), dtype=np.float32),
-        ))
-        desired_goal_space = ObservationCollector._stack_spaces((
-            spaces.Box(low=0, high=15, shape=(1,), dtype=np.float32),
-            spaces.Box(low=-np.pi, high=np.pi, shape=(1,), dtype=np.float32),
-        ))'''
-        low_y = map.info.origin.position.y
-        high_y = map.info.origin.position.y + (map.info.height*map.info.resolution)
-        low_x = map.info.origin.position.x
-        high_x = map.info.origin.position.x + (map.info.width*map.info.resolution)
-
-        print(low_y)
-        print(high_y)
-        print(low_x)
-        print(high_x)
-
         achieved_goal_space = ObservationCollector._stack_spaces((
-            spaces.Box(low=low_x, high=high_x, shape=(1,), dtype=np.float32),
-            spaces.Box(low=low_y, high=high_y, shape=(1,), dtype=np.float32),
+            spaces.Box(low=0, high=15, shape=(1,), dtype=np.float32),
             spaces.Box(low=-np.pi, high=np.pi, shape=(1,), dtype=np.float32),
         ))
-        print("testtestsetesteststeste")
-        print(achieved_goal_space.shape)
         desired_goal_space = ObservationCollector._stack_spaces((
-            spaces.Box(low=low_x, high=high_x, shape=(1,), dtype=np.float32),
-            spaces.Box(low=low_y, high=high_y, shape=(1,), dtype=np.float32),
+            spaces.Box(low=0, high=15, shape=(1,), dtype=np.float32),
             spaces.Box(low=-np.pi, high=np.pi, shape=(1,), dtype=np.float32),
         ))
-        print("testtestsetesteststeste")
-        print(desired_goal_space.shape)
-        merged_observation_space = self.observation_collector.get_observation_space()
+        #merged_observation_space = self.observation_collector.get_observation_space()
         """self.observation_space = spaces.Dict({
             "observation": merged_observation_space,
             "achieved_goal": achieved_goal_space,
@@ -195,12 +165,8 @@ class FlatlandGoalEnv(gym.GoalEnv):
         self._in_crash = False
 
         # NEW for goal env
-        #self.last_robot_position = None
+        self.last_robot_position = None
         #self.goal_radius = goal_radius
-        '''self.biggest_x = -10000
-        self.biggest_y = -10000
-        self.smallest_x = 10000
-        self.smallest_y = 10000'''
 
         self._done_reasons = {
             "0": "Exc. Max Steps",
@@ -316,7 +282,7 @@ class FlatlandGoalEnv(gym.GoalEnv):
         # wait for new observations
         merged_obs, obs_dict = self.observation_collector.get_observations(last_action=self._last_action)
         self._last_action = action
-            
+
         # calculate reward
         reward, reward_info = self.reward_calculator.get_reward(
             obs_dict["laser_scan"],
@@ -325,11 +291,15 @@ class FlatlandGoalEnv(gym.GoalEnv):
             global_plan=obs_dict["global_plan"],
             robot_pose=obs_dict["robot_pose"],
         )
+        # print(f"cum_reward: {reward}")
         done = reward_info["is_done"]
 
         # extended eval info
         if self._extended_eval:
             self._update_eval_statistics(obs_dict, reward_info)
+
+        # update last robot position for goal env
+        #self.last_robot_position = obs_dict["robot_pose"]
 
         # info
         info = {}
@@ -368,20 +338,18 @@ class FlatlandGoalEnv(gym.GoalEnv):
         #return merged_obs, reward, done, info
         merged_goal_obs = {}
         merged_goal_obs["observation"] = merged_obs
-        """if self.last_robot_position != None:
+        if self.last_robot_position != None:
             achieved_rho, achieved_theta = ObservationCollector._get_goal_pose_in_robot_frame(obs_dict["robot_pose"], self.last_robot_position)
             desired_rho, desired_theta = ObservationCollector._get_goal_pose_in_robot_frame(obs_dict["subgoal_pose"], self.last_robot_position)
         else:
             achieved_rho, achieved_theta = [0,0]
-            desired_rho, desired_theta = [0,0]"""
+            desired_rho, desired_theta = [0,0]
         #achieved_rho, achieved_theta = [0,0]
-        merged_goal_obs["achieved_goal"] = np.array([obs_dict["robot_pose"].x, obs_dict["robot_pose"].y, obs_dict["robot_pose"].theta])
-        #merged_goal_obs["achieved_goal"] = obs_dict["robot_pose"]
+        merged_goal_obs["achieved_goal"] = np.array([achieved_rho, achieved_theta])
         #merged_goal_obs["desired_goal"] = np.array(obs_dict["goal_in_robot_frame"])
-        merged_goal_obs["desired_goal"] = np.array([obs_dict["subgoal_pose"].x, obs_dict["subgoal_pose"].y, obs_dict["subgoal_pose"].theta])
-        #merged_goal_obs["desired_goal"] = obs_dict["subgoal_pose"]
+        merged_goal_obs["desired_goal"] = np.array([desired_rho, desired_theta])
 
-        #self.last_robot_position = obs_dict["robot_pose"]
+        self.last_robot_position = obs_dict["robot_pose"]
 
         #reward_binary = self.compute_reward(merged_goal_obs["achieved_goal"], merged_goal_obs["desired_goal"], {})
 
@@ -407,20 +375,15 @@ class FlatlandGoalEnv(gym.GoalEnv):
             self._safe_dist_counter = 0
             self._collisions = 0
 
-        #self.last_robot_position = None
+        self.last_robot_position = None
 
         #obs, _ = self.observation_collector.get_observations()
         #return obs  # reward, done, info can't be included
         merged_obs, obs_dict = self.observation_collector.get_observations()
         merged_goal_obs = {}
         merged_goal_obs["observation"] = merged_obs
-        #merged_goal_obs["achieved_goal"] = np.array([0, 0]) #TODO THIS WAS WRONG BEFORE IN VERSION NEW 4! TRY OUT WITHOUT 0,0 AND WITH X,Y!!!!!
-        #merged_goal_obs["achieved_goal"] = np.array([obs_dict["robot_pose"].x, obs_dict["robot_pose"].y])
-        merged_goal_obs["achieved_goal"] = np.array([obs_dict["robot_pose"].x, obs_dict["robot_pose"].y, obs_dict["robot_pose"].theta])
-        #merged_goal_obs["achieved_goal"] = obs_dict["robot_pose"]
-        #merged_goal_obs["desired_goal"] = np.array([obs_dict["subgoal_pose"].x, obs_dict["subgoal_pose"].y])
-        merged_goal_obs["desired_goal"] = np.array([obs_dict["subgoal_pose"].x, obs_dict["subgoal_pose"].y, obs_dict["subgoal_pose"].theta])
-        #merged_goal_obs["desired_goal"] = obs_dict["subgoal_pose"]
+        merged_goal_obs["achieved_goal"] = np.array([0, 0])
+        merged_goal_obs["desired_goal"] = np.array(obs_dict["goal_in_robot_frame"])
         return merged_goal_obs
 
 
@@ -460,8 +423,8 @@ class FlatlandGoalEnv(gym.GoalEnv):
                 ob, reward, done, info = env.step()
                 assert reward == env.compute_reward(ob['achieved_goal'], ob['goal'], info)
         """
-        #print("achieved_goal shape: " + str(achieved_goal.shape))
-        #print("desired_goal shape: " + str(desired_goal.shape))
+        #print("achieved_goal: " + str(achieved_goal))
+        #print("desired_goal: " + str(desired_goal))
         #print("achieved_goal length: " + str(len(achieved_goal)))
         #print("desired_goal length: " + str(len(desired_goal)))
         #print("info length: " + str(len(info)))
@@ -470,36 +433,15 @@ class FlatlandGoalEnv(gym.GoalEnv):
         #print("info keys: ")
         #print(info[0].keys())
         #print("info[0]['obs_dict']: " + str(info[0]["obs_dict"]))
-        #print("achieved_goal[0]: " + str(achieved_goal[0]))
 
         length = len(desired_goal)
 
         reward = np.zeros(length)
 
         for i in range(length):
-            goal_pos = Pose2D()
-            goal_pos.x = desired_goal[i][0]
-            goal_pos.y = desired_goal[i][1]
-            goal_pos.theta = desired_goal[i][2]
-            robot_pos = Pose2D()
-            robot_pos.x = achieved_goal[i][0]
-            robot_pos.y = achieved_goal[i][1]
-            robot_pos.theta = achieved_goal[i][2]
-
-            #goal_pose_i_r_f = ObservationCollector._get_goal_pose_in_robot_frame(desired_pose, achieved_pose)
-            #goal_pose_i_r_f = self.get_goal_pose_in_robot_frame(desired_pose, achieved_pose)
-            
-            y_relative = goal_pos.y - robot_pos.y
-            x_relative = goal_pos.x - robot_pos.x
-            rho = (x_relative ** 2 + y_relative ** 2) ** 0.5
-            theta = (
-                np.arctan2(y_relative, x_relative) - robot_pos.theta + 4 * np.pi
-            ) % (2 * np.pi) - np.pi
-
             reward[i], _ = self.reward_calculator.get_reward(
                 info[i]["obs_dict"]["laser_scan"],
-                #info[i]["obs_dict"]["goal_in_robot_frame"], # this is the same as desired_goal
-                (rho, theta),
+                info[i]["obs_dict"]["goal_in_robot_frame"], # this is the same as desired_goal
                 action=info[i]["action"],
                 global_plan=info[i]["obs_dict"]["global_plan"],
                 robot_pose=info[i]["obs_dict"]["robot_pose"], # this has a connection to achieved_goal: achieved goal is robot_pose relative to the last robot_pose
@@ -536,16 +478,6 @@ class FlatlandGoalEnv(gym.GoalEnv):
         #    robot_pose=info["obs_dict"]["robot_pose"], # this has a connection to achieved_goal: achieved goal is robot_pose relative to the last robot_pose
         #)
         return reward
-
-
-    def get_goal_pose_in_robot_frame(goal_pos: Pose2D, robot_pos: Pose2D):
-        y_relative = goal_pos.y - robot_pos.y
-        x_relative = goal_pos.x - robot_pos.x
-        rho = (x_relative ** 2 + y_relative ** 2) ** 0.5
-        theta = (
-            np.arctan2(y_relative, x_relative) - robot_pos.theta + 4 * np.pi
-        ) % (2 * np.pi) - np.pi
-        return rho, theta
 
 
     def close(self):

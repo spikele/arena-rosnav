@@ -2,9 +2,9 @@
 from torch import nn
 
 from rl_agent.model.agent_factory import AgentFactory
-from rl_agent.model.agent_factory_td3 import AgentFactoryTD3
-from rl_agent.model.agent_factory_her import AgentFactoryHER
-from rl_agent.model.agent_factory_sac import AgentFactorySAC
+#from rl_agent.model.agent_factory_td3 import AgentFactoryTD3
+#from rl_agent.model.agent_factory_her import AgentFactoryHER
+#from rl_agent.model.agent_factory_sac import AgentFactorySAC
 from rl_agent.model.base_agent import BaseAgent, PolicyType
 from rl_agent.model.feature_extractors import *
 
@@ -149,16 +149,16 @@ class AGENT_24(BaseAgent):
     type = PolicyType.MI
     features_extractor_class = EXTRACTOR_6_HER
     features_extractor_kwargs = dict(features_dim=512)
-    net_arch = [128, 64, 64]
+    net_arch = [128, dict(pi=[64, 64], vf=[64, 64])]
     activation_fn = nn.ReLU
 
 
 @AgentFactory.register("AGENT_24_frame_stacking_HER")
 class AGENT_24(BaseAgent):
-    type = PolicyType.CNN
+    type = PolicyType.MI
     features_extractor_class = EXTRACTOR_6_FRAME_STACK_HER
     features_extractor_kwargs = dict(features_dim=512)
-    net_arch = [128, 64, 64]
+    net_arch = [128, dict(pi=[64, 64], vf=[64, 64])]
     activation_fn = nn.ReLU
 
 
