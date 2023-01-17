@@ -264,17 +264,9 @@ def main():
 
         save_model(model=model, PATHS=PATHS)
 
-        print(type(args.recording))
-        print(type(BC_epochs))
-        print(type(il_time_before_eval))
-
         info_dict["recording"] = args.recording
         info_dict["BC_epochs"] = BC_epochs
         info_dict["time_before_eval"] = il_time_before_eval
-
-        print(type(info_dict["recording"]))
-        print(type(info_dict["BC_epochs"]))
-        print(type(info_dict["time_before_eval"]))
 
         if args.eval_il:
             mean_reward, std_reward, mean_ep_length, std_ep_length, success_rate = evaluate_il(model, eval_env)
@@ -289,7 +281,6 @@ def main():
             info_dict["success_rate"] = str(success_rate)
         
         
-    
     if args.info_file:
         save_info_dict(PATHS=PATHS, params=params, info_dict=info_dict)
 

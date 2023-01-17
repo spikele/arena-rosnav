@@ -23,7 +23,7 @@
     "clip_range": 0.22,
     "use_sde": false,
     "sde_sample_freq": -1,
-    "seed": 42367756,
+    "seed": 76578921,
     "algorithm": "ppo",
     "use_frame_stacking": false
 }
