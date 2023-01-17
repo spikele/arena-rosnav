@@ -25,8 +25,6 @@ from rl_agent.envs.flatland_gym_env import (
 from rl_agent.envs.flatland_gym_env_her import FlatlandGoalEnv
 from rl_agent.envs.flatland_gym_env_dict import FlatlandDictEnv
 
-from rl_agent.model.feature_extractors import *
-
 from tools.constants import *
 
 """ 
@@ -1200,9 +1198,7 @@ def save_info_dict(PATHS: dict, params: dict, info_dict: dict):
     MAP = os.path.split(os.path.split(WORLD_PATH_PARAM)[0])[1]
     print(MAP)
 
-    info_dict = {
-        "map": MAP,
-    }
+    info_dict["map"] = MAP
 
     if params["task_mode"] == "staged":
         # get the training curriculum stages

@@ -229,7 +229,7 @@ def main():
         )
 
         if args.il_alg == "bc":
-            BC_epochs = 5
+            BC_epochs = 15
 
             #eval_list = []
 
@@ -258,28 +258,35 @@ def main():
 
             model.policy = dagger_trainer.policy
 
-            info_dict["DAgger_timesteps"] = DAgger_timesteps,
+            info_dict["DAgger_timesteps"] = DAgger_timesteps
 
         il_time_before_eval = time.time()-il_start
 
         save_model(model=model, PATHS=PATHS)
 
-        info_dict["recording"] = args.recording,
-        info_dict["BC_epochs"] = BC_epochs,
-        info_dict["time_before_eval"] = il_time_before_eval,
+        print(type(args.recording))
+        print(type(BC_epochs))
+        print(type(il_time_before_eval))
+
+        info_dict["recording"] = args.recording
+        info_dict["BC_epochs"] = BC_epochs
+        info_dict["time_before_eval"] = il_time_before_eval
+
+        print(type(info_dict["recording"]))
+        print(type(info_dict["BC_epochs"]))
+        print(type(info_dict["time_before_eval"]))
 
         if args.eval_il:
             mean_reward, std_reward, mean_ep_length, std_ep_length, success_rate = evaluate_il(model, eval_env)
 
             il_time_after_eval = time.time()-il_start
 
-            info_dict["time_after_eval"] = il_time_after_eval,
-            info_dict["mean_reward"] = str(mean_reward),
-            info_dict["std_reward"] = str(std_reward),
-            info_dict["mean_ep_length"] = str(mean_ep_length),
-            info_dict["std_ep_length"] = str(std_ep_length),
-            info_dict["success_rate"] = str(success_rate),
-        
+            info_dict["time_after_eval"] = il_time_after_eval
+            info_dict["mean_reward"] = str(mean_reward)
+            info_dict["std_reward"] = str(std_reward)
+            info_dict["mean_ep_length"] = str(mean_ep_length)
+            info_dict["std_ep_length"] = str(std_ep_length)
+            info_dict["success_rate"] = str(success_rate)
         
         
     
@@ -299,12 +306,13 @@ def main():
             )
         except KeyboardInterrupt:
             print("KeyboardInterrupt..")
+
+        print(f"Time passed: {time.time()-start}s")
         # finally:
         # update the timesteps the model has trained in total
         #update_total_timesteps_json(n_timesteps, PATHS)
 
     model.env.close()
-    print(f"Time passed: {time.time()-start}s")
     print("Training script will be terminated")
     sys.exit()
 

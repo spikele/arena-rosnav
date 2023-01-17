@@ -20,6 +20,7 @@ from tools.train_agent_utils import update_hyperparam_model_thesis
 def load_recording(args: argparse.Namespace):
 
     RECORDINGS_DIR = os.path.join(rospkg.RosPack().get_path("arena_local_planner_drl"), "recordings")  
+    #RECORDINGS_DIR = "/home/liam/observations"
     recording_path = os.path.join(RECORDINGS_DIR, args.recording + ".dictionary")
     print(recording_path)
     with open(recording_path, 'rb') as file:
