@@ -229,7 +229,7 @@ def main():
         )
 
         if args.il_alg == "bc":
-            BC_epochs = 15
+            BC_epochs = 10
 
             #eval_list = []
 
