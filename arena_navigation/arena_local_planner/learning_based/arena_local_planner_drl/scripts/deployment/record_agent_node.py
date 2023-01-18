@@ -20,7 +20,7 @@ robot_model = rospy.get_param("model")
 """ TEMPORARY GLOBAL CONSTANTS """
 NS_PREFIX = ""
 TRAINED_MODELS_DIR = os.path.join(
-    rospkg.RosPack().get_path("arena_local_planner_drl"), "agents"
+    rospkg.RosPack().get_path("arena_local_planner_drl"), "agents_thesis"
 )
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
@@ -107,7 +107,7 @@ class DeploymentRecordAgent(BaseRecordAgent):
         MAP = os.path.split(os.path.split(WORLD_PATH_PARAM)[0])[1]
         START_TIME = dt.now().strftime("%Y_%m_%d__%H_%M")
 
-        self.RECORDING_NAME = "recording_" + "_" + MAP + "_" + planner_name + START_TIME + ".dictionary"
+        self.RECORDING_NAME = "recording_" + "_" + MAP + "_" + planner_name + "_" + START_TIME + ".dictionary"
 
     """ def setup_agent(self) -> None
         # Loads the trained policy and when required the VecNormalize object.

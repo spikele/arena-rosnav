@@ -56,13 +56,7 @@ class ObservationCollector:
         else:
             self.ns_prefix = "/" + ns + "/"
 
-        #self._action_in_obs = rospy.get_param("actions_in_obs", default=False)
-
-        self._action_in_obs = rospy.get_param(
-            "actions_in_obs",
-            #default=False
-        )
-        #for i in range(100):
+        self._action_in_obs = rospy.get_param("actions_in_obs", default=False)
         print("ACTIONS IN OBSERVATION SPACE:" + str(self._action_in_obs))
 
         # define observation_space

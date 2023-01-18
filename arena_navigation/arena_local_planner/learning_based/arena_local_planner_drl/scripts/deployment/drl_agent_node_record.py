@@ -101,7 +101,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
         MAP = os.path.split(os.path.split(WORLD_PATH_PARAM)[0])[1]
         START_TIME = dt.now().strftime("%Y_%m_%d__%H_%M")
 
-        self.RECORDING_NAME = "recording_" + "_" + MAP + "_" + "ROSNAV" + START_TIME + ".dictionary"
+        self.RECORDING_NAME = "recording_" + "_" + MAP + "_" + "ROSNAV" + "_" + START_TIME + ".dictionary"
 
     def setup_agent(self) -> None:
         """Loads the trained policy and when required the VecNormalize object."""

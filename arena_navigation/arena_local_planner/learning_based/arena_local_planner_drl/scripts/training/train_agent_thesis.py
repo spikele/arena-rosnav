@@ -240,7 +240,7 @@ def main():
 
             model.policy = bc_trainer.policy
 
-        elif args.il_arg == "dagger":
+        elif args.il_alg == "dagger":
             expert_model = load_expert(PATHS=PATHS, args=args)
 
             DAgger_timesteps = 2000

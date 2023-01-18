@@ -125,7 +125,8 @@ class BaseRecordAgent(ABC):
             self._agent_params.get("actions_in_observationspace", False),
         )
         import rl_agent.model.custom_policy
-        import rl_agent.model.custom_sb3_policy
+        #import rl_agent.model.custom_sb3_policy
+        import rl_agent.model.custom_sb3_policy_thesis
 
     def read_setting_files(
         self, robot_setting_yaml: str, action_space_yaml: str

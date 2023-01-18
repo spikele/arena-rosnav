@@ -129,7 +129,7 @@ def evaluate_il(model: BaseAlgorithm, env: Union[gym.Env, VecEnv]):
     episode_rewards, episode_lengths = evaluate_policy(
                 model,
                 env,
-                n_eval_episodes=100,
+                n_eval_episodes=10,
                 deterministic=True,
                 return_episode_rewards=True,
                 warn=True,
