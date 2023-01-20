@@ -1,0 +1,12 @@
+{
+    "recording": "recording__map_empty_ROSNAV_2023_01_18__03_02",
+    "BC_epochs": 10,
+    "time_before_eval": 51.44093894958496,
+    "time_after_eval": 401.6225333213806,
+    "mean_reward": "9.43474388",
+    "std_reward": "14.131205586853264",
+    "mean_ep_length": "101.86",
+    "std_ep_length": "64.23908778928916",
+    "success_rate": "0.59",
+    "map": "map_empty"
+}
