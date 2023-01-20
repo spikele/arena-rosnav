@@ -241,7 +241,7 @@ def main():
             model.policy = bc_trainer.policy
 
         elif args.il_alg == "dagger":
-            expert_model = load_expert(PATHS=PATHS, args=args)
+            expert_model = load_expert(PATHS=PATHS, args=args, env=env)
 
             DAgger_timesteps = 2000
             BC_epochs = 4
@@ -259,6 +259,7 @@ def main():
             model.policy = dagger_trainer.policy
 
             info_dict["DAgger_timesteps"] = DAgger_timesteps
+            info_dict["expert"] = args.expert
 
         il_time_before_eval = time.time()-il_start
 
