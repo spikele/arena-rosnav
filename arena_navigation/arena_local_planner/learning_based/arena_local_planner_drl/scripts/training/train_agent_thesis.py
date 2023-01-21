@@ -51,7 +51,6 @@ def main():
         load_target=args.load,
         config_name=args.config,
         n_envs=args.n_envs,
-        #rl_alg=args.rl_alg,
     )
 
     # instantiate train environment
@@ -124,78 +123,6 @@ def main():
         #callback_on_new_best=stoptraining_cb,
     )
 
-    '''# determine mode
-    if args.custom_mlp:
-        # custom mlp flag
-        model = PPO(
-            "MlpPolicy",
-            env,
-            policy_kwargs=dict(net_arch=args.net_arch, activation_fn=get_act_fn(args.act_fn)),
-            gamma=params["gamma"],
-            n_steps=params["n_steps"],
-            ent_coef=params["ent_coef"],
-            learning_rate=params["learning_rate"],
-            vf_coef=params["vf_coef"],
-            max_grad_norm=params["max_grad_norm"],
-            gae_lambda=params["gae_lambda"],
-            batch_size=params["m_batch_size"],
-            n_epochs=params["n_epochs"],
-            clip_range=params["clip_range"],
-            tensorboard_log=PATHS["tb"],
-            verbose=1,
-        )
-    elif args.agent is not None:
-        agent: Union[Type[BaseAgent], Type[ActorCriticPolicy]] = AgentFactory.instantiate(args.agent)
-        if isinstance(agent, BaseAgent):
-            model = PPO(
-                agent.type.value,
-                env,
-                policy_kwargs=agent.get_kwargs(),
-                gamma=params["gamma"],
-                n_steps=params["n_steps"],
-                ent_coef=params["ent_coef"],
-                learning_rate=params["learning_rate"],
-                vf_coef=params["vf_coef"],
-                max_grad_norm=params["max_grad_norm"],
-                gae_lambda=params["gae_lambda"],
-                batch_size=params["m_batch_size"],
-                n_epochs=params["n_epochs"],
-                clip_range=params["clip_range"],
-                tensorboard_log=PATHS.get("tb"),
-                verbose=1,
-            )
-        elif issubclass(agent, ActorCriticPolicy):
-            model = PPO(
-                agent,
-                env,
-                gamma=params["gamma"],
-                n_steps=params["n_steps"],
-                ent_coef=params["ent_coef"],
-                learning_rate=params["learning_rate"],
-                vf_coef=params["vf_coef"],
-                max_grad_norm=params["max_grad_norm"],
-                gae_lambda=params["gae_lambda"],
-                batch_size=params["m_batch_size"],
-                n_epochs=params["n_epochs"],
-                clip_range=params["clip_range"],
-                tensorboard_log=PATHS.get("tb"),
-                verbose=1,
-            )
-        else:
-            raise TypeError(
-                f"Registered agent class {args.agent} is neither of type" "'BaseAgent' or 'ActorCriticPolicy'!"
-            )
-    else:
-        # load flag
-        if os.path.isfile(os.path.join(PATHS["model"], AGENT_NAME + ".zip")):
-            model = PPO.load(os.path.join(PATHS["model"], AGENT_NAME), env)
-        elif os.path.isfile(os.path.join(PATHS["model"], "best_model.zip")):
-            model = PPO.load(os.path.join(PATHS["model"], "best_model"), env)
-        update_hyperparam_model(model, PATHS, params, args.n_envs)
-
-    print(model.policy)'''
-
-
     info_dict = {}
 
     model = create_model(PATHS=PATHS, params=params, args=args, env=env, agent_name=AGENT_NAME, agent_type=agent_type)
@@ -243,7 +170,7 @@ def main():
         elif args.il_alg == "dagger":
             expert_model = load_expert(PATHS=PATHS, args=args, env=env)
 
-            DAgger_timesteps = 2000
+            DAgger_timesteps = 4000
             BC_epochs = 4
 
             with tempfile.TemporaryDirectory(prefix="dagger_") as tmpdir:
@@ -252,6 +179,7 @@ def main():
                     scratch_dir=tmpdir,
                     expert_policy=expert_model,
                     bc_trainer=bc_trainer,
+                    expert_trajs=transitions,
                     rng=rng,
                 )
                 dagger_trainer.train(total_timesteps=DAgger_timesteps, bc_train_kwargs={"n_epochs": BC_epochs})

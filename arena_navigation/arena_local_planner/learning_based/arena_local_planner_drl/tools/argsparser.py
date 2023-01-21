@@ -145,7 +145,7 @@ def imitation_training_args(parser):
         "--il_alg", type=str, default="", choices=["", "bc", "dagger"], help="IL algorithm to use"
     )
     parser.add_argument(
-        "--recording", type=str, default="observations100_ROSNAV_Jackal_EmptyMap", help="file name of the recording" #TODO new default
+        "--recording", type=str, default="", help="file name of the recording"
     )
     parser.add_argument(
         "--expert", type=str, help="name of the agent who will be used as expert for dagger"
@@ -258,6 +258,8 @@ def custom_mlp_args(parser):
 
 def process_imitation_args(parsed_args):
     """argument check function for IL related arguments"""
+    if parsed_args.il_alg == "bc":
+        assert parsed_args.recording != ""
     if parsed_args.il_alg == "dagger":
         assert parsed_args.expert != ""
     

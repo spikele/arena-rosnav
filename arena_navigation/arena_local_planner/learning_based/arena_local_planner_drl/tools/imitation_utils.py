@@ -18,47 +18,34 @@ from tools.train_agent_utils import update_hyperparam_model_thesis
 
 
 def load_recording(args: argparse.Namespace):
+    if args.recording != "":
+        RECORDINGS_DIR = os.path.join(rospkg.RosPack().get_path("arena_local_planner_drl"), "recordings")
+        recording_path = os.path.join(RECORDINGS_DIR, args.recording + ".dictionary")
+        print(recording_path)
+        with open(recording_path, 'rb') as file:
+            [epoch_obs, epoch_act] = pickle.load(file)
 
-    RECORDINGS_DIR = os.path.join(rospkg.RosPack().get_path("arena_local_planner_drl"), "recordings")  
-    #RECORDINGS_DIR = "/home/liam/observations"
-    recording_path = os.path.join(RECORDINGS_DIR, args.recording + ".dictionary")
-    print(recording_path)
-    with open(recording_path, 'rb') as file:
-        [epoch_obs, epoch_act] = pickle.load(file)
-        print("number of episodes before trimming: " + str(len(epoch_obs)))
+        transitions = []
 
-    transitions = []
+        for i in range(1, len(epoch_obs)):
+            episode_obs = np.array(epoch_obs[i])
+            episode_act = np.array(epoch_act[i])[:,::2]
 
-    for i in range(1, len(epoch_obs)):
-        episode_obs = np.array(epoch_obs[i])
-        episode_act = np.array(epoch_act[i])[:,::2]
+            transition = types.Trajectory(
+                obs = episode_obs,
+                acts = episode_act,
+                infos = None,
+                terminal = True
+            )
+            transitions.append(transition)
 
-        #if len(episode_obs) > 2 and len(episode_obs) < 200:
-        transition = types.Trajectory(
-            obs = episode_obs,
-            acts = episode_act,
-            infos = None,
-            terminal = True
-        )
-        transitions.append(transition)
+        print("number of expert demonstration episodes: " + str(len(transitions)))
 
-    print("number of episodes: " + str(len(transitions)))
+    else:
+        transitions = None
 
     return transitions
-
-"""def create_bc_trainer(model_to_pretrain: BaseAlgorithm, env: Union[gym.Env, VecEnv], params: dict, args: argparse.Namespace):
-    transitions = load_recording()
-
-    rng = np.random.default_rng(0)
-    bc_trainer = bc.BC(
-        observation_space=env.observation_space,
-        action_space=env.action_space,
-        policy=model_to_pretrain.policy,
-        demonstrations=transitions,
-        rng=rng,
-    )
-
-    return bc_trainer"""
+    
 
 def get_expert_path(args: argparse.Namespace) -> dict:
     """
@@ -69,7 +56,7 @@ def get_expert_path(args: argparse.Namespace) -> dict:
     dir = rospkg.RosPack().get_path("arena_local_planner_drl")
     agent_name = args.expert
 
-    return os.path.join(dir, "agents", agent_name)
+    return os.path.join(dir, "agents_thesis", agent_name)
 
 
 def save_model(model: BaseAlgorithm, PATHS: dict):
