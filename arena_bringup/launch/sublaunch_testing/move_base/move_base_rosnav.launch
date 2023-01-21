@@ -7,12 +7,13 @@
   <arg name="cmd_vel_topic" default="cmd_vel_pub" />
   <arg name="odom_topic" default="odom" />
   <!-- <arg name="speed" default="0.22"/> -->
+  <arg name="record_for_IL" default="false"/>
 
   <arg name="agent_name" default="jackal"/>
 
-  <group if="$(eval arg('train_mode') == false)">
-    
-    <node name="record_local_planner" pkg="arena_local_planner_drl" type="record_agent_node.py" args="$(arg agent_name) ROSNAV" output="log"/>
+  <!-- record observations and actions for IL -->
+  <group if="$(eval (arg('train_mode') == false and arg('record_for_IL') == true))">
+    <node name="record_local_planner" pkg="arena_local_planner_drl" type="record_agent_node.py" args="ROSNAV" output="screen"/>
   </group>
 
   <!-- move_base -->

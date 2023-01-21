@@ -6,6 +6,7 @@ import rospy
 import rospkg
 import sys
 from datetime import datetime as dt
+import time
 
 #from stable_baselines3 import PPO
 
@@ -35,7 +36,7 @@ RECORDINGS_DIR = os.path.join(
 class DeploymentRecordAgent(BaseRecordAgent):
     def __init__(
         self,
-        agent_name: str,
+        #agent_name: str,
         planner_name: str,
         ns: str = None,
         robot_name: str = None,
@@ -68,6 +69,8 @@ class DeploymentRecordAgent(BaseRecordAgent):
         self.total_count = 0
         self.success_count = 0
         self.crash_count = 0
+
+        self.start_time = time.time()
 
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
@@ -164,6 +167,7 @@ class DeploymentRecordAgent(BaseRecordAgent):
 
         # when shutdown, save epoch again with the latest episode
         self.end_episode(-1)
+        print(f"Time passed: {time.time()-self.start_time}s")
         print((str(self.total_count)) + "episodes")
         print(str(self.success_count) + "successes (" + str((self.success_count/self.total_count)*100) + "%)")
         print(str(self.crash_count) + "crashes (" + str((self.crash_count/self.total_count)*100) + "%)")
@@ -324,8 +328,8 @@ class DeploymentRecordAgent(BaseRecordAgent):
             rospy.logdebug("step Service call failed: %s" % e)
 
 
-def main(agent_name: str, planner_name: str) -> None:
-    AGENT = DeploymentRecordAgent(agent_name=agent_name, planner_name=planner_name, ns=NS_PREFIX)
+def main(planner_name: str) -> None:
+    AGENT = DeploymentRecordAgent(planner_name=planner_name, ns=NS_PREFIX)
 
     try:
         AGENT.run()
@@ -334,6 +338,5 @@ def main(agent_name: str, planner_name: str) -> None:
 
 
 if __name__ == "__main__":
-    AGENT_NAME = sys.argv[1]
-    PLANNER_NAME = sys.argv[2]
-    main(agent_name=AGENT_NAME, planner_name=PLANNER_NAME)
+    PLANNER_NAME = sys.argv[1]
+    main(planner_name=PLANNER_NAME)

@@ -21,6 +21,8 @@
   <arg name="enable_pedsim" default="true"/>
   <arg name="task_mode" default="scenario" doc="[random, manual, staged, scenario]"/>
 
+  <arg name="record_for_IL" default="false"/>
+
   <!-- To make the training more efficient make sure this step_size*laser_update_rate == 1  -->
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="500"/>
@@ -147,6 +149,7 @@
     <arg name="agent_name" value="$(arg agent_name)" if="$(eval arg('local_planner') == 'rosnav')" />
     <arg name="train_mode" value="$(arg train_mode)" if="$(eval arg('local_planner') == 'rosnav')" />
     <!-- <arg name="speed" value="$(arg speed)"/> -->
+    <arg name="record_for_IL" value="$(arg record_for_IL)"/>
   </include>
 
 
