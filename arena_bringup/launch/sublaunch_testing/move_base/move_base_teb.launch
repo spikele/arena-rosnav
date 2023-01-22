@@ -5,20 +5,15 @@
   <arg name="model" default="burger"/>
   <!--<arg name="cmd_vel_topic" default="/cmd_vel" />-->
   <arg name="cmd_vel_topic" default="/cmd_vel_pub" />
-  <arg name="cmd_vel_topic" default="/cmd_vel_pub" />
   <arg name="odom_topic" default="odom" />
   <arg name="speed" default="0.22"/>
   <arg name="record_for_IL" default="false"/>
 
   <!-- record observations and actions for IL -->
   <group if="$(eval (arg('train_mode') == false and arg('record_for_IL') == true))">
-     <!--<arg name="cmd_vel_topic" default="/cmd_vel_pub" />-->
     <node name="record_local_planner" pkg="arena_local_planner_drl" type="record_agent_node.py" args="TEB" output="screen"/>
-     <!--<node name="action_publisher" pkg="arena_local_planner_drl" type="action_publisher.py"/>-->
   </group>
-   <!--<group unless="$(eval (arg('train_mode') == false and arg('record_for_IL') == true))">
-    <arg name="cmd_vel_topic" default="/cmd_vel" />
-  </group>-->
+  <node name="action_publisher" pkg="arena_local_planner_drl" type="action_publisher.py"/>
 
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">

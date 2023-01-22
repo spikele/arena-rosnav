@@ -88,7 +88,7 @@ class DeploymentRecordAgent(BaseRecordAgent):
             robot_name,
             hyperparameter_path,
             action_space_path,
-            planner_name
+            #planner_name
         )
         #self.setup_agent()
 
