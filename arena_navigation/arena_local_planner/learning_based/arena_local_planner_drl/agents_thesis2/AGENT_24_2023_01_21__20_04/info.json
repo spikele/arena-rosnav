@@ -1,0 +1,14 @@
+{
+    "DAgger_timesteps": 4000,
+    "expert": "AGENT_24_2023_01_18__03_16",
+    "recording": "recording__map1_ROSNAV_2023_01_19__15_29",
+    "BC_epochs": 4,
+    "time_before_eval": 789.4743888378143,
+    "time_after_eval": 1087.3520739078522,
+    "mean_reward": "10.111558980000002",
+    "std_reward": "14.741158603086781",
+    "mean_ep_length": "85.28",
+    "std_ep_length": "55.977331126090675",
+    "success_rate": "0.65",
+    "map": "map1"
+}
