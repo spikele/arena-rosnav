@@ -1,0 +1,9 @@
+{
+    "success_rate": "0.55",
+    "mean_reward": "9.75593493",
+    "map": "map1",
+    "recording": "recording__map1_ROSNAV_2023_01_19__16_27",
+    "time_before_eval": 18469.155766010284,
+    "time_after_eval": 19115.45588326454,
+    "BC_epochs": 30
+}
