@@ -1,0 +1,14 @@
+{
+    "DAgger_timesteps": 4000,
+    "expert": "AGENT_24_2023_01_18__03_48",
+    "recording": "",
+    "BC_epochs": 4,
+    "time_before_eval": 462.8953218460083,
+    "time_after_eval": 858.4210779666901,
+    "mean_reward": "15.268112149999997",
+    "std_reward": "12.643563667614005",
+    "mean_ep_length": "68.32",
+    "std_ep_length": "44.318366395886024",
+    "success_rate": "0.8",
+    "map": "map1"
+}
