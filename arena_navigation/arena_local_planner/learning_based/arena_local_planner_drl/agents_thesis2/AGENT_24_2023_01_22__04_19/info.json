@@ -1,0 +1,12 @@
+{
+    "recording": "recording__map1_DWA_2023_01_22__02_12",
+    "BC_epochs": 10,
+    "time_before_eval": 122.33975601196289,
+    "time_after_eval": 522.6844024658203,
+    "mean_reward": "-6.738672050000002",
+    "std_reward": "9.984840112888891",
+    "mean_ep_length": "116.49",
+    "std_ep_length": "75.344607637176",
+    "success_rate": "0.07",
+    "map": "map1"
+}
