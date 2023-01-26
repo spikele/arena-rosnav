@@ -14,7 +14,7 @@ from sb3_contrib import TQC
 from imitation.algorithms import bc
 from imitation.data import types
 
-from tools.train_agent_utils import update_hyperparam_model_thesis
+from tools.train_agent_utils import update_hyperparam_model
 
 
 def load_recording(args: argparse.Namespace):
@@ -56,7 +56,7 @@ def get_expert_path(args: argparse.Namespace) -> dict:
     dir = rospkg.RosPack().get_path("arena_local_planner_drl")
     agent_name = args.expert
 
-    return os.path.join(dir, "agents_thesis", agent_name)
+    return os.path.join(dir, "agents", agent_name)
 
 
 def save_model(model: BaseAlgorithm, PATHS: dict):
@@ -89,7 +89,7 @@ def load_expert(PATHS: dict, args: argparse.Namespace, env: Union[gym.Env, VecEn
     elif params["algorithm"] == "tqc":
         model = TQC.load(path_to_load, env)
 
-    update_hyperparam_model_thesis(model, PATHS, params, args.n_envs)
+    update_hyperparam_model(model, PATHS, params, args.n_envs)
 
     return model
 

@@ -184,7 +184,7 @@ class FlatlandEnv(gym.Env):
                     self.action_space = spaces.Box(
                         low=np.array([linear_range[0], angular_range[0]]),
                         high=np.array([linear_range[1], angular_range[1]]),
-                        dtype=np.float32,   # CHANGED TO float32 from float
+                        dtype=np.float32,
                     )
                 else:
                     linear_range_x, linear_range_y = (
@@ -206,7 +206,7 @@ class FlatlandEnv(gym.Env):
                                 angular_range[1],
                             ]
                         ),
-                        dtype=np.float32,   # CHANGED TO float32 from float
+                        dtype=np.float32,
                     )
 
     def _pub_action(self, action: np.ndarray) -> Twist:

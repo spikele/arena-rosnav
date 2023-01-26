@@ -98,15 +98,15 @@ def create_pdf(file_name, thesis_agents, thesis2_agents, labels, show_stages: bo
     ax3.grid(True)
 
     plt.tight_layout()
-    plt.savefig(os.path.join(SAVE_PATH, file_name+".pdf"))#, bbox_inches='tight', pad_inches=0.0)
+    plt.savefig(os.path.join(SAVE_PATH, file_name+".pdf"))
     plt.show()
-
+"""
 file_name = "BC_random_map1"
 thesis_agents = ["AGENT_24_2023_01_18__03_48", "AGENT_24_2023_01_19__17_23"]
 thesis2_agents = ["AGENT_24_2023_01_18__03_16", "AGENT_24_2023_01_19__16_20"]
 labels = ["BC+PPO 1", "BC+PPO 3", "BC+PPO 2", "BC+PPO 4"]
 create_pdf(file_name, thesis_agents, thesis2_agents, labels)
-"""
+
 file_name = "DAgger_random_map1"
 thesis_agents = ["AGENT_24_2023_01_20__07_09"]
 thesis2_agents = ["AGENT_24_2023_01_20__06_09"]

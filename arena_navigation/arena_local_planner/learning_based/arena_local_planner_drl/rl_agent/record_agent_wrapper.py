@@ -96,13 +96,6 @@ class BaseRecordAgent(ABC):
                 f"{self._ns_robot}cmd_vel_pub", Twist, queue_size=1
             ) """
 
-    """ @abstractmethod
-    def setup_agent(self) -> None:
-        """""" Sets up the new agent / loads a pretrained one.
-
-        Raises:
-            NotImplementedError: Abstract method. """"""
-        raise NotImplementedError """
 
     def load_hyperparameters(self, path: str) -> None:
         """Loads the hyperparameters from a json file.
@@ -120,13 +113,6 @@ class BaseRecordAgent(ABC):
 
         self._agent_params = hyperparams
         self._get_robot_name_from_params()
-        #rospy.set_param(
-        #    "actions_in_obs",
-        #    self._agent_params.get("actions_in_observationspace", False),
-        #)
-        #import rl_agent.model.custom_policy
-        #import rl_agent.model.custom_sb3_policy
-        #import rl_agent.model.custom_sb3_policy_thesis
 
     def read_setting_files(
         self, robot_setting_yaml: str, action_space_yaml: str
@@ -307,27 +293,6 @@ class BaseRecordAgent(ABC):
         )
         return self._obs_norm_func(merged_obs)
 
-    """ def get_action(self, obs: np.ndarray) -> np.ndarray:
-        Infers an action based on the given observation.
-
-        Args:
-            obs (np.ndarray): Merged observation array.
-
-        Returns:
-            np.ndarray:
-                Action in [linear velocity, angular velocity]
-       
-        assert self._agent, "Agent model not initialized!"
-        action = self._agent.predict(obs, deterministic=True)[0]
-        if self._agent_params["discrete_action_space"]:
-            action = self._get_disc_action(action)
-        else:
-            # clip action
-            action = np.maximum(
-                np.minimum(self._action_space.high, action),
-                self._action_space.low,
-            )
-        return action """
 
     def get_reward(self, action: np.ndarray, obs_dict: dict) -> float:
         """ Calculates the reward based on the parsed observation
@@ -342,53 +307,3 @@ class BaseRecordAgent(ABC):
         Returns:
             float: Reward amount """
         return self.reward_calculator.get_reward(action=action, **obs_dict)
-
-    """ def publish_action(self, action: np.ndarray) -> None:
-        Publishes an action on 'self._action_pub' (ROS topic).
-
-        Args:
-            action (np.ndarray):
-                Action in [linear velocity, angular velocity]
-       
-        action_msg = (
-            self._get_hol_action_msg(action)
-            if self._holonomic
-            else self._get_nonhol_action_msg(action)
-        )
-        self._action_pub.publish(action_msg) """
-
-    """ def _get_disc_action(self, action: int) -> np.ndarray:
-        Returns defined velocity commands for parsed action index.\
-            (Discrete action space)
-
-        Args:
-            action (int): Index of the desired action.
-
-        Returns:
-            np.ndarray: Velocity commands corresponding to the index.
-       
-        return np.array(
-            [
-                self._discrete_actions[action]["linear"],
-                self._discrete_actions[action]["angular"],
-            ]
-        ) """
-
-    """ def _get_hol_action_msg(self, action: np.ndarray):
-        assert (
-            len(action) == 3
-        ), "Holonomic robots require action arrays to have 3 entries."
-        action_msg = Twist()
-        action_msg.linear.x = action[0]
-        action_msg.linear.y = action[1]
-        action_msg.angular.z = action[2]
-        return action_msg """
-
-    """ def _get_nonhol_action_msg(self, action: np.ndarray):
-        assert (
-            len(action) == 2
-        ), "Non-holonomic robots require action arrays to have 2 entries."
-        action_msg = Twist()
-        action_msg.linear.x = action[0]
-        action_msg.angular.z = action[1]
-        return action_msg """

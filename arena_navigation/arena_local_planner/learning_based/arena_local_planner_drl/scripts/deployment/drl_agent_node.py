@@ -17,7 +17,7 @@ robot_model = rospy.get_param("model")
 """ TEMPORARY GLOBAL CONSTANTS """
 NS_PREFIX = ""
 TRAINED_MODELS_DIR = os.path.join(
-    rospkg.RosPack().get_path("arena_local_planner_drl"), "agents_thesis"
+    rospkg.RosPack().get_path("arena_local_planner_drl"), "agents"
 )
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),

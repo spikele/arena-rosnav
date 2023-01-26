@@ -13,7 +13,7 @@ from stable_baselines3.common.policies import ActorCriticPolicy, BasePolicy
 
 from rl_agent.model.agent_factory import AgentFactory
 from rl_agent.model.base_agent import BaseAgent
-from tools.argsparser import parse_training_args_thesis
+from tools.argsparser import parse_training_args
 from tools.custom_mlp_utils import *
 from tools.train_agent_utils import *
 from tools.staged_train_callback import InitiateNewTrainStage
@@ -24,7 +24,7 @@ from imitation.algorithms.dagger import SimpleDAggerTrainer
 
 
 def main():
-    args, _ = parse_training_args_thesis()
+    args, _ = parse_training_args()
 
     # in debug mode, we emulate multiprocessing on only one process
     # in order to be better able to locate bugs
@@ -46,7 +46,7 @@ def main():
     wait_for_nodes(with_ns=ns_for_nodes, n_envs=args.n_envs, timeout=5)
 
     # initialize hyperparameters (save to/ load from json)
-    params = initialize_hyperparameters_thesis(
+    params = initialize_hyperparameters(
         PATHS=PATHS,
         load_target=args.load,
         config_name=args.config,
@@ -57,11 +57,11 @@ def main():
     # when debug run on one process only
     if not args.debug and ns_for_nodes:
         env = SubprocVecEnv(
-            [make_envs_thesis(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)],
+            [make_envs(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)],
             start_method="fork",
         )
     else:
-        env = DummyVecEnv([make_envs_thesis(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)])
+        env = DummyVecEnv([make_envs(args, ns_for_nodes, i, params=params, PATHS=PATHS) for i in range(args.n_envs)])
 
     # threshold settings for training curriculum
     # type can be either 'succ' or 'rew'
@@ -84,7 +84,7 @@ def main():
     if ns_for_nodes:
         eval_env = DummyVecEnv(
             [
-                make_envs_thesis(
+                make_envs(
                     args,
                     ns_for_nodes,
                     0,
@@ -139,7 +139,7 @@ def main():
 
     
     
-
+    # if an imitation learning algorithm was given, train using it
     if args.il_alg in ["bc", "dagger"]:
         il_start = time.time()
 
@@ -162,7 +162,6 @@ def main():
 
             bc_trainer.train(
                 n_epochs=BC_epochs,
-                #on_epoch_end=eval_callback
             )
 
             model.policy = bc_trainer.policy
@@ -213,6 +212,7 @@ def main():
     if args.info_file:
         save_info_dict(PATHS=PATHS, params=params, info_dict=info_dict)
 
+    # if no imitation learning algorithm was given, train with the RL algorithm
     if args.il_alg == "":
         # set num of timesteps to be generated
         n_timesteps = 2000000 if args.n is None else args.n

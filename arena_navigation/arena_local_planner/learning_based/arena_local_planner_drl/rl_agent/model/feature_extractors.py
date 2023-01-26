@@ -461,10 +461,6 @@ class EXTRACTOR_6_HER(BaseFeaturesExtractor):
             robot_pos.y = observations["achieved_goal"][i, 1]
             robot_pos.theta = observations["achieved_goal"][i, 2]
 
-        #goal_pose_i_r_f = ObservationCollector._get_goal_pose_in_robot_frame(desired_pose, achieved_pose)
-
-        #goal_pos = observations["desired_goal"][i]
-        #robot_pos = observations["achieved_goal"][i]
 
             y_relative = goal_pos.y - robot_pos.y
             x_relative = goal_pos.x - robot_pos.x
@@ -594,28 +590,39 @@ class EXTRACTOR_6_FRAME_STACK_HER(BaseFeaturesExtractor):
         #print("laser_scans shape:" + str(laser_scans.shape))
 
         #robot_state = obs[:, -_RS:]
-        length = len(observations)
+        #length = len(observations)
+        length = obs.shape[0]
+
+        #print(observations.keys())
+        #print(observations["observation"].shape)
+        #print(observations["desired_goal"].shape)
 
         goal_poses = []
 
         for i in range(length):
-            desired_pose = Pose2D()
-            desired_pose.x = observations["desired_goal"][i][0]
-            desired_pose.y = observations["desired_goal"][i][1]
-            desired_pose.theta = 0
-            achieved_pose = Pose2D()
-            achieved_pose.x = observations["achieved_goal"][i][0]
-            achieved_pose.y = observations["achieved_goal"][i][1]
-            achieved_pose.theta = 0
+            goal_pos = Pose2D()
+            goal_pos.x = observations["desired_goal"][i, -3]
+            goal_pos.y = observations["desired_goal"][i, -2]
+            goal_pos.theta = observations["desired_goal"][i, -1]
+            robot_pos = Pose2D()
+            robot_pos.x = observations["achieved_goal"][i, -3]
+            robot_pos.y = observations["achieved_goal"][i, -2]
+            robot_pos.theta = observations["achieved_goal"][i, -1]
 
-            goal_pose_i_r_f = ObservationCollector._get_goal_pose_in_robot_frame(desired_pose, achieved_pose)
 
-            goal_poses.append(goal_pose_i_r_f)
+            y_relative = goal_pos.y - robot_pos.y
+            x_relative = goal_pos.x - robot_pos.x
+            rho = (x_relative ** 2 + y_relative ** 2) ** 0.5
+            theta = (
+                th.arctan2(y_relative, x_relative) - robot_pos.theta + 4 * th.pi
+            ) % (2 * th.pi) - th.pi
+
+            goal_poses.append([rho, theta])
 
         goal_poses_tensor = th.tensor(goal_poses, device=th.device('cuda'))
 
         if action_in_obs:
-            robot_state = th.cat(goal_poses_tensor, observations["observation"][:, -3:])
+            robot_state = th.cat((goal_poses_tensor, observations["observation"][:, -3:]), 1)
         else:
             robot_state = goal_poses_tensor
 
