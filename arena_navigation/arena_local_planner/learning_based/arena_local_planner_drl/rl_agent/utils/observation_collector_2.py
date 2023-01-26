@@ -35,7 +35,8 @@ from std_msgs.msg import Bool
 
 from rl_agent.utils.debug import timeit
 
-
+# slighlty modified ObservationCollector for recording
+# the main difference is that it also subscribes to /cmd_vel
 class ObservationCollector:
     def __init__(
         self,
@@ -122,7 +123,6 @@ class ObservationCollector:
         self._subgoal = Pose2D()
         self._globalplan = np.array([])
 
-        # new by liam
         self._cmd_vel = Twist()
 
         # train mode?
@@ -144,11 +144,9 @@ class ObservationCollector:
         # need to evaulate each possibility
         if self._ext_time_sync:
             self._scan_sub = message_filters.Subscriber(
-                #f"{self.ns_prefix}scan", LaserScan
                 f"/scan", LaserScan
             )
             self._robot_state_sub = message_filters.Subscriber(
-                #f"{self.ns_prefix}odom", Odometry
                 f"/odom", Odometry
             )
 
@@ -160,16 +158,14 @@ class ObservationCollector:
             # self.ts = message_filters.TimeSynchronizer([self._scan_sub, self._robot_state_sub], 10)
             self.ts.registerCallback(self.callback_odom_scan)
         else:
-            self._scan_sub = rospy.Subscriber(#CORRECT
-                #f"{self.ns_prefix}scan",
+            self._scan_sub = rospy.Subscriber(
                 f"/scan",
                 LaserScan,
                 self.callback_scan,
                 tcp_nodelay=True,
             )
 
-            self._robot_state_sub = rospy.Subscriber(#CORRECT
-                #f"{self.ns_prefix}odom",
+            self._robot_state_sub = rospy.Subscriber(
                 f"/odom",
                 Odometry,
                 self.callback_robot_state,
@@ -179,24 +175,17 @@ class ObservationCollector:
         # self._clock_sub = rospy.Subscriber(
         #     f'{self.ns_prefix}clock', Clock, self.callback_clock, tcp_nodelay=True)
 
-        self._subgoal_sub = rospy.Subscriber(#CORRECT
-            #f"{self.ns_prefix}subgoal", PoseStamped, self.callback_subgoal
+        self._subgoal_sub = rospy.Subscriber(
             f"/subgoal", PoseStamped, self.callback_subgoal
         )
 
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         print(obs_topic)
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
-        self._globalplan_sub = rospy.Subscriber(#TODO SHOULD BE /kino_astar_path!!!!!!!!!!!!!!!!!!!!!!!!
-            #f"{self.ns_prefix}globalPlan", Path, self.callback_global_plan
-            #f"/move_base/DWAPlannerROS/global_plan", Path, self.callback_global_plan
-            #obs_topic, Path, self.callback_global_plan
+        self._globalplan_sub = rospy.Subscriber(
             "/kino_astar_path", Path, self.callback_global_plan
         )
     
-        # new by liam
-        self._cmd_vel_sub = rospy.Subscriber(#CORRECT
+        self._cmd_vel_sub = rospy.Subscriber(
             f"/cmd_vel", Twist, self.callback_cmd_vel
         )
 
@@ -251,7 +240,6 @@ class ObservationCollector:
                 [
                     scan,
                     np.array([rho, theta]),
-                    # changed by liam
                     self._cmd_vel,
                 ]
             )
@@ -262,7 +250,6 @@ class ObservationCollector:
             "goal_in_robot_frame": [rho, theta],
             "global_plan": self._globalplan,
             "robot_pose": self._robot_pose,
-            # changed by liam
             "last_action": self._cmd_vel,
         }
 
@@ -351,7 +338,6 @@ class ObservationCollector:
         )
         return
 
-    # new by liam
     def callback_cmd_vel(self, msg_cmd_vel):
         self._cmd_vel = self.process_cmd_vel_msg(
             msg_cmd_vel
@@ -411,7 +397,6 @@ class ObservationCollector:
         )
         return np.array(list(map(lambda p2d: [p2d.x, p2d.y], global_plan_2d)))
 
-    # new by liam
     def process_cmd_vel_msg(self, msg_cmd_vel):
         lin_x = msg_cmd_vel.linear.x
         lin_y = msg_cmd_vel.linear.y

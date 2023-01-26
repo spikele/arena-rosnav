@@ -41,14 +41,14 @@ class ObservationCollector:
         self,
         ns: str,
         num_lidar_beams: int,
-        lidar_range: np.float32,   # CHANGED TO np.float32 from float
+        lidar_range: np.float32,
         external_time_sync: bool = False,
     ):
         """a class to collect and merge observations
 
         Args:
             num_lidar_beams (int): [description]
-            lidar_range (np.float32): [description]   # CHANGED TO np.float32 from float
+            lidar_range (np.float32): [description]
         """
         self.ns = ns
         if ns is None or not ns:
@@ -210,7 +210,7 @@ class ObservationCollector:
         if len(self._scan.ranges) > 0:
             scan = self._scan.ranges.astype(np.float32)
         else:
-            scan = np.zeros(self._laser_num_beams, dtype=np.float32)    # CHANGED TO np.float32 from float
+            scan = np.zeros(self._laser_num_beams, dtype=np.float32)
 
         rho, theta = ObservationCollector._get_goal_pose_in_robot_frame(
             self._subgoal, self._robot_pose
